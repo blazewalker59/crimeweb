@@ -5,7 +5,7 @@
 import { TMDbClient } from './client'
 import { createServiceRoleClient } from '@/lib/supabase/server'
 import type { ShowInsert, EpisodeInsert } from '@/lib/supabase/types'
-import type { TMDbShowDetails, TMDbSeasonDetails } from './types'
+import type { TMDbSeasonDetails } from './types'
 
 interface SyncResult {
   success: boolean
@@ -51,7 +51,8 @@ export async function syncShow(tmdbId: number): Promise<SyncResult> {
     }
 
     // Upsert show
-    const { data: show, error: showError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: show, error: showError } = await (supabase as any)
       .from('shows')
       .upsert(showData, { onConflict: 'tmdb_id' })
       .select()
@@ -109,7 +110,8 @@ async function syncSeasonEpisodes(
       vote_average: episode.vote_average,
     }
 
-    const { error } = await supabase.from('episodes').upsert(episodeData, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase as any).from('episodes').upsert(episodeData, {
       onConflict: 'show_id,season_number,episode_number',
     })
 

@@ -17,7 +17,7 @@ function LoginPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (!loading && user) {
-      navigate({ to: '/dashboard' })
+      navigate({ to: '/' })
     }
   }, [user, loading, navigate])
 
@@ -40,7 +40,7 @@ function LoginPage() {
         </div>
 
         <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
-          <LoginForm onSuccess={() => navigate({ to: '/dashboard' })} />
+          <LoginForm onSuccess={() => navigate({ to: '/' })} />
         </div>
 
         <p className="text-center mt-6 text-slate-400">

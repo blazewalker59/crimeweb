@@ -22,20 +22,12 @@ function NotFoundComponent() {
       <p className="text-slate-400 mb-8 text-center max-w-md">
         The page you're looking for doesn't exist or has been moved.
       </p>
-      <div className="flex gap-4">
-        <Link
-          to="/"
-          className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
-        >
-          Go Home
-        </Link>
-        <Link
-          to="/shows"
-          className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
-        >
-          Browse Shows
-        </Link>
-      </div>
+      <Link
+        to="/"
+        className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+      >
+        Go Home
+      </Link>
     </div>
   )
 }
@@ -51,12 +43,12 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'CrimeWeb - True Crime Show Cross-Reference',
+        title: 'CrimeWeb - Latest True Crime Episodes',
       },
       {
         name: 'description',
         content:
-          'Cross-reference episodes from Dateline, 20/20, 48 Hours, Forensic Files and more to find which cases have been covered by multiple shows.',
+          'Latest episodes from Dateline, 20/20, 48 Hours, Forensic Files and more true crime shows.',
       },
     ],
     links: [

@@ -1,256 +1,153 @@
 /**
  * Home Page
- * Landing page with featured shows and cases
+ * Simple page showing latest episodes from each supported show
  */
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState, useEffect } from 'react'
-import { createBrowserClient } from '@/lib/supabase'
-import { ShowCard } from '@/components/shows'
-import { CaseCard } from '@/components/cases'
 import { Loading } from '@/components/common'
-import { ArrowRight, Tv, FileText, Users, Search } from 'lucide-react'
-import type { Show, CaseWithStats } from '@/lib/supabase/types'
+import { TMDbClient } from '@/lib/tmdb'
+import { getLatestEpisodes, type ShowWithEpisodes, type EpisodeData } from '@/lib/tmdb/server'
+import { formatDate, formatEpisodeNumber, formatRuntime } from '@/lib/utils'
+import { Calendar, Clock, Tv } from 'lucide-react'
 
 export const Route = createFileRoute('/')({
+  loader: async () => {
+    const shows = await getLatestEpisodes()
+    return { shows }
+  },
+  pendingComponent: () => <Loading message="Loading latest episodes..." />,
   component: HomePage,
 })
 
 function HomePage() {
-  const [shows, setShows] = useState<Show[]>([])
-  const [cases, setCases] = useState<CaseWithStats[]>([])
-  const [loading, setLoading] = useState(true)
-  const [stats, setStats] = useState({
-    showCount: 0,
-    episodeCount: 0,
-    caseCount: 0,
-  })
-
-  const supabase = createBrowserClient()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-
-      try {
-        // Fetch featured shows
-        const { data: showsData } = await supabase
-          .from('shows')
-          .select('*')
-          .order('number_of_episodes', { ascending: false })
-          .limit(6)
-
-        setShows(showsData || [])
-
-        // Fetch popular cases (most covered)
-        const { data: casesData } = await supabase
-          .from('cases_with_stats')
-          .select('*')
-          .order('episode_count', { ascending: false })
-          .limit(6)
-
-        setCases(casesData || [])
-
-        // Fetch stats
-        const { count: showCount } = await supabase
-          .from('shows')
-          .select('*', { count: 'exact', head: true })
-
-        const { count: episodeCount } = await supabase
-          .from('episodes')
-          .select('*', { count: 'exact', head: true })
-
-        const { count: caseCount } = await supabase
-          .from('cases')
-          .select('*', { count: 'exact', head: true })
-
-        setStats({
-          showCount: showCount || 0,
-          episodeCount: episodeCount || 0,
-          caseCount: caseCount || 0,
-        })
-      } catch (err) {
-        console.error('Error fetching home data:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [supabase])
-
-  if (loading) {
-    return <Loading message="Loading..." />
-  }
+  const { shows } = Route.useLoaderData()
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-slate-800 to-slate-900 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Cross-Reference <span className="text-red-500">True Crime</span>{' '}
-            Episodes
-          </h1>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-8">
-            Discover which cases have been covered by Dateline, 20/20, 48 Hours,
-            Forensic Files, and more. Find updates, reruns, and related episodes
-            all in one place.
-          </p>
-
-          {/* Search CTA */}
-          <Link
-            to="/search"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg text-lg font-medium transition-colors"
-          >
-            <Search className="h-5 w-5" />
-            Search Episodes & Cases
-          </Link>
-
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-8 mt-12">
-            <div className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-white">
-                {stats.showCount}
-              </p>
-              <p className="text-slate-400">Shows</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-white">
-                {stats.episodeCount.toLocaleString()}
-              </p>
-              <p className="text-slate-400">Episodes</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-white">
-                {stats.caseCount.toLocaleString()}
-              </p>
-              <p className="text-slate-400">Cases</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-12 bg-slate-900">
+    <div className="min-h-screen">
+      {/* Header Section */}
+      <section className="bg-gradient-to-b from-slate-800 to-slate-900 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
-              <div className="p-3 bg-red-900/30 rounded-lg w-fit mb-4">
-                <Tv className="h-6 w-6 text-red-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">
-                Multiple Networks
-              </h3>
-              <p className="text-slate-400">
-                Episodes from NBC, ABC, CBS, and more true crime programs all
-                indexed and searchable.
-              </p>
-            </div>
-
-            <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
-              <div className="p-3 bg-red-900/30 rounded-lg w-fit mb-4">
-                <FileText className="h-6 w-6 text-red-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">
-                Case Cross-Reference
-              </h3>
-              <p className="text-slate-400">
-                See all episodes covering the same case, across different shows
-                and air dates.
-              </p>
-            </div>
-
-            <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
-              <div className="p-3 bg-red-900/30 rounded-lg w-fit mb-4">
-                <Users className="h-6 w-6 text-red-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">
-                Community Curated
-              </h3>
-              <p className="text-slate-400">
-                Help link episodes to cases. Our database grows with
-                contributions from crime show fans.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Shows */}
-      {shows.length > 0 && (
-        <section className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Featured Shows</h2>
-              <Link
-                to="/shows"
-                className="text-red-400 hover:text-red-300 flex items-center gap-1 text-sm font-medium"
-              >
-                View All <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {shows.map((show) => (
-                <ShowCard key={show.id} show={show} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Popular Cases */}
-      {cases.length > 0 && (
-        <section className="py-12 bg-slate-800/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">
-                Most Covered Cases
-              </h2>
-              <Link
-                to="/cases"
-                className="text-red-400 hover:text-red-300 flex items-center gap-1 text-sm font-medium"
-              >
-                View All <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {cases.map((caseData) => (
-                <CaseCard key={caseData.id} caseData={caseData} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-t from-slate-800 to-slate-900">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Help Build the Database
-          </h2>
-          <p className="text-slate-300 mb-8">
-            Create an account to link episodes to cases, add new cases, and
-            track your watch history. Every contribution helps fellow true crime
-            fans discover more content.
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+            Latest Episodes
+          </h1>
+          <p className="text-slate-400">
+            Recent episodes from your favorite true crime shows
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              to="/auth/register"
-              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-            >
-              Create Account
-            </Link>
-            <Link
-              to="/shows"
-              className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-colors"
-            >
-              Browse Shows
-            </Link>
-          </div>
         </div>
       </section>
+
+      {/* Shows with Episodes */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {shows.length === 0 ? (
+          <div className="text-center py-12">
+            <Tv className="h-12 w-12 text-slate-500 mx-auto mb-4" />
+            <p className="text-slate-400">No episodes found</p>
+          </div>
+        ) : (
+          <div className="space-y-12">
+            {shows.map((show) => (
+              <ShowSection key={show.tmdbId} show={show} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
+  )
+}
+
+interface ShowSectionProps {
+  show: ShowWithEpisodes
+}
+
+function ShowSection({ show }: ShowSectionProps) {
+  const posterUrl = TMDbClient.getPosterUrl(show.posterPath, 'w185')
+
+  return (
+    <section>
+      {/* Show Header */}
+      <div className="flex items-center gap-4 mb-4">
+        {posterUrl && (
+          <img
+            src={posterUrl}
+            alt={show.name}
+            className="w-12 h-18 object-cover rounded"
+          />
+        )}
+        <div>
+          <h2 className="text-xl font-bold text-white">{show.name}</h2>
+          {show.network && (
+            <p className="text-sm text-slate-400">{show.network}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Episodes Row - horizontal scroll on mobile, grid on larger screens */}
+      <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:grid sm:grid-cols-5">
+        {show.episodes.map((episode) => (
+          <EpisodeCard key={episode.id} episode={episode} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+interface EpisodeCardProps {
+  episode: EpisodeData
+}
+
+function EpisodeCard({ episode }: EpisodeCardProps) {
+  const stillUrl = TMDbClient.getStillUrl(episode.stillPath, 'w300')
+
+  return (
+    <Link
+      to="/episodes/$showId/$episodeId"
+      params={{ 
+        showId: String(episode.showTmdbId), 
+        episodeId: String(episode.id) 
+      }}
+      className="flex-shrink-0 w-64 sm:w-auto bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-red-500 transition-colors group"
+    >
+      {/* Thumbnail */}
+      <div className="aspect-video bg-slate-700 relative overflow-hidden">
+        {stillUrl ? (
+          <img
+            src={stillUrl}
+            alt={episode.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-slate-500 text-sm">
+            No Image
+          </div>
+        )}
+        {/* Episode number badge */}
+        <div className="absolute top-2 left-2 bg-black/70 px-2 py-1 rounded text-xs font-mono text-white">
+          {formatEpisodeNumber(episode.seasonNumber, episode.episodeNumber)}
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="p-3">
+        <h3 className="font-medium text-white group-hover:text-red-400 transition-colors line-clamp-2 text-sm">
+          {episode.name}
+        </h3>
+
+        {/* Meta */}
+        <div className="flex items-center gap-3 mt-2 text-xs text-slate-500">
+          {episode.airDate && (
+            <span className="flex items-center gap-1">
+              <Calendar className="h-3 w-3" />
+              {formatDate(episode.airDate)}
+            </span>
+          )}
+          {episode.runtime && (
+            <span className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {formatRuntime(episode.runtime)}
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
   )
 }

@@ -17,7 +17,7 @@ function RegisterPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (!loading && user) {
-      navigate({ to: '/dashboard' })
+      navigate({ to: '/' })
     }
   }, [user, loading, navigate])
 
@@ -40,7 +40,7 @@ function RegisterPage() {
         </div>
 
         <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
-          <RegisterForm onSuccess={() => navigate({ to: '/dashboard' })} />
+          <RegisterForm onSuccess={() => navigate({ to: '/' })} />
         </div>
 
         <p className="text-center mt-6 text-slate-400">

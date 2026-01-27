@@ -9,67 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchRouteImport } from './routes/search'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ShowsIndexRouteImport } from './routes/shows/index'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as CasesIndexRouteImport } from './routes/cases/index'
-import { Route as ShowsShowIdRouteImport } from './routes/shows/$showId'
-import { Route as EpisodesEpisodeIdRouteImport } from './routes/episodes/$episodeId'
-import { Route as DashboardWatchlistRouteImport } from './routes/dashboard/watchlist'
-import { Route as DashboardHistoryRouteImport } from './routes/dashboard/history'
-import { Route as CasesCaseIdRouteImport } from './routes/cases/$caseId'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as EpisodesShowIdEpisodeIdRouteImport } from './routes/episodes/$showId/$episodeId'
 
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ShowsIndexRoute = ShowsIndexRouteImport.update({
-  id: '/shows/',
-  path: '/shows/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CasesIndexRoute = CasesIndexRouteImport.update({
-  id: '/cases/',
-  path: '/cases/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ShowsShowIdRoute = ShowsShowIdRouteImport.update({
-  id: '/shows/$showId',
-  path: '/shows/$showId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EpisodesEpisodeIdRoute = EpisodesEpisodeIdRouteImport.update({
-  id: '/episodes/$episodeId',
-  path: '/episodes/$episodeId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardWatchlistRoute = DashboardWatchlistRouteImport.update({
-  id: '/dashboard/watchlist',
-  path: '/dashboard/watchlist',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardHistoryRoute = DashboardHistoryRouteImport.update({
-  id: '/dashboard/history',
-  path: '/dashboard/history',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CasesCaseIdRoute = CasesCaseIdRouteImport.update({
-  id: '/cases/$caseId',
-  path: '/cases/$caseId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -82,180 +29,62 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EpisodesShowIdEpisodeIdRoute = EpisodesShowIdEpisodeIdRouteImport.update({
+  id: '/episodes/$showId/$episodeId',
+  path: '/episodes/$showId/$episodeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/cases/$caseId': typeof CasesCaseIdRoute
-  '/dashboard/history': typeof DashboardHistoryRoute
-  '/dashboard/watchlist': typeof DashboardWatchlistRoute
-  '/episodes/$episodeId': typeof EpisodesEpisodeIdRoute
-  '/shows/$showId': typeof ShowsShowIdRoute
-  '/cases/': typeof CasesIndexRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/shows/': typeof ShowsIndexRoute
+  '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/cases/$caseId': typeof CasesCaseIdRoute
-  '/dashboard/history': typeof DashboardHistoryRoute
-  '/dashboard/watchlist': typeof DashboardWatchlistRoute
-  '/episodes/$episodeId': typeof EpisodesEpisodeIdRoute
-  '/shows/$showId': typeof ShowsShowIdRoute
-  '/cases': typeof CasesIndexRoute
-  '/dashboard': typeof DashboardIndexRoute
-  '/shows': typeof ShowsIndexRoute
+  '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/cases/$caseId': typeof CasesCaseIdRoute
-  '/dashboard/history': typeof DashboardHistoryRoute
-  '/dashboard/watchlist': typeof DashboardWatchlistRoute
-  '/episodes/$episodeId': typeof EpisodesEpisodeIdRoute
-  '/shows/$showId': typeof ShowsShowIdRoute
-  '/cases/': typeof CasesIndexRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/shows/': typeof ShowsIndexRoute
+  '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/search'
     | '/auth/login'
     | '/auth/register'
-    | '/cases/$caseId'
-    | '/dashboard/history'
-    | '/dashboard/watchlist'
-    | '/episodes/$episodeId'
-    | '/shows/$showId'
-    | '/cases/'
-    | '/dashboard/'
-    | '/shows/'
+    | '/episodes/$showId/$episodeId'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/search'
-    | '/auth/login'
-    | '/auth/register'
-    | '/cases/$caseId'
-    | '/dashboard/history'
-    | '/dashboard/watchlist'
-    | '/episodes/$episodeId'
-    | '/shows/$showId'
-    | '/cases'
-    | '/dashboard'
-    | '/shows'
+  to: '/' | '/auth/login' | '/auth/register' | '/episodes/$showId/$episodeId'
   id:
     | '__root__'
     | '/'
-    | '/search'
     | '/auth/login'
     | '/auth/register'
-    | '/cases/$caseId'
-    | '/dashboard/history'
-    | '/dashboard/watchlist'
-    | '/episodes/$episodeId'
-    | '/shows/$showId'
-    | '/cases/'
-    | '/dashboard/'
-    | '/shows/'
+    | '/episodes/$showId/$episodeId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SearchRoute: typeof SearchRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
-  CasesCaseIdRoute: typeof CasesCaseIdRoute
-  DashboardHistoryRoute: typeof DashboardHistoryRoute
-  DashboardWatchlistRoute: typeof DashboardWatchlistRoute
-  EpisodesEpisodeIdRoute: typeof EpisodesEpisodeIdRoute
-  ShowsShowIdRoute: typeof ShowsShowIdRoute
-  CasesIndexRoute: typeof CasesIndexRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
-  ShowsIndexRoute: typeof ShowsIndexRoute
+  EpisodesShowIdEpisodeIdRoute: typeof EpisodesShowIdEpisodeIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/shows/': {
-      id: '/shows/'
-      path: '/shows'
-      fullPath: '/shows/'
-      preLoaderRoute: typeof ShowsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cases/': {
-      id: '/cases/'
-      path: '/cases'
-      fullPath: '/cases/'
-      preLoaderRoute: typeof CasesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/shows/$showId': {
-      id: '/shows/$showId'
-      path: '/shows/$showId'
-      fullPath: '/shows/$showId'
-      preLoaderRoute: typeof ShowsShowIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/episodes/$episodeId': {
-      id: '/episodes/$episodeId'
-      path: '/episodes/$episodeId'
-      fullPath: '/episodes/$episodeId'
-      preLoaderRoute: typeof EpisodesEpisodeIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/watchlist': {
-      id: '/dashboard/watchlist'
-      path: '/dashboard/watchlist'
-      fullPath: '/dashboard/watchlist'
-      preLoaderRoute: typeof DashboardWatchlistRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/history': {
-      id: '/dashboard/history'
-      path: '/dashboard/history'
-      fullPath: '/dashboard/history'
-      preLoaderRoute: typeof DashboardHistoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cases/$caseId': {
-      id: '/cases/$caseId'
-      path: '/cases/$caseId'
-      fullPath: '/cases/$caseId'
-      preLoaderRoute: typeof CasesCaseIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
@@ -272,22 +101,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/episodes/$showId/$episodeId': {
+      id: '/episodes/$showId/$episodeId'
+      path: '/episodes/$showId/$episodeId'
+      fullPath: '/episodes/$showId/$episodeId'
+      preLoaderRoute: typeof EpisodesShowIdEpisodeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SearchRoute: SearchRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
-  CasesCaseIdRoute: CasesCaseIdRoute,
-  DashboardHistoryRoute: DashboardHistoryRoute,
-  DashboardWatchlistRoute: DashboardWatchlistRoute,
-  EpisodesEpisodeIdRoute: EpisodesEpisodeIdRoute,
-  ShowsShowIdRoute: ShowsShowIdRoute,
-  CasesIndexRoute: CasesIndexRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
-  ShowsIndexRoute: ShowsIndexRoute,
+  EpisodesShowIdEpisodeIdRoute: EpisodesShowIdEpisodeIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -179,7 +179,7 @@ class TMDbClient {
     path: string | null,
     size: 'w300' | 'w780' | 'w1280' | 'original' = 'w780',
   ): string | null {
-    return TMDbClient.getImageUrl(path, size)
+    return TMDbClient.getImageUrl(path, size as 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original')
   }
 
   /**
@@ -189,7 +189,7 @@ class TMDbClient {
     path: string | null,
     size: 'w92' | 'w185' | 'w300' | 'original' = 'w300',
   ): string | null {
-    return TMDbClient.getImageUrl(path, size)
+    return TMDbClient.getImageUrl(path, size as 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original')
   }
 }
 
