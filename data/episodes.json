@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-27T04:01:05.657Z",
+  "lastUpdated": "2026-01-28T02:30:57.339Z",
   "shows": [
     {
       "tmdbId": 78,
@@ -10,9 +10,182 @@
       "tmdbId": 2035,
       "name": "20/20",
       "network": "ABC"
+    },
+    {
+      "tmdbId": 3719,
+      "name": "48 Hours",
+      "network": "CBS"
+    },
+    {
+      "tmdbId": 11105,
+      "name": "Forensic Files",
+      "network": "TLC"
+    },
+    {
+      "tmdbId": 10184,
+      "name": "Snapped",
+      "network": "Oxygen"
+    },
+    {
+      "tmdbId": 5146,
+      "name": "The First 48",
+      "network": "A&E"
+    },
+    {
+      "tmdbId": 12258,
+      "name": "Cold Case Files",
+      "network": "A&E"
+    },
+    {
+      "tmdbId": 21572,
+      "name": "American Greed",
+      "network": "CNBC"
     }
   ],
   "episodes": [
+    {
+      "id": 6840120,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Trista Hrabak",
+      "overview": null,
+      "airDate": "2026-03-08",
+      "seasonNumber": 36,
+      "episodeNumber": 10,
+      "stillPath": null
+    },
+    {
+      "id": 6840119,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Julie Harper",
+      "overview": null,
+      "airDate": "2026-03-01",
+      "seasonNumber": 36,
+      "episodeNumber": 9,
+      "stillPath": null
+    },
+    {
+      "id": 6847934,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Blood Brothers",
+      "overview": "Detectives in major cities around the country race against the clock to solve homicides and use forensic evidence and witness interviews to help identify suspects.",
+      "airDate": "2026-02-26",
+      "seasonNumber": 29,
+      "episodeNumber": 8,
+      "stillPath": null
+    },
+    {
+      "id": 6840118,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Stella Lacy",
+      "overview": null,
+      "airDate": "2026-02-22",
+      "seasonNumber": 36,
+      "episodeNumber": 8,
+      "stillPath": null
+    },
+    {
+      "id": 6847933,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Circle of Friends & Rearview Murder",
+      "overview": "In Tulsa, detectives follow a trail of blood to a community where one person's accusations have deadly consequences.  In Mobile, a possible collision between two strangers escalates into a deadly shooting.",
+      "airDate": "2026-02-19",
+      "seasonNumber": 29,
+      "episodeNumber": 7,
+      "stillPath": null
+    },
+    {
+      "id": 6840117,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Evelyn Zigerelli-Henderson",
+      "overview": null,
+      "airDate": "2026-02-15",
+      "seasonNumber": 36,
+      "episodeNumber": 7,
+      "stillPath": null
+    },
+    {
+      "id": 6847932,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Murder in the Bud Room & A Mother Taken",
+      "overview": "In Tulsa, a heated argument spirals out of control, ending in the shocking murder of a father of six.  In Gwinnett County, a young boy is the only witness to the violent abduction of his mother, leaving detectives racing to find her . . . before it's too late.",
+      "airDate": "2026-02-12",
+      "seasonNumber": 29,
+      "episodeNumber": 6,
+      "stillPath": null
+    },
+    {
+      "id": 6840116,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Antonetta Stevens",
+      "overview": null,
+      "airDate": "2026-02-08",
+      "seasonNumber": 36,
+      "episodeNumber": 6,
+      "stillPath": null
+    },
+    {
+      "id": 6840115,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Samantha Rabon",
+      "overview": null,
+      "airDate": "2026-02-01",
+      "seasonNumber": 36,
+      "episodeNumber": 5,
+      "stillPath": null
+    },
+    {
+      "id": 6847929,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Unfriendly Fire",
+      "overview": "A college student is gunned down in a doorway; Tulsa Homicide detectives explore whether a feud between friends escalated to murder.",
+      "airDate": "2026-01-29",
+      "seasonNumber": 29,
+      "episodeNumber": 5,
+      "stillPath": null
+    },
+    {
+      "id": 6840114,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Brookey Lee West",
+      "overview": null,
+      "airDate": "2026-01-25",
+      "seasonNumber": 36,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 6876393,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Mother I Wish I Knew",
+      "overview": "Rhianna Stephens is convinced her father is innocent of the 1988 murder of her mother, Deborah Atrops.",
+      "airDate": "2026-01-24",
+      "seasonNumber": 39,
+      "episodeNumber": 14,
+      "stillPath": "/kkYt4YjxHaOPU0nUxUFSiYlQjlZ.jpg"
+    },
+    {
+      "id": 6889639,
+      "showTmdbId": 78,
+      "showName": "Dateline",
+      "name": "Secrets in the Ashes",
+      "overview": "A house fire in South Texas kills Patricia Leigh Mills while her young son miraculously escapes.",
+      "airDate": "2026-01-23",
+      "seasonNumber": 34,
+      "episodeNumber": 13,
+      "stillPath": "/yzheVTG0VMhJW7b37xomCPqNy3.jpg"
+    },
     {
       "id": 6881774,
       "showTmdbId": 2035,
@@ -23,6 +196,39 @@
       "seasonNumber": 49,
       "episodeNumber": 14,
       "stillPath": "/5fn9UP910k80Hrfm9VLF0j0ZMFW.jpg"
+    },
+    {
+      "id": 6847919,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "The Cool Mum",
+      "overview": "After a North Charleston mother of four is found beaten to death in the bushes, a rookie detective battles it out in the interview room with her suspected killer.",
+      "airDate": "2026-01-22",
+      "seasonNumber": 29,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 6840113,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Deborah Frazier",
+      "overview": null,
+      "airDate": "2026-01-18",
+      "seasonNumber": 36,
+      "episodeNumber": 3,
+      "stillPath": null
+    },
+    {
+      "id": 6852374,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Melissa Rocuba's Final Moments",
+      "overview": "A woman dies after an \"accidental\" shooting in her bedroom. Eight years later, surveillance video upends the case.",
+      "airDate": "2026-01-17",
+      "seasonNumber": 39,
+      "episodeNumber": 13,
+      "stillPath": "/CEkFC8uTyN6nm4943rx0T4kndM.jpg"
     },
     {
       "id": 6852475,
@@ -47,6 +253,39 @@
       "stillPath": "/rYzgbNM4ITytZe2yPlmfAaxTsRp.jpg"
     },
     {
+      "id": 6847917,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "A Lonely Place to Die",
+      "overview": "When a father of six is found shot in an urban encampment, Tulsa Homicide calls on the unhoused community to help them find the killer.",
+      "airDate": "2026-01-15",
+      "seasonNumber": 29,
+      "episodeNumber": 3,
+      "stillPath": null
+    },
+    {
+      "id": 6840112,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Elizabeth Carserino",
+      "overview": null,
+      "airDate": "2026-01-11",
+      "seasonNumber": 36,
+      "episodeNumber": 2,
+      "stillPath": null
+    },
+    {
+      "id": 6795468,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Gaslighting of Hannah Pettey",
+      "overview": "When a young woman nearly dies from poisoning, investigators focus on the two people she trusted most.",
+      "airDate": "2026-01-10",
+      "seasonNumber": 39,
+      "episodeNumber": 12,
+      "stillPath": "/dAuU6gSHErP0jgPszOGlv85T7Pq.jpg"
+    },
+    {
       "id": 6834960,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -56,6 +295,39 @@
       "seasonNumber": 49,
       "episodeNumber": 12,
       "stillPath": "/5T6KewCifbiD4fPQqp7fiOgdK3W.jpg"
+    },
+    {
+      "id": 6847913,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Betrayal",
+      "overview": "In Tulsa, the murder of two women sends detectives on a desperate search for a missing third who may also be a victim of homicide.",
+      "airDate": "2026-01-08",
+      "seasonNumber": 29,
+      "episodeNumber": 2,
+      "stillPath": null
+    },
+    {
+      "id": 6838474,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Heather Hoffman",
+      "overview": "When a young father is murdered in his apartment, investigators learn the victim was involved in a bitter custody battle prior to his death.",
+      "airDate": "2026-01-04",
+      "seasonNumber": 36,
+      "episodeNumber": 1,
+      "stillPath": null
+    },
+    {
+      "id": 6795467,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Coached to Kill",
+      "overview": "Did a high school softball coach recruit one of her former players to kill?",
+      "airDate": "2026-01-03",
+      "seasonNumber": 39,
+      "episodeNumber": 11,
+      "stillPath": "/v7MDQhUykaIQPIQhRZFU5gBvCx.jpg"
     },
     {
       "id": 6834189,
@@ -69,6 +341,17 @@
       "stillPath": "/v2ZdbNFEjFSVjN5EP6XorVczDjH.jpg"
     },
     {
+      "id": 6807470,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Four Shots",
+      "overview": "In North Charleston, a construction worker is killed by a stray bullet during an attempted robbery inside a trailer park; as investigators follow the suspects' trail, they discover things are not what they seem.",
+      "airDate": "2026-01-01",
+      "seasonNumber": 29,
+      "episodeNumber": 1,
+      "stillPath": null
+    },
+    {
       "id": 6771806,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -80,6 +363,17 @@
       "stillPath": "/qSd0PUdZq6gdVFstdijjvzkSIhX.jpg"
     },
     {
+      "id": 6759426,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Joe Hunter's Mission",
+      "overview": "\"Survivor\" contestant Joe Hunter Jr. believes his sister Joanna was murdered in 2011, and he is determined to be her voice.",
+      "airDate": "2025-12-13",
+      "seasonNumber": 39,
+      "episodeNumber": 10,
+      "stillPath": "/3dmfiFPnXWoCmaGnZzlDrzKkE9g.jpg"
+    },
+    {
       "id": 6742434,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -89,6 +383,17 @@
       "seasonNumber": 34,
       "episodeNumber": 11,
       "stillPath": "/vGDjOBEQ1b1yBhNIN1SwTece4km.jpg"
+    },
+    {
+      "id": 6752689,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Help Find Molly Bish's Killer",
+      "overview": "With her sister's murder long unsolved, a woman turns to TikTok pleading for leads. Can you help?",
+      "airDate": "2025-12-06",
+      "seasonNumber": 39,
+      "episodeNumber": 9,
+      "stillPath": "/A7ENVUuKUe6p9tJEhzoQhu7qvhA.jpg"
     },
     {
       "id": 6742431,
@@ -124,6 +429,17 @@
       "stillPath": "/KnNn4ECEPKKAF41bl946KtNtyB.jpg"
     },
     {
+      "id": 6728257,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Setup Murder of Kristil Krug",
+      "overview": "A stalker sends menacing messages to a young mother before she is murdered. The investigation reveals a sinister setup.",
+      "airDate": "2025-11-15",
+      "seasonNumber": 39,
+      "episodeNumber": 8,
+      "stillPath": "/qAxNk2sisFITM7ASYhOM65ptSUA.jpg"
+    },
+    {
       "id": 6671843,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -144,6 +460,17 @@
       "seasonNumber": 49,
       "episodeNumber": 8,
       "stillPath": "/97eJy7tF2MPPUymPMbehTuQZDET.jpg"
+    },
+    {
+      "id": 6725497,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Tracker Dakota Black",
+      "overview": "A detective hunts for answers when a woman goes missing. For Tracker Black it's personal. \"48 Hours\" correspondent Peter Van Sant reports. ",
+      "airDate": "2025-11-08",
+      "seasonNumber": 39,
+      "episodeNumber": 7,
+      "stillPath": "/eqyCUOOF7858XpV2fWtm78zNAQl.jpg"
     },
     {
       "id": 6671842,
@@ -168,6 +495,17 @@
       "stillPath": "/vn6VSTowfmgwTRKQYiUIowGADAE.jpg"
     },
     {
+      "id": 6725495,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Han Family Murders",
+      "overview": "A beloved doctor, his wife, and their young daughter are murdered, leaving their Santa Barbara, California, community reeling. A suspect emerges with a fantastical story of shadowy figures and intrigue straight out of a spy thriller.",
+      "airDate": "2025-11-01",
+      "seasonNumber": 39,
+      "episodeNumber": 6,
+      "stillPath": "/myMV2shvY4XuCuMfDVYsHJmoLDX.jpg"
+    },
+    {
       "id": 6641804,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -188,6 +526,17 @@
       "seasonNumber": 49,
       "episodeNumber": 6,
       "stillPath": "/AoovBdRyuSIuE0ewisuNeYhLjgI.jpg"
+    },
+    {
+      "id": 6623909,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Closing the Cold Case of Robin Lawrence",
+      "overview": "Robin Lawrence was home alone with her 2-year-old daughter in Springfield, VA, when an unknown killer murdered her. Her toddler was left to fend for herself for two days until Robin’s body was discovered. Nearly 30 years later, cold case detectives uncovered a surprising suspect. \"48 Hours\" correspondent Anne-Marie Green reports.",
+      "airDate": "2025-10-25",
+      "seasonNumber": 39,
+      "episodeNumber": 5,
+      "stillPath": "/arKxYX9EoyJHHDuk7W6NiZd59C2.jpg"
     },
     {
       "id": 6623141,
@@ -212,6 +561,28 @@
       "stillPath": "/fHNkYwhHPaWcmddRel9RXdkqzYq.jpg"
     },
     {
+      "id": 6513963,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Jessica Quintanilla",
+      "overview": "A promising college student disappears after a Halloween party.",
+      "airDate": "2025-10-19",
+      "seasonNumber": 35,
+      "episodeNumber": 25,
+      "stillPath": null
+    },
+    {
+      "id": 6606938,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "My Uncle Joe's Murder",
+      "overview": "Joe Shymanski was gunned down in the driveway of his Calvert County, MD, home in 2023. Now his niece mourns her uncle's murder and questions whether the convicted killer was the only one involved. \"48 Hours\" contributor Nikki Battiste reports.",
+      "airDate": "2025-10-18",
+      "seasonNumber": 39,
+      "episodeNumber": 4,
+      "stillPath": "/eTMWQTbuinNggcTR9GxrSZp5zdt.jpg"
+    },
+    {
       "id": 6606752,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -232,6 +603,39 @@
       "seasonNumber": 49,
       "episodeNumber": 4,
       "stillPath": "/ebImaF3r9K5QSek8nX25Jk3DhGd.jpg"
+    },
+    {
+      "id": 6723405,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside the Tape Special #20",
+      "overview": "In Kansas City, Kansas, when a dead body is discovered in a bridge, catching the killer depends on finding the crime scene.",
+      "airDate": "2025-10-16",
+      "seasonNumber": 28,
+      "episodeNumber": 12,
+      "stillPath": null
+    },
+    {
+      "id": 6513959,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Gina Spann",
+      "overview": "A respected soldier and beloved family man is found shot to death inside his home.",
+      "airDate": "2025-10-12",
+      "seasonNumber": 35,
+      "episodeNumber": 24,
+      "stillPath": null
+    },
+    {
+      "id": 6546914,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "A Death in the Stairwell",
+      "overview": "After her husband, Kevin Davis, is found dying at the foot of the stairs, a woman accused of murder fights to clear her name. \"48 Hours\" correspondent Peter Van Sant reports.",
+      "airDate": "2025-10-11",
+      "seasonNumber": 39,
+      "episodeNumber": 3,
+      "stillPath": "/jztCjrKla161gOMQ55VTYfjfQIw.jpg"
     },
     {
       "id": 6587628,
@@ -256,6 +660,28 @@
       "stillPath": "/h5DSWcWrcfuB5cJNUmX7jnwQ8JS.jpg"
     },
     {
+      "id": 6723404,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside the Tape Special #19",
+      "overview": "A strange series of coincidences elude Tulsa homicide, when two bruised-up homeless men are picked up near a crime scene.",
+      "airDate": "2025-10-09",
+      "seasonNumber": 28,
+      "episodeNumber": 11,
+      "stillPath": null
+    },
+    {
+      "id": 6382830,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Murder in the Parking Garage",
+      "overview": "For years, Kenneth Fandrich told everyone he knew that he was being stalked by the nicest man in town. In 2023, after his wife calls 911 to report her husband missing, police discover his lifeless body in his car, parked inside a corporate parking garage. \"48 Hours\" contributor Natalie Morales reports.",
+      "airDate": "2025-10-04",
+      "seasonNumber": 39,
+      "episodeNumber": 2,
+      "stillPath": "/zEOwghLcVfdUhif8qpNcQZIHpG5.jpg"
+    },
+    {
       "id": 6567173,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -276,6 +702,39 @@
       "seasonNumber": 49,
       "episodeNumber": 2,
       "stillPath": "/tJSGSYp7NTzeRioglA1b0ydvnzW.jpg"
+    },
+    {
+      "id": 6513958,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Marique Ruth",
+      "overview": "Iowa investigators respond to a man's fatal shooting. His girlfriend claims it was self-defense.",
+      "airDate": "2025-09-28",
+      "seasonNumber": 35,
+      "episodeNumber": 23,
+      "stillPath": null
+    },
+    {
+      "id": 6553309,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Boy Who Killed His Twin",
+      "overview": "Seventeen-year-old Benjamin Elliott fatally stabs his twin sister, Meghan, in the middle of the night – a crime with no known motive and an act his defense claims he committed while sleepwalking. \"48 Hours\" correspondent Erin Moriarty reports.",
+      "airDate": "2025-09-27",
+      "seasonNumber": 39,
+      "episodeNumber": 1,
+      "stillPath": "/ZMlDD81iIs0DfJBvqi7RpG3q57.jpg"
+    },
+    {
+      "id": 6555842,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Coached To Kill",
+      "overview": "A preview of the case of a high school softball coach accused of recruiting a former player to kill her ex-boyfriend.",
+      "airDate": "2025-09-27",
+      "seasonNumber": 38,
+      "episodeNumber": 33,
+      "stillPath": null
     },
     {
       "id": 6501927,
@@ -300,6 +759,17 @@
       "stillPath": "/vVVy36si6SbyGkZRIQOB8WK4fYs.jpg"
     },
     {
+      "id": 6513957,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Sherry Hefernan",
+      "overview": "A seaside home becomes the scene of a gruesome double homicide.",
+      "airDate": "2025-09-21",
+      "seasonNumber": 35,
+      "episodeNumber": 22,
+      "stillPath": null
+    },
+    {
       "id": 6560260,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -320,6 +790,28 @@
       "seasonNumber": 48,
       "episodeNumber": 35,
       "stillPath": "/8rrKWNKmYFB4i9rR74nTb6qEbYr.jpg"
+    },
+    {
+      "id": 6723402,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside the Tape Special #18",
+      "overview": "When surveillance footage shows a man carrying a box moments before he is shot, Detective Tracy Casey must determine if the box's contents holds the key to determining motive.",
+      "airDate": "2025-09-18",
+      "seasonNumber": 28,
+      "episodeNumber": 10,
+      "stillPath": null
+    },
+    {
+      "id": 6513956,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Nistasha Tate",
+      "overview": "A waterfront mansion becomes the scene of a grisly murder.",
+      "airDate": "2025-09-14",
+      "seasonNumber": 35,
+      "episodeNumber": 21,
+      "stillPath": null
     },
     {
       "id": 6528708,
@@ -344,6 +836,28 @@
       "stillPath": "/8RESwgByMsWZCPfMIyuDfh3Cbtm.jpg"
     },
     {
+      "id": 6723401,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside the Tape Special #17",
+      "overview": "In New Orleans, a 17-year old high school student is shot over a gaming controller on his way to school and a star witness identifies her boyfriend's killers.",
+      "airDate": "2025-09-11",
+      "seasonNumber": 28,
+      "episodeNumber": 9,
+      "stillPath": null
+    },
+    {
+      "id": 6513955,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Leah Cuevas",
+      "overview": "When body parts start turning up across New York, panic sets in over the possible return of a known serial killer. As detectives connect the dots, they uncover a simmering dispute that exploded into a crime far more disturbing than anyone imagined.",
+      "airDate": "2025-09-07",
+      "seasonNumber": 35,
+      "episodeNumber": 20,
+      "stillPath": null
+    },
+    {
       "id": 6510282,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -366,6 +880,116 @@
       "stillPath": "/2dNX0L72Ljq3n0U1uglInKC9ri0.jpg"
     },
     {
+      "id": 6723400,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Deadly Connection",
+      "overview": "When a young father is found shot and killed in the parking lot of an apartment complex, Tulsa Homicide discovers he may have been lured there under false pretenses.",
+      "airDate": "2025-09-04",
+      "seasonNumber": 28,
+      "episodeNumber": 8,
+      "stillPath": null
+    },
+    {
+      "id": 6479109,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Kimberly Reps",
+      "overview": "When a newlywed couple is shot in their North Carolina home, leaving the husband dead, investigators must determine if it's a robbery gone wrong or something more sinister and as the evidence piles up, it reveals a jealous lover hiding in plain sight.",
+      "airDate": "2025-08-24",
+      "seasonNumber": 35,
+      "episodeNumber": 19,
+      "stillPath": null
+    },
+    {
+      "id": 6425705,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Ashley Benefield",
+      "overview": "A former ballerina fatally shoots her estranged husband.",
+      "airDate": "2025-08-17",
+      "seasonNumber": 35,
+      "episodeNumber": 18,
+      "stillPath": null
+    },
+    {
+      "id": 6425704,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Ashley Nicole Haydt",
+      "overview": "When a beloved father narrowly survives a car bombing, a manhunt is launched to find who set the trap.",
+      "airDate": "2025-08-10",
+      "seasonNumber": 35,
+      "episodeNumber": 17,
+      "stillPath": null
+    },
+    {
+      "id": 6425702,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Deborah Mosby",
+      "overview": "A woman's death is initially ruled a suicide, but a shocking conspiracy is revealed.",
+      "airDate": "2025-08-03",
+      "seasonNumber": 35,
+      "episodeNumber": 16,
+      "stillPath": null
+    },
+    {
+      "id": 6723399,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "The Man in the Mask",
+      "overview": "When a beloved soccer fan is shot dead in broad daylight, Gwinnett County detectives race to find his mysterious killer before he strikes again.",
+      "airDate": "2025-07-31",
+      "seasonNumber": 28,
+      "episodeNumber": 7,
+      "stillPath": null
+    },
+    {
+      "id": 6723398,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "One Night in Mobile",
+      "overview": "When a mother goes missing on New Year's Day, a couple must explain why they are in possession of her property.",
+      "airDate": "2025-07-24",
+      "seasonNumber": 28,
+      "episodeNumber": 6,
+      "stillPath": null
+    },
+    {
+      "id": 6367297,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Ulisa Chavers",
+      "overview": "A Virginia father is reported missing two years after he was last seen. As the investigation ensues to track down his last location, a disturbing discovery will expose two mysterious deaths tied to a greedy scheme.",
+      "airDate": "2025-07-20",
+      "seasonNumber": 35,
+      "episodeNumber": 15,
+      "stillPath": null
+    },
+    {
+      "id": 6723396,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "The Wrong Girl",
+      "overview": "In Tulsa, when a man is gunned down at an apartment complex, detectives run up against elusive witnesses and dead ends in their search to figure out who wanted him dead.",
+      "airDate": "2025-07-17",
+      "seasonNumber": 28,
+      "episodeNumber": 5,
+      "stillPath": null
+    },
+    {
+      "id": 6367296,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Ina Kenoyer",
+      "overview": "A North Dakota man dies in the hospital from an apparent heatstroke. When the coroner discovers the cause of death was poisoning, authorities launch a criminal investigation that leads them to a calculating killer with a multi-million-dollar motive.",
+      "airDate": "2025-07-13",
+      "seasonNumber": 35,
+      "episodeNumber": 14,
+      "stillPath": null
+    },
+    {
       "id": 6501923,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -375,6 +999,50 @@
       "seasonNumber": 33,
       "episodeNumber": 31,
       "stillPath": "/2smPHO534CBd6Cqb6NmvcOIQB1C.jpg"
+    },
+    {
+      "id": 6325845,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Cassidy's Keys",
+      "overview": "In Tulsa, when a woman goes missing after an argument with her new husband, detectives peel back the layers of her relationship to find their suspect.",
+      "airDate": "2025-07-10",
+      "seasonNumber": 28,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 6337751,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Angelita Wright",
+      "overview": "A local musician is killed in a deliberate hit and run, in a small South Carolina town.",
+      "airDate": "2025-07-06",
+      "seasonNumber": 35,
+      "episodeNumber": 13,
+      "stillPath": null
+    },
+    {
+      "id": 6337750,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Connie Pfieffer",
+      "overview": "A noise complaint turns into a murder investigation for Florida police.",
+      "airDate": "2025-06-29",
+      "seasonNumber": 35,
+      "episodeNumber": 12,
+      "stillPath": null
+    },
+    {
+      "id": 6325843,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Broken Youth",
+      "overview": "When a popular young man is executed in broad daylight, Tulsa Homicide struggles to understand why one teen would kill another in cold blood.",
+      "airDate": "2025-06-26",
+      "seasonNumber": 28,
+      "episodeNumber": 3,
+      "stillPath": null
     },
     {
       "id": 6330490,
@@ -399,6 +1067,17 @@
       "stillPath": "/astut8aRkN1VFuYx4jf2615k7Sw.jpg"
     },
     {
+      "id": 6325841,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Death Comes Knocking",
+      "overview": "When a young father is shot to death inside his home, Det. Mark Kennedy must figure out if an argument earlier that day escalated to homicide.",
+      "airDate": "2025-06-19",
+      "seasonNumber": 28,
+      "episodeNumber": 2,
+      "stillPath": null
+    },
+    {
       "id": 6331815,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -408,6 +1087,39 @@
       "seasonNumber": 48,
       "episodeNumber": 31,
       "stillPath": "/tvJUau2DeTqFI5EybwiZawmOAco.jpg"
+    },
+    {
+      "id": 6306149,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Shawnie Vel Young",
+      "overview": "After the body of a small-town Mississippi woman is found, police must work to identify a romantic rival obsessed with getting rid of the competition.",
+      "airDate": "2025-06-15",
+      "seasonNumber": 35,
+      "episodeNumber": 11,
+      "stillPath": null
+    },
+    {
+      "id": 6325839,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Friends No More",
+      "overview": "A man is found lying outside his family home with a bullet in his head, and Tulsa homicide must find a way to make the killer reveal himself.",
+      "airDate": "2025-06-12",
+      "seasonNumber": 28,
+      "episodeNumber": 1,
+      "stillPath": null
+    },
+    {
+      "id": 6297897,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Kathleen Witte",
+      "overview": "When a man is found dead at a secluded rest stop, Ohio police suspect foul play within his family. As evidence builds, tensions rise, and reveal the work of a criminal mastermind intent on manipulating everyone around them.",
+      "airDate": "2025-06-08",
+      "seasonNumber": 35,
+      "episodeNumber": 10,
+      "stillPath": null
     },
     {
       "id": 6298357,
@@ -421,6 +1133,28 @@
       "stillPath": "/rzqsvzwgo4mSmEbcowKIm1aJM9X.jpg"
     },
     {
+      "id": 6281014,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Sierra Jane Inscoe",
+      "overview": "A beloved son is reported missing after he fails to return home from a date. Various Mississippi agencies unite to navigate his last moments and a false lead that will expose a cold-blooded scheme.",
+      "airDate": "2025-06-01",
+      "seasonNumber": 35,
+      "episodeNumber": 9,
+      "stillPath": null
+    },
+    {
+      "id": 6280526,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "My Mother's Murder Trials (2)",
+      "overview": "A daughter suspects her mother of a double murder. Years later, courtroom drama brings unsettling answers.",
+      "airDate": "2025-05-31",
+      "seasonNumber": 38,
+      "episodeNumber": 32,
+      "stillPath": "/ridvM1UFIIJYERcxIdkbpbS67E0.jpg"
+    },
+    {
       "id": 6273577,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -432,6 +1166,28 @@
       "stillPath": "/9GBQSc9nycP7NcCTDmfDN3rPErL.jpg"
     },
     {
+      "id": 6265002,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Amy Reese",
+      "overview": "A man’s body is discovered in his Texas home, hidden for weeks after his murder. When police discover that his family is missing as well, the investigation reveals a desperate escape attempt and a motive rooted in fear and betrayal.",
+      "airDate": "2025-05-25",
+      "seasonNumber": 35,
+      "episodeNumber": 8,
+      "stillPath": null
+    },
+    {
+      "id": 6273573,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "My Mother's Murder Trials (1)",
+      "overview": "Dana Chandler's own daughter believes she committed a double murder. Years later, courtroom drama brings unsettling answers.",
+      "airDate": "2025-05-24",
+      "seasonNumber": 38,
+      "episodeNumber": 31,
+      "stillPath": "/4xTOpK7T1SzH49PlabOxdHtYYmr.jpg"
+    },
+    {
       "id": 6255706,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -441,6 +1197,17 @@
       "seasonNumber": 48,
       "episodeNumber": 28,
       "stillPath": "/g0LUR71pGeLGKZoNUqMOOmyzghK.jpg"
+    },
+    {
+      "id": 6237343,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Footprint",
+      "overview": "Jeanie Ann Childs is murdered in her home in south Minneapolis and the pivotal clue at the crime is a bloody footprint her killer left behind.",
+      "airDate": "2025-05-17",
+      "seasonNumber": 38,
+      "episodeNumber": 30,
+      "stillPath": "/cYpIeO5IX1zdd8ZN36HndC4jHCb.jpg"
     },
     {
       "id": 6220393,
@@ -465,6 +1232,17 @@
       "stillPath": "/8HGzADuO2aeLcOxd38ZDvaFSqLe.jpg"
     },
     {
+      "id": 6220179,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Facing a Monster",
+      "overview": "As a teenager, C.C. Opanowski survives a vicious attack by an ex-boyfriend. Years later, she faces him in court after he murders a young mother.",
+      "airDate": "2025-05-10",
+      "seasonNumber": 38,
+      "episodeNumber": 29,
+      "stillPath": "/dRTagSIUqFihadz7FLQ7A0gX7mi.jpg"
+    },
+    {
       "id": 6220206,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -485,6 +1263,17 @@
       "seasonNumber": 33,
       "episodeNumber": 27,
       "stillPath": "/lDMEhA8aTArVbETqUsAmDa5nh1Z.jpg"
+    },
+    {
+      "id": 6201045,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Boy Across the Street",
+      "overview": "College student Catina Rose Salarno is killed by her boyfriend who lived right across the street. Decades later, her family is still battling to keep him in prison.",
+      "airDate": "2025-05-03",
+      "seasonNumber": 38,
+      "episodeNumber": 28,
+      "stillPath": "/7c24qXxTSWqrg80ksf6us2Mprxr.jpg"
     },
     {
       "id": 6201084,
@@ -509,6 +1298,17 @@
       "stillPath": "/zg6omr1WftRPtf6suP5RPMZsdwW.jpg"
     },
     {
+      "id": 6169990,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Farris Wheel",
+      "overview": "Melody Farris, the matriarch of a wealthy family, spins a tale trying to pin the murder of her husband on her own son.",
+      "airDate": "2025-04-26",
+      "seasonNumber": 38,
+      "episodeNumber": 27,
+      "stillPath": "/uzz0pQ5GnRUmMBrSFlaFsP7OIMY.jpg"
+    },
+    {
       "id": 6169949,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -518,6 +1318,17 @@
       "seasonNumber": 33,
       "episodeNumber": 25,
       "stillPath": "/2Xdbv27kLsUcQsAVpLJR324DZnA.jpg"
+    },
+    {
+      "id": 6139732,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "First Love, Then Murder",
+      "overview": "When Oregon teen Ellen Friar disappears, investigators discover her forbidden relationship led to murder. \"48 Hours\" contributor Natalie Morales reports.",
+      "airDate": "2025-04-19",
+      "seasonNumber": 38,
+      "episodeNumber": 26,
+      "stillPath": "/zzdjkTIFgo4TFdqVqfPMcq1e4Mq.jpg"
     },
     {
       "id": 6141578,
@@ -540,6 +1351,17 @@
       "seasonNumber": 33,
       "episodeNumber": 24,
       "stillPath": "/bAxwqypMuXUT0Bu5AXbSQd0UGYj.jpg"
+    },
+    {
+      "id": 6121794,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Day My Mother Never Came Home",
+      "overview": "Did a father use his 6-year-old son as an alibi for murder? Reggie Reed Jr. grapples with his parents' troubled past.",
+      "airDate": "2025-04-12",
+      "seasonNumber": 38,
+      "episodeNumber": 25,
+      "stillPath": "/69kQ4ZwKN7YTLFdNzVfdluBuK9l.jpg"
     },
     {
       "id": 6125877,
@@ -597,6 +1419,39 @@
       "stillPath": "/gsEStW8xGhMoV4Zyir4loFSV3AY.jpg"
     },
     {
+      "id": 6325837,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "A Killer Among Us",
+      "overview": "Season Finale\n\nIn Tulsa, when a woman goes missing after an argument with her new husband, detectives peel back the layers of her relationship to find their suspect.",
+      "airDate": "2025-04-03",
+      "seasonNumber": 27,
+      "episodeNumber": 12,
+      "stillPath": null
+    },
+    {
+      "id": 6077860,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Dead Girls Don't Talk",
+      "overview": "A man charged with murder for poisoning two women tells a friend, \"dead girls don't talk.\" Brave survivors speak out on their behalf.",
+      "airDate": "2025-03-29",
+      "seasonNumber": 38,
+      "episodeNumber": 24,
+      "stillPath": "/guB9TZ2gpDuXGujCH2cusFGyEkt.jpg"
+    },
+    {
+      "id": 6325835,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Armed to Party",
+      "overview": "A young man who came to the U.S. to fulfill his dreams is killed at a birthday party, and Tulsa police must cut through a web of lies to find the culprit.",
+      "airDate": "2025-03-27",
+      "seasonNumber": 27,
+      "episodeNumber": 11,
+      "stillPath": null
+    },
+    {
       "id": 6062221,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -617,6 +1472,28 @@
       "seasonNumber": 48,
       "episodeNumber": 22,
       "stillPath": "/8l0tdVMpPeUVWKtpnjDsqvAPthD.jpg"
+    },
+    {
+      "id": 6325834,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "It's Not Over",
+      "overview": "An altercation in a casino parking lot leads to murder when friends abandon reason for revenge.",
+      "airDate": "2025-03-20",
+      "seasonNumber": 27,
+      "episodeNumber": 10,
+      "stillPath": null
+    },
+    {
+      "id": 6051199,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Could Angela Prichard Have Been Saved?",
+      "overview": "A woman repeatedly called police for help when she was attacked, stalked, and intimidated by her husband. It didn't stop him from killing her. \"48 Hours\" contributor Jonathan Vigliotti reports.",
+      "airDate": "2025-03-15",
+      "seasonNumber": 38,
+      "episodeNumber": 23,
+      "stillPath": "/qcp1cJpCMW3Qc1Ag6xXSsUoGAUn.jpg"
     },
     {
       "id": 6044236,
@@ -641,6 +1518,28 @@
       "stillPath": "/cVTDvBzlz6Wx7VNMhz4HNUMkN6F.jpg"
     },
     {
+      "id": 5958206,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Denise Gay",
+      "overview": "An aspiring young artist from Virginia is reported missing by his family. When his body is found weeks later, investigators must delve into his tumultuous family life and uncover an eyewitness who reveals the lies and deceit that led to his murder.",
+      "airDate": "2025-03-09",
+      "seasonNumber": 35,
+      "episodeNumber": 7,
+      "stillPath": null
+    },
+    {
+      "id": 6002319,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Cati Blauvelt: Death of a Soldier's Wife",
+      "overview": "Shortly after former Army recruiter John Blauvelt was questioned about the fatal stabbing of his estranged wife Cati Blauvelt in South Carolina, he went on the run with his then-17-year-old girlfriend, Hannah Thompson. What does she know?",
+      "airDate": "2025-03-08",
+      "seasonNumber": 38,
+      "episodeNumber": 22,
+      "stillPath": "/s7pB01meA5sNZi20AA2tYvD5ugW.jpg"
+    },
+    {
       "id": 6029604,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -661,6 +1560,17 @@
       "seasonNumber": 48,
       "episodeNumber": 20,
       "stillPath": "/2YXEIT6wZT5AIkORK7UjOLcydUp.jpg"
+    },
+    {
+      "id": 6002318,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Hit-and-Run Homicide of Davis McClendon",
+      "overview": "When South Carolina authorities found Davis McClendon dead by the road near his wrecked car, they suspected a hit-and-run. But his newfound love is convinced it was not accident.",
+      "airDate": "2025-03-01",
+      "seasonNumber": 38,
+      "episodeNumber": 21,
+      "stillPath": "/fqctVv7Z0naXhArq2IpiwKLBl6w.jpg"
     },
     {
       "id": 6011458,
@@ -707,6 +1617,50 @@
       "stillPath": "/tbZNjU41TzbQM9GLZPuHtJiv9gI.jpg"
     },
     {
+      "id": 6325833,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Home Ground / In the Shadows",
+      "overview": "When a man is found shot at a neighborhood party, detectives discover his friends may be hiding a secret.  A father is gunned down in front of his girlfriend when a relationship from the past comes back to haunt them.",
+      "airDate": "2025-02-20",
+      "seasonNumber": 27,
+      "episodeNumber": 9,
+      "stillPath": null
+    },
+    {
+      "id": 5934796,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Home Ground and In the Shadows",
+      "overview": "When a man is found shot at a neighborhood party, detectives discover his friends may be hiding a secret. A father is gunned down in front of his girlfriend when a relationship from the past comes back to haunt them.",
+      "airDate": "2025-02-20",
+      "seasonNumber": 25,
+      "episodeNumber": 9,
+      "stillPath": "/1GUTN41fGT4oygtwnpNSpU2oFs0.jpg"
+    },
+    {
+      "id": 5958205,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Tashia Stuart",
+      "overview": "After a 911 hang-up, Pasco, Wash., police report to the caller’s address and discover a beloved grandmother has been fatally shot. Detectives will combat self-defense claims as evidence of a greedy scheme comes to light.",
+      "airDate": "2025-02-16",
+      "seasonNumber": 35,
+      "episodeNumber": 6,
+      "stillPath": null
+    },
+    {
+      "id": 5970217,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Justine's Voice",
+      "overview": "After a teenager is strangled and buried alive, her family takes on the fight to keep her convicted killers behind bars. \"We're her voice\" says Justine's sister. \"48 Hours\" contributor Natalie Morales reports.",
+      "airDate": "2025-02-15",
+      "seasonNumber": 38,
+      "episodeNumber": 20,
+      "stillPath": "/3WNxaLJkpXZcDxYdoZS2FhvvFHP.jpg"
+    },
+    {
       "id": 5979506,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -727,6 +1681,39 @@
       "seasonNumber": 48,
       "episodeNumber": 17,
       "stillPath": "/64jknUQVGr7Ea6KRSCTVMiDr2pa.jpg"
+    },
+    {
+      "id": 6325832,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Silent Parties",
+      "overview": "When a young man is killed at a party in a Gwinnett County park, detectives must turn to the families of the victim and possible suspect to break the silence.",
+      "airDate": "2025-02-13",
+      "seasonNumber": 27,
+      "episodeNumber": 8,
+      "stillPath": null
+    },
+    {
+      "id": 6061215,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Silent Parties",
+      "overview": "When a young man is killed at a party in a Gwinnett County park, detectives must turn to the families of the victim and possible suspect to break the silence.",
+      "airDate": "2025-02-13",
+      "seasonNumber": 25,
+      "episodeNumber": 8,
+      "stillPath": "/A2asdqovY787Kk8j2Ivcgmtq3fP.jpg"
+    },
+    {
+      "id": 5956812,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "It's About Danni",
+      "overview": "When 15-year-old Danni Houchins is found dead in a swamp, her family says they were led to believe she drowned. 24 years later, Danni's sister learns the terrible truth. \"48 Hours\" correspondent Peter Van Sant reports.",
+      "airDate": "2025-02-08",
+      "seasonNumber": 38,
+      "episodeNumber": 19,
+      "stillPath": "/nuazK6c8Fou2ne104ZeNsmIdaDJ.jpg"
     },
     {
       "id": 5968214,
@@ -751,6 +1738,50 @@
       "stillPath": "/fuWXOW0QoIz4kmcAGVGQjtrSOik.jpg"
     },
     {
+      "id": 6325831,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Chain Reaction",
+      "overview": "A young father loses his life when tempers flare and bullets fly at a Gwinnett County nightclub.",
+      "airDate": "2025-02-06",
+      "seasonNumber": 27,
+      "episodeNumber": 7,
+      "stillPath": null
+    },
+    {
+      "id": 6061210,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Chain Reaction",
+      "overview": "A young father loses his life when tempers flare and bullets fly at a nightclub in Gwinnett County.",
+      "airDate": "2025-02-06",
+      "seasonNumber": 25,
+      "episodeNumber": 7,
+      "stillPath": "/aUFqIIs3qAfumXlBsmn5fSllcHO.jpg"
+    },
+    {
+      "id": 5958204,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Angela Sanford",
+      "overview": "When a woman survives an alleged assault in the New Mexico desert and her purported attacker is found stabbed to death, investigators must get to the bottom of a bizarre murder plot driven by one suspect’s obsession with the occult.",
+      "airDate": "2025-02-02",
+      "seasonNumber": 35,
+      "episodeNumber": 5,
+      "stillPath": null
+    },
+    {
+      "id": 5956792,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The No Body Case of Dee Warner",
+      "overview": "When a woman disappears, her children are certain she's been murdered. But without a body, they know it will be hard to get justice. \"48 Hours\" correspondent Erin Moriarty reports.",
+      "airDate": "2025-02-01",
+      "seasonNumber": 38,
+      "episodeNumber": 18,
+      "stillPath": "/aidIFsGGKPgcrOHmWWmmWPYfXQc.jpg"
+    },
+    {
       "id": 5951343,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -773,6 +1804,50 @@
       "stillPath": "/nFcYBpyrAP6FNLpPXveYkyvUHve.jpg"
     },
     {
+      "id": 6325829,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Minibike Murder",
+      "overview": "After a mysterious motorcycle rider stalks and shoots down a Tulsa man, detectives must piece together the events leading up to his death to find out who wanted him dead and why.",
+      "airDate": "2025-01-30",
+      "seasonNumber": 27,
+      "episodeNumber": 6,
+      "stillPath": null
+    },
+    {
+      "id": 5934798,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Minibike Murder",
+      "overview": "After a mysterious motorcycle rider stalks and shoots down a Tulsa man, detectives must piece together the events leading up to his death to find out who wanted him dead and why.",
+      "airDate": "2025-01-30",
+      "seasonNumber": 25,
+      "episodeNumber": 6,
+      "stillPath": "/rVjZXw4v44PE9gXFFRTUvHMxZb6.jpg"
+    },
+    {
+      "id": 5943844,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Donna Horwitz",
+      "overview": "After a father is found dead in his family's Florida mansion, what at first appears to be suicide turns into a complex murder mystery where a mother's cryptic words and a son's suspicious behaviour suggest either could be hiding a deadly grudge.",
+      "airDate": "2025-01-26",
+      "seasonNumber": 35,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 5941316,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Ivy League Murder",
+      "overview": "A road rage incident unravels into a story of obsession and premeditation when Yale graduate student and former National Army Guardsman Kevin Jiang is gunned down in New Haven, Connecticut.",
+      "airDate": "2025-01-25",
+      "seasonNumber": 38,
+      "episodeNumber": 17,
+      "stillPath": "/3xCTnYAVNt6KYHomjqMkCiLDP8x.jpg"
+    },
+    {
       "id": 5940974,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -784,6 +1859,28 @@
       "stillPath": "/iOp4eyZghRs5pUuYYrMzEOi3TNo.jpg"
     },
     {
+      "id": 6325827,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Tangled Web",
+      "overview": "A Mobile homeowner reports a theft of $9,000 to the police, and just thirty minutes later, a local father of three is mysteriously killed on their front porch.",
+      "airDate": "2025-01-23",
+      "seasonNumber": 27,
+      "episodeNumber": 5,
+      "stillPath": null
+    },
+    {
+      "id": 5940262,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Tangled Web",
+      "overview": "A mobile homeowner reports a theft of $9,000; a father of three is killed on their front porch.",
+      "airDate": "2025-01-23",
+      "seasonNumber": 25,
+      "episodeNumber": 5,
+      "stillPath": "/ykBWL44sxoea7LdaOo5Mtbv5osV.jpg"
+    },
+    {
       "id": 5915408,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -793,6 +1890,28 @@
       "seasonNumber": 33,
       "episodeNumber": 12,
       "stillPath": "/8ZtoGwdgybTPQJPAK1dDTmrHluW.jpg"
+    },
+    {
+      "id": 5925815,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Kimberly Saenz",
+      "overview": "Numerous patients at a Texas dialysis treatment centre have gone into cardiac arrest, resulting in five deaths in one month; investigators work with the Centers for Disease Control to expose a chilling connection between the unexplained tragedies.",
+      "airDate": "2025-01-19",
+      "seasonNumber": 35,
+      "episodeNumber": 3,
+      "stillPath": null
+    },
+    {
+      "id": 5941315,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Unraveling the Case Against Melissa Calusinski",
+      "overview": "Was key evidence manipulated to help convict a day care worker of murder? \"48 Hours\" correspondent Erin Moriarty reports.",
+      "airDate": "2025-01-18",
+      "seasonNumber": 38,
+      "episodeNumber": 16,
+      "stillPath": "/n1Pd3oHZSo8HBWQk2pjXv5EnM7t.jpg"
     },
     {
       "id": 5915406,
@@ -817,6 +1936,94 @@
       "stillPath": "/8Ebx8KcQzGldTkF7Pg4b9CzeQ82.jpg"
     },
     {
+      "id": 6325824,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Deadly Spree",
+      "overview": "The authorities investigate after a man is murdered after a game of pool in a crowded bar, and they realize surveillance video captured the crime on tape.",
+      "airDate": "2025-01-16",
+      "seasonNumber": 27,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 5934791,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Deadly Spree",
+      "overview": "When an attempted robbery ends in the murder of a retired sheriff's deputy, Gwinnett County detectives believe the suspects will strike again and race to track them down before more blood is shed.",
+      "airDate": "2025-01-16",
+      "seasonNumber": 25,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 5898045,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Taylor Wardlaw",
+      "overview": "A father of four vanishes days before Christmas; what authorities believe to be a bond violation, unfolds into something evil.",
+      "airDate": "2025-01-12",
+      "seasonNumber": 35,
+      "episodeNumber": 2,
+      "stillPath": "/m5qt5TLDUGiqOFSxuGUAYYhWHqu.jpg"
+    },
+    {
+      "id": 5941314,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Deputy Spivey on Trial",
+      "overview": "Former TV bailiff Renard Spivey found himself in a real-life courtroom drama when he was accused of killing his wife in 2019. He speaks out for the first time about the fight to prove his innocence in an interview with 48 Hours contributor Natalie Morales.",
+      "airDate": "2025-01-11",
+      "seasonNumber": 38,
+      "episodeNumber": 15,
+      "stillPath": "/uZDUSWw2lTsHa29AWHZZCQ9BX1f.jpg"
+    },
+    {
+      "id": 6325822,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Seeking Justice",
+      "overview": "Homicide detectives in Tulsa, Okla., look into the secret parts of a 65-year-old man's life after a welfare check reveals the man was killed and robbed.",
+      "airDate": "2025-01-09",
+      "seasonNumber": 27,
+      "episodeNumber": 3,
+      "stillPath": null
+    },
+    {
+      "id": 5877477,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Seeking Justice",
+      "overview": "When a welfare check on a 65-year-old man reveals he's been brutally killed and robbed, Tulsa Homicide must delve into the secret parts of his life for answers.",
+      "airDate": "2025-01-09",
+      "seasonNumber": 25,
+      "episodeNumber": 3,
+      "stillPath": "/9TYXC6NZHd7EyhpUtwVJzvrvuNk.jpg"
+    },
+    {
+      "id": 5871330,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Brenda Watson",
+      "overview": "When a beloved grandfather is found shot dead in his Florida home, detectives fear his missing ex-wife is also in danger; as they uncover a tangled web of romance, infidelity and betrayal, new questions arise about her involvement in the murder.",
+      "airDate": "2025-01-05",
+      "seasonNumber": 35,
+      "episodeNumber": 1,
+      "stillPath": "/bquDYdPwzGBRq7FiRM3xayxQBTr.jpg"
+    },
+    {
+      "id": 5941313,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Blackout Murder of Livye Lewis",
+      "overview": "A woman is discovered shot dead in her car with a blood-covered man alive on the ground. The man says he has no memory of how he got there. Investigators unravel the strange scene. 48 Hours correspondent Peter Van Sant reports.",
+      "airDate": "2025-01-04",
+      "seasonNumber": 38,
+      "episodeNumber": 14,
+      "stillPath": "/kxbq4ZTlobf3KWw9WZCiMJYZcVc.jpg"
+    },
+    {
       "id": 5942381,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -826,6 +2033,105 @@
       "seasonNumber": 48,
       "episodeNumber": 12,
       "stillPath": "/eMbMitd9kSxtMvM0iNtvhvQ2rAY.jpg"
+    },
+    {
+      "id": 6325821,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Gun Runner/In a Flash",
+      "overview": "In Tulsa, a horrific killing in a family home leaves detectives clamoring for answers. But first, the Mobile shooting of a beloved father leads investigators on a city-wide manhunt to find the man who betrayed his friend.",
+      "airDate": "2025-01-02",
+      "seasonNumber": 27,
+      "episodeNumber": 2,
+      "stillPath": null
+    },
+    {
+      "id": 5877476,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Gun Runner and In a Flash",
+      "overview": "In Tulsa, a horrific killing in a family home leaves detectives clamoring for answers. But first, the Mobile shooting of a beloved father leads investigators on a city-wide manhunt to find the man who betrayed his friend.",
+      "airDate": "2025-01-02",
+      "seasonNumber": 25,
+      "episodeNumber": 2,
+      "stillPath": "/1DFVjneAED7UO5EDevuqBLWfSD1.jpg"
+    },
+    {
+      "id": 6325820,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Streets of Pain",
+      "overview": "A visit to Mobile ends in tragedy when a violent chain reaction leads to the death of a teenage girl.",
+      "airDate": "2025-01-01",
+      "seasonNumber": 27,
+      "episodeNumber": 1,
+      "stillPath": null
+    },
+    {
+      "id": 5877475,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Streets of Pain",
+      "overview": "A visit to Mobile ends in tragedy when a violent chain reaction leads to the death of a teenage girl.",
+      "airDate": "2025-01-01",
+      "seasonNumber": 25,
+      "episodeNumber": 1,
+      "stillPath": "/wFXZzq4MzIqHjuSlYDKZsLeVPVm.jpg"
+    },
+    {
+      "id": 5734490,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Jennifer Blake",
+      "overview": "A beloved grandmother is reported missing to Virginia police weeks before her body is found burned in the woods of another state. Authorities navigate family tensions to uncover the truth behind her brutal murder.",
+      "airDate": "2024-12-29",
+      "seasonNumber": 34,
+      "episodeNumber": 24,
+      "stillPath": "/hgoKd4nUmzyd0E5aDShLQh6iqDz.jpg"
+    },
+    {
+      "id": 5734488,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Kimberly Groh",
+      "overview": "After an avid outdoorsman dies from an apparent suicide, South Carolina investigators must unravel a murky story of mental health struggles and a complicated marriage that led to his death.",
+      "airDate": "2024-12-22",
+      "seasonNumber": 34,
+      "episodeNumber": 23,
+      "stillPath": null
+    },
+    {
+      "id": 5941311,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Search for JonBenét's Killer",
+      "overview": "Is there new hope to solve the murder of JonBenét Ramsey? Her father says there's a way.",
+      "airDate": "2024-12-21",
+      "seasonNumber": 38,
+      "episodeNumber": 13,
+      "stillPath": "/8s5mAqTi87nOkGd7NZnlyD91nsl.jpg"
+    },
+    {
+      "id": 5734486,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Margaret Frankie Kellis",
+      "overview": "When an elderly woman finds her husband murdered in bed, police race to find the cold-blooded killer. Little do they know the murderer is a master manipulator hidden in plain sight.",
+      "airDate": "2024-12-15",
+      "seasonNumber": 34,
+      "episodeNumber": 22,
+      "stillPath": "/2v96JcfaBeP4MeJbXSnWDiVvsqZ.jpg"
+    },
+    {
+      "id": 5941309,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The \"Batman\" Intruder",
+      "overview": "Morgan Metzer is attacked in her home by a masked intruder disguising his voice to sound like Batman. Her ex-husband comes to her aid, but is he a hero? \"48 Hours\" contributor Nikki Battiste reports.",
+      "airDate": "2024-12-14",
+      "seasonNumber": 38,
+      "episodeNumber": 12,
+      "stillPath": "/umNJHicXPF9HIyHfvEPLW0HwcNJ.jpg"
     },
     {
       "id": 5743586,
@@ -850,6 +2156,39 @@
       "stillPath": "/7yqwWNUpzlpLqxH6MXozmLTJPxd.jpg"
     },
     {
+      "id": 5734485,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Jill Blackstone",
+      "overview": "The sister of a successful Hollywood producer is found dead in the garage of a home they share. With conflicting clues at the scene, authorities are left to determine if the cause of death is a tragic accident, suicide or malicious plan.",
+      "airDate": "2024-12-01",
+      "seasonNumber": 34,
+      "episodeNumber": 21,
+      "stillPath": "/piUqZGBXdzHeF7o3kAT141yS5n0.jpg"
+    },
+    {
+      "id": 5799955,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Firefighter's Secret",
+      "overview": "A young woman is found dead in her burning home. She'd been involved with a firefighter — could he have set a fire to cover her murder? \"48 Hours\" contributor Nikki Battiste reports.",
+      "airDate": "2024-11-30",
+      "seasonNumber": 38,
+      "episodeNumber": 11,
+      "stillPath": "/yoVCuwodwR9HX956b34cxnQpkbq.jpg"
+    },
+    {
+      "id": 5734484,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Camilla Frazier",
+      "overview": "A family of rodeo queens is thrown into turmoil when their patriarch disappears from his Dalhart, Texas ranch. As investigators search for the missing father, they expose family secrets that will lead to a gruesome murder plot.",
+      "airDate": "2024-11-24",
+      "seasonNumber": 34,
+      "episodeNumber": 20,
+      "stillPath": "/jKMOa5AnJSh98wWpQIz73BGX2Zr.jpg"
+    },
+    {
       "id": 5743585,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -870,6 +2209,28 @@
       "seasonNumber": 48,
       "episodeNumber": 10,
       "stillPath": "/wUjoaDO3XMiHZZN7K8BaFEU4ZvP.jpg"
+    },
+    {
+      "id": 5734483,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Tiesh Rhue",
+      "overview": "A loving father and veteran suddenly vanishes in coastal South Carolina; as investigators question those close to him, they find the unraveling threads of a love triangle; when his body surfaces in a nearby river, a crime of passion comes to light.",
+      "airDate": "2024-11-17",
+      "seasonNumber": 34,
+      "episodeNumber": 19,
+      "stillPath": null
+    },
+    {
+      "id": 5795967,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Plot to Eliminate Alyssa Burkett",
+      "overview": "A toxic couple orchestrates an elaborate plan to kill a mother. Peter Van Sant reports.",
+      "airDate": "2024-11-16",
+      "seasonNumber": 38,
+      "episodeNumber": 10,
+      "stillPath": "/eyMEGOVKm1s5SC16KbjFMoT84Cy.jpg"
     },
     {
       "id": 5743584,
@@ -894,6 +2255,28 @@
       "stillPath": "/esjLEAMlT8UJOZrChyEQ3F5RI5W.jpg"
     },
     {
+      "id": 5734427,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Ezra McCandless",
+      "overview": "A young woman seeks refuge at the home of a Wisconsin farmer, claiming she just escaped from a violent assault; when investigators arrive at the crime scene, they make a discovery that leads them to expose a deadly love triangle.",
+      "airDate": "2024-11-10",
+      "seasonNumber": 34,
+      "episodeNumber": 18,
+      "stillPath": null
+    },
+    {
+      "id": 5795966,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Tracking the Killer of Mary Catherine Edwards",
+      "overview": "A schoolteacher is murdered in her own home. Years later investigators discover she was a bridesmaid at the killer's wedding. \"48 Hours\" contributor Natalie Morales reports.",
+      "airDate": "2024-11-09",
+      "seasonNumber": 38,
+      "episodeNumber": 9,
+      "stillPath": "/n4ZZ1J6X8x1ONMjKko1zqOoLmR1.jpg"
+    },
+    {
       "id": 5737433,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -914,6 +2297,28 @@
       "seasonNumber": 48,
       "episodeNumber": 8,
       "stillPath": "/byZOV5j2YaHPhscc7U7A41JBBtZ.jpg"
+    },
+    {
+      "id": 5728996,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Danelle Geier",
+      "overview": "When 55-year-old Ronald Bettig, a former Penn State professor, mysteriously goes missing, State College, PA police uncover clues to his untimely demise. The investigation leads to a grisly crime scene and two unlikely culprits, who would stop at nothing to get rid of him.",
+      "airDate": "2024-11-03",
+      "seasonNumber": 34,
+      "episodeNumber": 17,
+      "stillPath": "/1L60OUttz9nGO957wgGltvhGLkH.jpg"
+    },
+    {
+      "id": 5697250,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Fatal First Date",
+      "overview": "A couple's first date ends with an ambush. Both are shot. Can the only survivor identify the shooter?",
+      "airDate": "2024-11-02",
+      "seasonNumber": 38,
+      "episodeNumber": 8,
+      "stillPath": "/9ramiB30IzSkNGpyzjyX6wf16F.jpg"
     },
     {
       "id": 5720649,
@@ -938,6 +2343,28 @@
       "stillPath": "/yBlLLwIhpMAVDgqL7rEjkh4KES9.jpg"
     },
     {
+      "id": 5711942,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Kimberly Williams",
+      "overview": "The tragic suicide of a beloved grandfather seems to be an open-and-shut case until detectives in Morrisdale, Pa., receive a message from beyond the grave that suggests the deceased may not have died by his own hand.",
+      "airDate": "2024-10-27",
+      "seasonNumber": 34,
+      "episodeNumber": 16,
+      "stillPath": null
+    },
+    {
+      "id": 5684644,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Strange Shooting of Alex Pennig",
+      "overview": "A nurse is found dead in her apartment. Surveillance video captures her coming home for the last time. Can investigators piece together what happened next? \"48 Hours\" contributor Natalie Morales reports.",
+      "airDate": "2024-10-26",
+      "seasonNumber": 38,
+      "episodeNumber": 7,
+      "stillPath": "/59S6nz2gph9KlcTfomZyHr9ZBkx.jpg"
+    },
+    {
       "id": 5697327,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -958,6 +2385,28 @@
       "seasonNumber": 48,
       "episodeNumber": 6,
       "stillPath": "/lwz2vum5qD7CpYHz1CwbeTA0Qyn.jpg"
+    },
+    {
+      "id": 5657413,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Joyce Pelzer",
+      "overview": "A Conyers, GA woman, Rosalyn 'Roz' Lewis, who is brutally stabbed 34 times, provides police with a suspect's name, her wife Joyce Pelzer, before succumbing to her injuries. As the manhunt for the killer begins, a pattern of toxicity will expose a violent past and more than one murder.",
+      "airDate": "2024-10-20",
+      "seasonNumber": 34,
+      "episodeNumber": 15,
+      "stillPath": null
+    },
+    {
+      "id": 5474923,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Who Killed Aileen Seiden in Room 15?",
+      "overview": "Three people check into a Florida motel room. Only two walk out alive. \"48 Hours\" correspondent Peter Van Sant reports.",
+      "airDate": "2024-10-19",
+      "seasonNumber": 38,
+      "episodeNumber": 6,
+      "stillPath": "/bZBuU8Rg3M3G4bPhtJHTpwLmQAG.jpg"
     },
     {
       "id": 5684675,
@@ -982,6 +2431,28 @@
       "stillPath": "/3QqdY8K9l3CcFCGRmEBSLhFLKvO.jpg"
     },
     {
+      "id": 5657410,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Roberta Samard",
+      "overview": "After Roberta Samard, a Millersburg, OR wife, claims she accidentally shot and killed her husband, Ken, while attempting to commit suicide in 2016, the cracks in a seemingly perfect marriage are brought to light. The investigation will uncover if his inadvertent death was truly an accident or a deadly cover-up.",
+      "airDate": "2024-10-13",
+      "seasonNumber": 34,
+      "episodeNumber": 14,
+      "stillPath": null
+    },
+    {
+      "id": 5612941,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "Where is Jermain Charlo?",
+      "overview": "Police have searched for 23-year-old mother Jermain Charlo since she vanished in June 2018 from Missoula, Montana. Now, six years after she disappeared, police release the last known images of the missing mom. Can this security camera video help reveal what happened to her?",
+      "airDate": "2024-10-12",
+      "seasonNumber": 38,
+      "episodeNumber": 5,
+      "stillPath": "/v0p9gETeCe9rjDFG1cGkiaGAgPx.jpg"
+    },
+    {
       "id": 5659547,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -1002,6 +2473,28 @@
       "seasonNumber": 48,
       "episodeNumber": 4,
       "stillPath": "/u192kIiaqI677i6kt76vUPrne56.jpg"
+    },
+    {
+      "id": 5657409,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Cathleen Roth",
+      "overview": "After a routine welfare check, Albuquerque police discover 61-year-old beloved schoolteacher Ellen Roth has vanished. As investigators dive into her family history, they uncover a shocking murder plot driven by vengeance and jealousy.",
+      "airDate": "2024-10-06",
+      "seasonNumber": 34,
+      "episodeNumber": 13,
+      "stillPath": null
+    },
+    {
+      "id": 5612940,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Depraved Heart Murder",
+      "overview": "Sarah Harris was a bright, young Maryland woman who dreamed of a career in medicine. On the morning of Jan. 26, 2022, she was found unresponsive on the floor of the home she shared with her boyfriend, Dr. James Ryan. Ryan told police it was an overdose, but Harris’ family believed he was responsible. Contributor Nikki Battiste reports.",
+      "airDate": "2024-10-05",
+      "seasonNumber": 38,
+      "episodeNumber": 4,
+      "stillPath": "/djL6HPrDnilKmkcbXPAtM20djo2.jpg"
     },
     {
       "id": 5645840,
@@ -1026,6 +2519,17 @@
       "stillPath": "/pVbeTRfRGt6UCu21rmjlccfbsAS.jpg"
     },
     {
+      "id": 5474926,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Bathtub Murder of Kendy Howard",
+      "overview": "Did a former Idaho state trooper use his law enforcement skills to stage his wife's death in their bathtub? \"48 Hours\" correspondent Peter Van Sant reports.",
+      "airDate": "2024-09-28",
+      "seasonNumber": 38,
+      "episodeNumber": 3,
+      "stillPath": "/tFMboJrtgjKyL9GgiR1yyXmxkhy.jpg"
+    },
+    {
       "id": 5581636,
       "showTmdbId": 78,
       "showName": "Dateline",
@@ -1048,6 +2552,39 @@
       "stillPath": "/ofMm2QHZ6UgpBFilOn1dAD6vSwk.jpg"
     },
     {
+      "id": 5642551,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Mary Lee Orsini",
+      "overview": "When Alice McArthur, wife of high-profile criminal defense attorney Bill McArthur, is found shot dead in their Little Rock, AR home in 1982, police theorize if a disgruntled client of Bill's could be to blame. The investigation will expose an obsessive admirer with a delusional motive to murder.",
+      "airDate": "2024-09-22",
+      "seasonNumber": 34,
+      "episodeNumber": 12,
+      "stillPath": null
+    },
+    {
+      "id": 5941308,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Life and Death of Blaze Bernstein",
+      "overview": "A brilliant college student is killed by a former classmate. Inside the trial of the secret neo-Nazi prosecutors say murdered Blaze because he was gay and Jewish.",
+      "airDate": "2024-09-21",
+      "seasonNumber": 38,
+      "episodeNumber": 1,
+      "stillPath": "/dN2AIQSktGhIXE66qfcZB5zQbWD.jpg"
+    },
+    {
+      "id": 5665170,
+      "showTmdbId": 3719,
+      "showName": "48 Hours",
+      "name": "The Unending Search for Sara Anne Wood",
+      "overview": "Investigators are locked in a 30-year game of cat and mouse with a child serial killer to find the body of 12-year-old Sara. \"48 Hours\" correspondent Erin Moriarty reports.",
+      "airDate": "2024-09-21",
+      "seasonNumber": 38,
+      "episodeNumber": 2,
+      "stillPath": "/2q9d79wqrt8QP20Nd4QQRY9IG3l.jpg"
+    },
+    {
       "id": 5610417,
       "showTmdbId": 2035,
       "showName": "20/20",
@@ -1057,6 +2594,325 @@
       "seasonNumber": 48,
       "episodeNumber": 1,
       "stillPath": "/ft10GM2B9AQqypksj5L576ojCtJ.jpg"
+    },
+    {
+      "id": 5604259,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Carole Gold",
+      "overview": "When Charles 'Chuck' Gold, a Wild West reenactor, is found murdered in his private Arizona ranch by his wife Carole, Phoenix police race to find the killer of the beloved showman. As investigators connect the dots, they realize the cold-blooded mastermind is lurking close to home.",
+      "airDate": "2024-09-15",
+      "seasonNumber": 34,
+      "episodeNumber": 11,
+      "stillPath": "/dGk7x400ft6TteXWTUBBwJfKyAE.jpg"
+    },
+    {
+      "id": 5551545,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Felicia Barden",
+      "overview": "When fireman Willie Barden, a devoted husband and father, is found shot to death on his bathroom floor in 2019, the case is quickly ruled a homicide. As a key witness starts changing their story, detectives in Olive Branch, MS, must determine if this was an act of self-defense or premeditated murder.",
+      "airDate": "2024-09-08",
+      "seasonNumber": 34,
+      "episodeNumber": 10,
+      "stillPath": null
+    },
+    {
+      "id": 5551544,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Tonica Jenkins",
+      "overview": "Melissa Latham, a frantic East Cleveland, OH, woman, seeks refuge in a fast-food restaurant after escaping from a deadly assault. Police will sort through contradicting stories to expose a habitual criminal that will stop at nothing to avoid conviction.",
+      "airDate": "2024-09-01",
+      "seasonNumber": 34,
+      "episodeNumber": 9,
+      "stillPath": null
+    },
+    {
+      "id": 6325852,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside The Tape Special #16",
+      "overview": "Season Finale\n\nA surveillance camera on a Minneapolis bus captures a shooting outside a church. The footage leaves detectives wondering if the shooter acted in self-defense.  Surveillance cameras at a Minneapolis convenience store capture more than just the shooting. Footage suggests vital DNA may have been left in the store by the shooter himself.  Then, surveillance footage in Atlanta shows a man carrying a box moments before he is shot. Detective Tracy Casey must determine if the box's contents holds the key to determining motive.  Additional Minneapolis surveillance cameras capture the shooting of a young man in the Cedar-Riverside neighborhood. But detectives need the help of the Somali community to identify the shooters in the video.",
+      "airDate": "2024-08-29",
+      "seasonNumber": 26,
+      "episodeNumber": 9,
+      "stillPath": null
+    },
+    {
+      "id": 5610881,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside the Tape Special #16",
+      "overview": "A surveillance camera on a Minneapolis bus captures a shooting outside a church. The footage leaves detectives wondering if the shooter acted in self-defense. Surveillance cameras at a Minneapolis convenience store capture more than just the shooting. Footage suggests vital DNA may have been left in the store by the shooter himself. Then, surveillance footage in Atlanta shows a man carrying a box moments before he is shot, Detective Tracy Casey must determine if the box's contents holds the key to determining motive. Additional Minneapolis surveillance cameras capture the shooting of a young man in the Cedar-Riverside neighborhood. But detectives need the help of the Somali community to identify the shooters in the video.",
+      "airDate": "2024-08-29",
+      "seasonNumber": 24,
+      "episodeNumber": 9,
+      "stillPath": "/5tY7yKti0doivtaXXhvmlBYPofJ.jpg"
+    },
+    {
+      "id": 5551543,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Debra Taylor",
+      "overview": "When family man and National Guardsman Roy Taylor is shot to death in his home in 1988, his widow, Debra, is quick to point the blame around town. As Little Rock, AR, detectives tail the suspects, a torrid affair and deadly secret come to light, revealing a manipulative wolf in sheep's clothing.",
+      "airDate": "2024-08-25",
+      "seasonNumber": 34,
+      "episodeNumber": 8,
+      "stillPath": "/j7bdWBKGq51OosTaQewqsAWNLMy.jpg"
+    },
+    {
+      "id": 6325851,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside The Tape Special #15",
+      "overview": "When a home invasion leaves a father-to-be shot dead, Detective Dianna Baumann's only hope for answers is a suspect fighting for his own life.  In Atlanta, two brothers are found shot dead in their home leaving Detective Scott DeMeester with little to go on, when his only potential suspect suddenly wants to talk.  When a man is shot dead inside a boarding home, Atlanta detectives try to drum up a lead from a roommate involved with the suspect.  The life of a 19-year-old woman hangs in the balance after walking in on an intruder in her home. When Tulsa detectives find the suspect, they realize it's not the first time they've stood face-to-face.",
+      "airDate": "2024-08-22",
+      "seasonNumber": 26,
+      "episodeNumber": 8,
+      "stillPath": null
+    },
+    {
+      "id": 5610879,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Inside the Tape Special #15",
+      "overview": "When a home invasion leaves a father-to-be shot dead, Detective Dianna Baumann's only hope for answers is a suspect fighting for his own life. In Atlanta, two brothers are found shot dead in their home leaving Detective Scott DeMeester with little to go on, when his only potential suspect suddenly wants to talk. When a man is shot dead inside a boarding home, Atlanta detectives try to drum up a lead from a roommate involved with the suspect. The life of a 19-year-old woman hangs in the balance after walking in on an intruder in her home. When Tulsa detectives find the suspect, they realize it's not the first time they've stood face-to-face.",
+      "airDate": "2024-08-22",
+      "seasonNumber": 24,
+      "episodeNumber": 8,
+      "stillPath": "/293KeKIzcwGrkutNAOLa2DIYvyo.jpg"
+    },
+    {
+      "id": 5519280,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Viktoriya Nasyrova",
+      "overview": "In this two-hour special, 35-year-old Olga Tsvyk, an immigrant pursuing her dreams, is found drugged in her home. Across New York, another person with similar symptoms comes forward, and authorities connect the cases, exposing an international fugitive with a ruthless pattern.",
+      "airDate": "2024-08-18",
+      "seasonNumber": 34,
+      "episodeNumber": 7,
+      "stillPath": null
+    },
+    {
+      "id": 5519279,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Sasha Skare",
+      "overview": "The 2021 fatal shooting of a well-known San Antonio rapper, 34-year-old Air Force veteran Martell DeRouen aka Kardone, puts the community on high alert; as they piece together the evidence, witnesses point the finger at a scorned lover fueled by rage.",
+      "airDate": "2024-08-11",
+      "seasonNumber": 34,
+      "episodeNumber": 6,
+      "stillPath": null
+    },
+    {
+      "id": 5519278,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Barbara Pasa",
+      "overview": "In May 2018, firefighters are called to the scene of a Centerville, IA, family's home to find the residence up in flames; as the smoke clears, they discover the charred remains of Tim Pasa and question whether the fire and his death were truly accidental.",
+      "airDate": "2024-08-04",
+      "seasonNumber": 34,
+      "episodeNumber": 5,
+      "stillPath": "/pPSnRRuv59aRyI40m1Ehfp1ti.jpg"
+    },
+    {
+      "id": 5490411,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Sydney Powell",
+      "overview": "A beloved health care worker is viciously attacked in her home with only her daughter as a witness. Police must follow the disturbing clues at the scene to discover the truth behind this heinous attack that leaves a family shattered.",
+      "airDate": "2024-07-28",
+      "seasonNumber": 34,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 5490367,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Olga Vasquez-Collazos",
+      "overview": "A Peruvian healthcare worker gets a second chance at love until he’s found murdered in his Westminster, CA, apartment. Investigators set out to discover whether his new bride is a grieving widow or a femme fatale.",
+      "airDate": "2024-07-21",
+      "seasonNumber": 34,
+      "episodeNumber": 3,
+      "stillPath": "/pYaIvQiMPTKN4eHdhcLBFG7wsWX.jpg"
+    },
+    {
+      "id": 6325850,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Death by Username",
+      "overview": "Mobile homicide follows a trail of social media messages to track down the killers of a 17-year-old.",
+      "airDate": "2024-07-18",
+      "seasonNumber": 26,
+      "episodeNumber": 7,
+      "stillPath": null
+    },
+    {
+      "id": 5486361,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Death by Username",
+      "overview": "Mobile homicide follows a trail of social media messages to track down the killers of a 17-year-old.",
+      "airDate": "2024-07-18",
+      "seasonNumber": 24,
+      "episodeNumber": 7,
+      "stillPath": "/gYAjaayclZA3RktzvPY7QMobhR2.jpg"
+    },
+    {
+      "id": 5479556,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Kelsey Turner",
+      "overview": "Beloved child psychiatrist Tom Burchard is found murdered and left in the trunk of a car in the Nevada desert. As the strange case unfolds, police discover he may have been the victim of a model aiming to maintain her lavish lifestyle.",
+      "airDate": "2024-07-14",
+      "seasonNumber": 34,
+      "episodeNumber": 2,
+      "stillPath": "/kWMAOmPYKUVkeVWppKkflJy9e9i.jpg"
+    },
+    {
+      "id": 6325849,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Below The Surface",
+      "overview": "After a 69-year-old woman is found dead in her bathtub, a suspect leads Tulsa detectives on a high-speed chase that ends tragically.",
+      "airDate": "2024-07-11",
+      "seasonNumber": 26,
+      "episodeNumber": 6,
+      "stillPath": null
+    },
+    {
+      "id": 5473663,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Below the Surface",
+      "overview": "After a 69-year-old woman is found dead in her bathtub, a suspect leads Tulsa detectives on a high-speed chase that ends tragically.",
+      "airDate": "2024-07-11",
+      "seasonNumber": 24,
+      "episodeNumber": 6,
+      "stillPath": "/fQHqYh1eNeuFndvYlJoRQHeYNp5.jpg"
+    },
+    {
+      "id": 5479555,
+      "showTmdbId": 10184,
+      "showName": "Snapped",
+      "name": "Nicole Thornhill",
+      "overview": "A Stuart, FL, woman’s desperate search for her missing husband takes a dark turn when his mutilated body is found in a landfill. As detectives dig into his home life, the victim’s family becomes a crucial link to uncovering the grisly truth.",
+      "airDate": "2024-07-07",
+      "seasonNumber": 34,
+      "episodeNumber": 1,
+      "stillPath": "/hDsGFkwY4FdKxQllsSsnfdy5hpa.jpg"
+    },
+    {
+      "id": 6325848,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Bad Business",
+      "overview": "When a young father from Atlanta is shot dead on a Mobile street, detectives discover that his talent for computers may have gotten him in over his head.",
+      "airDate": "2024-06-27",
+      "seasonNumber": 26,
+      "episodeNumber": 5,
+      "stillPath": null
+    },
+    {
+      "id": 5461025,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Bad Business",
+      "overview": "When a young father from Atlanta is shot dead on a Mobile street, detectives discover that his talent for computers may have gotten him in over his head.",
+      "airDate": "2024-06-27",
+      "seasonNumber": 24,
+      "episodeNumber": 5,
+      "stillPath": "/urvpYt0XjC7WKzAgidL6ddvM0ks.jpg"
+    },
+    {
+      "id": 6324353,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Hunted on the Highway",
+      "overview": "In Mobile, two men are killed after their car is sprayed with bullets on the highway, leading detectives across the country in search of answers.",
+      "airDate": "2024-06-20",
+      "seasonNumber": 26,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 5461024,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Hunted on the Highway",
+      "overview": "In Mobile, two men are killed after their car is sprayed with bullets on the highway, Ieading detectives across the country in search of answers.",
+      "airDate": "2024-06-20",
+      "seasonNumber": 24,
+      "episodeNumber": 4,
+      "stillPath": null
+    },
+    {
+      "id": 6324351,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Sudden Impact",
+      "overview": "In Tulsa, a late-night meeting spins out of control, leaving a young father dead, his friend critically injured, and their SUV crashed through a child's bedroom.",
+      "airDate": "2024-06-13",
+      "seasonNumber": 26,
+      "episodeNumber": 3,
+      "stillPath": null
+    },
+    {
+      "id": 5461023,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Sudden Impact",
+      "overview": "In Tulsa, a late-night meeting spins out of control, leaving a young father dead, his friend critically injured, and their SUV crashed through a child's bedroom.",
+      "airDate": "2024-06-13",
+      "seasonNumber": 24,
+      "episodeNumber": 3,
+      "stillPath": "/1lgjRTkdnTpfmm0O11tboxTzoQn.jpg"
+    },
+    {
+      "id": 6324348,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Complex Terror",
+      "overview": "A deadly home invasion sparks a manhunt for a stranger terrorizing a Tulsa housing complex.",
+      "airDate": "2024-06-06",
+      "seasonNumber": 26,
+      "episodeNumber": 2,
+      "stillPath": null
+    },
+    {
+      "id": 5394616,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Complex Terror",
+      "overview": "A deadly home invasion sparks a manhunt for a stranger terrorizing a Tulsa housing complex.",
+      "airDate": "2024-06-06",
+      "seasonNumber": 24,
+      "episodeNumber": 2,
+      "stillPath": "/6hSmks4P6KxYk7kERFIItSPYA1w.jpg"
+    },
+    {
+      "id": 6324347,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Murder at The Uptown",
+      "overview": "In a crowded Tulsa bar, surveillance video captures the owner being gunned down as he tries to break up a fight between two dancers.",
+      "airDate": "2024-05-30",
+      "seasonNumber": 26,
+      "episodeNumber": 1,
+      "stillPath": null
+    },
+    {
+      "id": 5394615,
+      "showTmdbId": 5146,
+      "showName": "The First 48",
+      "name": "Murder at The Uptown",
+      "overview": "In a crowded Tulsa bar, surveillance video captures the owner being gunned down as he tries to break up a fight between two dancers.",
+      "airDate": "2024-05-30",
+      "seasonNumber": 24,
+      "episodeNumber": 1,
+      "stillPath": "/uP2ZJVy0BZ1B0QsWXhNUMlEv6eT.jpg"
     }
   ]
 }

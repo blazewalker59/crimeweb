@@ -16,6 +16,12 @@ if (!API_KEY) {
 const CRIME_SHOWS = [
   { name: 'Dateline NBC', tmdbId: 78 },
   { name: '20/20', tmdbId: 2035 },
+  { name: '48 Hours', tmdbId: 3719 },
+  { name: 'Forensic Files', tmdbId: 11105 },
+  { name: 'Snapped', tmdbId: 10184 },
+  { name: 'The First 48', tmdbId: 5146 },
+  { name: 'Cold Case Files', tmdbId: 12258 },
+  { name: 'American Greed', tmdbId: 21572 },
 ]
 
 // How many years of data to fetch

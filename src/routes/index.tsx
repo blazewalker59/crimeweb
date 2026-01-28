@@ -13,7 +13,9 @@ import { useEpisodes, isViewed } from '@/lib/episodes'
 import { useInfiniteScroll } from '@/lib/hooks'
 import { formatDate, formatEpisodeNumber, formatRuntime } from '@/lib/utils'
 import { getDeniedMatchIds } from '@/lib/matching'
-import { Calendar, Clock, Tv, Loader2, Eye } from 'lucide-react'
+import { Calendar, Clock, Tv, Loader2, Eye, EyeOff } from 'lucide-react'
+
+type ViewFilter = 'all' | 'unviewed' | 'viewed'
 
 export const Route = createFileRoute('/')({
   loader: async () => {
@@ -38,6 +40,32 @@ function HomePage() {
     loadMore,
     saveScrollPosition,
   } = useEpisodes()
+
+  // View filter state - persisted in localStorage
+  const [viewFilter, setViewFilter] = useState<ViewFilter>('all')
+  // Counter to force re-evaluation of isViewed when returning to page
+  const [, setRefreshKey] = useState(0)
+
+  // Load filter preference on mount
+  useEffect(() => {
+    const savedFilter = localStorage.getItem('crimeweb_view_filter') as ViewFilter
+    if (savedFilter && ['all', 'unviewed', 'viewed'].includes(savedFilter)) {
+      setViewFilter(savedFilter)
+    }
+  }, [])
+
+  // Save filter preference when it changes
+  const handleFilterChange = (filter: ViewFilter) => {
+    setViewFilter(filter)
+    localStorage.setItem('crimeweb_view_filter', filter)
+  }
+
+  // Force refresh when page regains focus (to pick up viewed changes from detail page)
+  useEffect(() => {
+    const handleFocus = () => setRefreshKey((k) => k + 1)
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [])
 
   // Initialize context with loader data (only if not already initialized with data)
   useEffect(() => {
@@ -124,6 +152,8 @@ function HomePage() {
           hasMore={activeHasMore}
           isLoading={activeLoading}
           onLoadMore={() => loadMore(activeShow.tmdbId)}
+          viewFilter={viewFilter}
+          onFilterChange={handleFilterChange}
         />
       </div>
     </div>
@@ -172,41 +202,115 @@ interface ShowContentProps {
   hasMore: boolean
   isLoading: boolean
   onLoadMore: () => void
+  viewFilter: ViewFilter
+  onFilterChange: (filter: ViewFilter) => void
 }
 
-function ShowContent({ episodes, hasMore, isLoading, onLoadMore }: ShowContentProps) {
+function ShowContent({ episodes, hasMore, isLoading, onLoadMore, viewFilter, onFilterChange }: ShowContentProps) {
+  // Only enable infinite scroll when showing all episodes
+  // (filtering would cause endless loading as new unfiltered results keep triggering loads)
+  const shouldLoadMore = viewFilter === 'all' && hasMore
+  
   // Infinite scroll - loads more when sentinel becomes visible
   const sentinelRef = useInfiniteScroll({
     onLoadMore,
-    hasMore,
+    hasMore: shouldLoadMore,
     isLoading,
     rootMargin: '400px', // Start loading 400px before reaching the bottom
   })
 
+  // Filter episodes based on view filter (using isViewed for transitive checks)
+  const filteredEpisodes = episodes.filter((episode) => {
+    if (viewFilter === 'all') return true
+    const episodeViewed = isViewed(episode.id)
+    return viewFilter === 'viewed' ? episodeViewed : !episodeViewed
+  })
+
   return (
     <div>
-      {/* Episode count */}
-      <p className="text-slate-400 text-sm mb-4">
-        {episodes.length} episode{episodes.length !== 1 ? 's' : ''} loaded
-      </p>
+      {/* Filter controls */}
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-slate-400 text-sm">
+          {filteredEpisodes.length} of {episodes.length} episode{episodes.length !== 1 ? 's' : ''}
+          {viewFilter !== 'all' && ` (${viewFilter})`}
+        </p>
+        
+        {/* View filter toggle */}
+        <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
+          <button
+            onClick={() => onFilterChange('all')}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+              viewFilter === 'all'
+                ? 'bg-slate-700 text-white'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => onFilterChange('unviewed')}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
+              viewFilter === 'unviewed'
+                ? 'bg-slate-700 text-white'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <EyeOff className="h-3 w-3" />
+            Unviewed
+          </button>
+          <button
+            onClick={() => onFilterChange('viewed')}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
+              viewFilter === 'viewed'
+                ? 'bg-green-600 text-white'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Eye className="h-3 w-3" />
+            Viewed
+          </button>
+        </div>
+      </div>
 
       {/* Episodes Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {episodes.map((episode) => (
-          <EpisodeCard key={episode.id} episode={episode} />
-        ))}
-      </div>
+      {filteredEpisodes.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {filteredEpisodes.map((episode) => (
+            <EpisodeCard key={episode.id} episode={episode} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <div className="text-slate-500 mb-2">
+            {viewFilter === 'viewed' ? (
+              <Eye className="h-8 w-8 mx-auto" />
+            ) : (
+              <EyeOff className="h-8 w-8 mx-auto" />
+            )}
+          </div>
+          <p className="text-slate-400">
+            {viewFilter === 'viewed' 
+              ? "No episodes marked as viewed yet"
+              : "All episodes have been viewed"}
+          </p>
+        </div>
+      )}
 
       {/* Infinite scroll sentinel & loading indicator */}
       <div ref={sentinelRef} className="mt-8 flex justify-center min-h-[60px]">
-        {isLoading && (
+        {isLoading && viewFilter === 'all' && (
           <div className="flex items-center gap-2 text-slate-400">
             <Loader2 className="h-5 w-5 animate-spin" />
             <span>Loading more episodes...</span>
           </div>
         )}
-        {!hasMore && episodes.length > 0 && (
+        {viewFilter === 'all' && !hasMore && episodes.length > 0 && (
           <p className="text-slate-500 text-sm">No more episodes to load</p>
+        )}
+        {viewFilter !== 'all' && filteredEpisodes.length > 0 && (
+          <p className="text-slate-500 text-sm">
+            Showing {filteredEpisodes.length} {viewFilter} episode{filteredEpisodes.length !== 1 ? 's' : ''} from {episodes.length} loaded
+          </p>
         )}
       </div>
     </div>
