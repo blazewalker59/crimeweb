@@ -1,17 +1,18 @@
 /**
  * Episode Detail Route
- * Displays episode information from TMDb
+ * Displays episode information from TMDb with related episodes
  */
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { TMDbClient } from '@/lib/tmdb'
-import { getEpisodeById } from '@/lib/tmdb/server'
+import { getEpisodeById, getRelatedEpisodes } from '@/lib/tmdb/server'
 import { Badge, Loading } from '@/components/common'
 import {
   formatDate,
   formatEpisodeNumber,
   formatRuntime,
 } from '@/lib/utils/formatters'
-import { ArrowLeft, Calendar, Clock, Tv } from 'lucide-react'
+import { ArrowLeft, Calendar, Clock, Tv, Link2 } from 'lucide-react'
+import type { MatchResult } from '@/lib/matching'
 
 export const Route = createFileRoute('/episodes/$showId/$episodeId')({
   loader: async ({ params }) => {
@@ -23,7 +24,18 @@ export const Route = createFileRoute('/episodes/$showId/$episodeId')({
     }
     
     const episode = await getEpisodeById({ data: { showId, episodeId } })
-    return { episode }
+    
+    // Fetch related episodes in parallel
+    const relatedEpisodes = await getRelatedEpisodes({
+      data: {
+        episodeId,
+        showId,
+        name: episode.name,
+        overview: episode.overview,
+      },
+    })
+    
+    return { episode, relatedEpisodes }
   },
   pendingComponent: () => <Loading message="Loading episode..." />,
   errorComponent: EpisodeError,
@@ -48,7 +60,7 @@ function EpisodeError() {
 }
 
 function EpisodeDetailPage() {
-  const { episode } = Route.useLoaderData()
+  const { episode, relatedEpisodes } = Route.useLoaderData()
 
   const stillUrl = TMDbClient.getStillUrl(episode.stillPath, 'original')
 
@@ -123,6 +135,92 @@ function EpisodeDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Related Episodes */}
+      {relatedEpisodes.length > 0 && (
+        <div className="mt-8">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
+            <Link2 className="h-5 w-5 text-red-500" />
+            Related Episodes
+          </h2>
+          <p className="text-slate-400 text-sm mb-4">
+            Other episodes that may cover the same case or story
+          </p>
+          <div className="space-y-3">
+            {relatedEpisodes.map((related) => (
+              <RelatedEpisodeCard key={related.episodeId} episode={related} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
+  )
+}
+
+interface RelatedEpisodeCardProps {
+  episode: MatchResult
+}
+
+function RelatedEpisodeCard({ episode }: RelatedEpisodeCardProps) {
+  const stillUrl = TMDbClient.getStillUrl(episode.stillPath, 'w185')
+  const matchPercent = Math.round(episode.score * 100)
+
+  return (
+    <Link
+      to="/episodes/$showId/$episodeId"
+      params={{
+        showId: String(episode.showTmdbId),
+        episodeId: String(episode.episodeId),
+      }}
+      className="flex gap-4 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-red-500/50 transition-colors p-3 group"
+    >
+      {/* Thumbnail */}
+      <div className="flex-shrink-0 w-24 h-16 bg-slate-700 rounded overflow-hidden">
+        {stillUrl ? (
+          <img
+            src={stillUrl}
+            alt={episode.name}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">
+            No Image
+          </div>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <p className="text-xs text-slate-500 mb-0.5">
+              {episode.showName} &middot;{' '}
+              {formatEpisodeNumber(episode.seasonNumber, episode.episodeNumber)}
+            </p>
+            <h3 className="font-medium text-white group-hover:text-red-400 transition-colors line-clamp-1">
+              {episode.name}
+            </h3>
+          </div>
+          <div className="flex-shrink-0 text-right">
+            <span className="text-xs font-medium text-amber-400">
+              {matchPercent}% match
+            </span>
+          </div>
+        </div>
+        
+        {/* Match reason and date */}
+        <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
+          {episode.matchReason && (
+            <span className="bg-slate-700/50 px-1.5 py-0.5 rounded">
+              {episode.matchReason}
+            </span>
+          )}
+          {episode.airDate && (
+            <span>{formatDate(episode.airDate)}</span>
+          )}
+        </div>
+      </div>
+    </Link>
   )
 }
