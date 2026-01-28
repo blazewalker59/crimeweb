@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { useEffect } from 'react'
 
 import { AuthProvider } from '@/components/auth'
 import { EpisodeProvider } from '@/lib/episodes'
@@ -14,6 +15,17 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
 import appCss from '../styles.css?url'
+
+// Register service worker for PWA
+function useServiceWorker() {
+  useEffect(() => {
+    if ('serviceWorker' in navigator && import.meta.env.PROD) {
+      navigator.serviceWorker.register('/sw.js').catch((error) => {
+        console.warn('Service worker registration failed:', error)
+      })
+    }
+  }, [])
+}
 
 function NotFoundComponent() {
   return (
@@ -41,7 +53,7 @@ export const Route = createRootRoute({
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        content: 'width=device-width, initial-scale=1, viewport-fit=cover',
       },
       {
         title: 'CrimeWeb - Latest True Crime Episodes',
@@ -50,6 +62,27 @@ export const Route = createRootRoute({
         name: 'description',
         content:
           'Latest episodes from Dateline, 20/20, 48 Hours, Forensic Files and more true crime shows.',
+      },
+      // PWA meta tags
+      {
+        name: 'theme-color',
+        content: '#0f172a',
+      },
+      {
+        name: 'apple-mobile-web-app-capable',
+        content: 'yes',
+      },
+      {
+        name: 'apple-mobile-web-app-status-bar-style',
+        content: 'black-translucent',
+      },
+      {
+        name: 'apple-mobile-web-app-title',
+        content: 'CrimeWeb',
+      },
+      {
+        name: 'mobile-web-app-capable',
+        content: 'yes',
       },
     ],
     links: [
@@ -61,6 +94,14 @@ export const Route = createRootRoute({
         rel: 'icon',
         type: 'image/svg+xml',
         href: '/favicon.svg',
+      },
+      {
+        rel: 'manifest',
+        href: '/manifest.json',
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: '/icon-192.svg',
       },
     ],
   }),
@@ -78,6 +119,9 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // Register service worker for PWA support
+  useServiceWorker()
+
   return (
     <html lang="en" className="dark">
       <head>
