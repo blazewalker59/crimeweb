@@ -53,6 +53,7 @@ export interface EpisodeData {
   episodeNumber: number
   runtime: number | null
   relatedCount?: number // Number of related episodes found
+  relatedShows?: string[] // Names of shows with related episodes (for cross-show indicator)
 }
 
 /**
@@ -90,8 +91,9 @@ export const getLatestEpisodes = createServerFn({ method: 'GET' }).handler(
           .slice(0, 10)
 
         const episodes: EpisodeData[] = sortedEpisodes.map((ep) => {
-          // Calculate related episodes count
+          // Calculate related episodes count and which shows they're from
           let relatedCount = 0
+          let relatedShows: string[] = []
           if (episodeDatabase?.episodes) {
             const sourceEp: Episode = {
               id: ep.id,
@@ -110,9 +112,12 @@ export const getLatestEpisodes = createServerFn({ method: 'GET' }).handler(
               excludeSameShow: false,
             })
             relatedCount = related.length
-            if (relatedCount > 0) {
-              console.log('[TMDb Server] Found', relatedCount, 'related for:', ep.name)
-            }
+            // Get unique show names from related episodes (excluding current show)
+            relatedShows = [...new Set(
+              related
+                .filter(r => r.showTmdbId !== show.tmdbId)
+                .map(r => r.showName)
+            )]
           }
 
           return {
@@ -127,6 +132,7 @@ export const getLatestEpisodes = createServerFn({ method: 'GET' }).handler(
             episodeNumber: ep.episode_number,
             runtime: ep.runtime,
             relatedCount,
+            relatedShows,
           }
         })
 
@@ -173,13 +179,15 @@ export const getMoreEpisodes = createServerFn({ method: 'GET' })
       showName: string
     }> = []
 
-    // Get the latest season number
-    const latestSeasonNumber = showDetails.seasons
+    // Get actual season numbers from the seasons array (sorted newest first)
+    // This handles shows with sparse/non-consecutive season numbers like 20/20
+    const seasonNumbers = showDetails.seasons
       ?.filter((s) => s.season_number > 0)
-      .reduce((max, s) => Math.max(max, s.season_number), 0) ?? 0
+      .map((s) => s.season_number)
+      .sort((a, b) => b - a) ?? []
 
     // Fetch seasons from newest to oldest until we have enough episodes
-    for (let seasonNum = latestSeasonNumber; seasonNum >= 1; seasonNum--) {
+    for (const seasonNum of seasonNumbers) {
       try {
         const seasonDetails = await tmdb.getSeasonDetails(data.showId, seasonNum)
         
@@ -226,6 +234,7 @@ export const getMoreEpisodes = createServerFn({ method: 'GET' })
     // Map to EpisodeData with related counts
     const episodes: EpisodeData[] = slicedEpisodes.map(({ episode, showName }) => {
       let relatedCount = 0
+      let relatedShows: string[] = []
       if (episodeDatabase?.episodes) {
         const sourceEp: Episode = {
           id: episode.id,
@@ -244,6 +253,12 @@ export const getMoreEpisodes = createServerFn({ method: 'GET' })
           excludeSameShow: false,
         })
         relatedCount = related.length
+        // Get unique show names from related episodes (excluding current show)
+        relatedShows = [...new Set(
+          related
+            .filter(r => r.showTmdbId !== data.showId)
+            .map(r => r.showName)
+        )]
       }
 
       return {
@@ -258,6 +273,7 @@ export const getMoreEpisodes = createServerFn({ method: 'GET' })
         episodeNumber: episode.episode_number,
         runtime: episode.runtime,
         relatedCount,
+        relatedShows,
       }
     })
 
@@ -312,12 +328,14 @@ export const getEpisodeById = createServerFn({ method: 'GET' })
 
     const showDetails = await tmdb.getShowDetails(data.showId)
 
-    // Search through seasons for this episode (start from latest)
-    for (
-      let seasonNum = showDetails.number_of_seasons;
-      seasonNum >= 1;
-      seasonNum--
-    ) {
+    // Get all season numbers from the seasons array (more reliable than number_of_seasons)
+    const seasonNumbers = showDetails.seasons
+      ?.filter((s) => s.season_number > 0)
+      .map((s) => s.season_number)
+      .sort((a, b) => b - a) ?? [] // Sort descending to check newest first
+
+    // Search through seasons for this episode
+    for (const seasonNum of seasonNumbers) {
       try {
         const seasonDetails = await tmdb.getSeasonDetails(data.showId, seasonNum)
         const episode = seasonDetails.episodes.find(

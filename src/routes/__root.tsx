@@ -9,6 +9,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import { AuthProvider } from '@/components/auth'
+import { EpisodeProvider } from '@/lib/episodes'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
@@ -84,9 +85,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="min-h-screen bg-slate-900 text-white flex flex-col">
         <AuthProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <EpisodeProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </EpisodeProvider>
         </AuthProvider>
 
         {/* Dev tools only in development */}

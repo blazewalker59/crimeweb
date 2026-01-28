@@ -4,13 +4,14 @@
  * Mobile: Tabbed interface to switch between shows
  * Desktop: Same tabbed interface for consistency
  */
-import { useState, useCallback } from 'react'
+import { useEffect } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Loading } from '@/components/common'
 import { TMDbClient } from '@/lib/tmdb'
-import { getLatestEpisodes, getMoreEpisodes, type ShowWithEpisodes, type EpisodeData } from '@/lib/tmdb/server'
+import { getLatestEpisodes, type ShowWithEpisodes, type EpisodeData } from '@/lib/tmdb/server'
+import { useEpisodes } from '@/lib/episodes'
 import { formatDate, formatEpisodeNumber, formatRuntime } from '@/lib/utils'
-import { Calendar, Clock, Tv, Link2, Loader2 } from 'lucide-react'
+import { Calendar, Clock, Tv, Loader2 } from 'lucide-react'
 
 export const Route = createFileRoute('/')({
   loader: async () => {
@@ -22,61 +23,41 @@ export const Route = createFileRoute('/')({
 })
 
 function HomePage() {
-  const { shows: initialShows } = Route.useLoaderData()
-  const [activeShowIndex, setActiveShowIndex] = useState(0)
-  
-  // Track episodes and loading state per show
-  const [showEpisodes, setShowEpisodes] = useState<Record<number, EpisodeData[]>>(() => {
-    const initial: Record<number, EpisodeData[]> = {}
-    for (const show of initialShows) {
-      initial[show.tmdbId] = show.episodes
-    }
-    return initial
-  })
-  
-  const [hasMore, setHasMore] = useState<Record<number, boolean>>(() => {
-    const initial: Record<number, boolean> = {}
-    for (const show of initialShows) {
-      // Assume there's more if we got the full initial batch (10)
-      initial[show.tmdbId] = show.episodes.length >= 10
-    }
-    return initial
-  })
-  
-  const [loadingMore, setLoadingMore] = useState<Record<number, boolean>>({})
+  const { shows } = Route.useLoaderData()
+  const {
+    initialShows,
+    showEpisodes,
+    hasMore,
+    loadingMore,
+    activeShowIndex,
+    initialized,
+    initialize,
+    setActiveShowIndex,
+    loadMore,
+    saveScrollPosition,
+  } = useEpisodes()
 
-  const loadMore = useCallback(async (showId: number) => {
-    if (loadingMore[showId]) return
-    
-    setLoadingMore((prev) => ({ ...prev, [showId]: true }))
-    
-    try {
-      const currentEpisodes = showEpisodes[showId] || []
-      const result = await getMoreEpisodes({
-        data: {
-          showId,
-          offset: currentEpisodes.length,
-          limit: 5,
-        },
-      })
-      
-      setShowEpisodes((prev) => ({
-        ...prev,
-        [showId]: [...(prev[showId] || []), ...result.episodes],
-      }))
-      
-      setHasMore((prev) => ({
-        ...prev,
-        [showId]: result.hasMore,
-      }))
-    } catch (error) {
-      console.error('Failed to load more episodes:', error)
-    } finally {
-      setLoadingMore((prev) => ({ ...prev, [showId]: false }))
+  // Initialize context with loader data (only if not already initialized with data)
+  useEffect(() => {
+    if (shows.length > 0) {
+      initialize(shows)
     }
-  }, [showEpisodes, loadingMore])
+  }, [shows, initialize])
 
-  if (initialShows.length === 0) {
+  // Save scroll position when leaving the page
+  useEffect(() => {
+    const handleScroll = () => {
+      saveScrollPosition(window.scrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [saveScrollPosition])
+
+  // Use context data if initialized, otherwise fall back to loader data
+  const displayShows = initialized ? initialShows : shows
+
+  if (displayShows.length === 0) {
     return (
       <div className="min-h-screen">
         <section className="bg-gradient-to-b from-slate-800 to-slate-900 py-12">
@@ -99,9 +80,9 @@ function HomePage() {
     )
   }
 
-  const activeShow = initialShows[activeShowIndex]
-  const activeEpisodes = showEpisodes[activeShow.tmdbId] || []
-  const activeHasMore = hasMore[activeShow.tmdbId] ?? false
+  const activeShow = displayShows[activeShowIndex] || displayShows[0]
+  const activeEpisodes = showEpisodes[activeShow.tmdbId] || activeShow.episodes
+  const activeHasMore = hasMore[activeShow.tmdbId] ?? activeShow.episodes.length >= 10
   const activeLoading = loadingMore[activeShow.tmdbId] ?? false
 
   return (
@@ -122,7 +103,7 @@ function HomePage() {
       <div className="sticky top-16 z-40 bg-slate-900 border-b border-slate-700">
         <div className="max-w-7xl mx-auto">
           <div className="flex overflow-x-auto scrollbar-hide">
-            {initialShows.map((show, index) => (
+            {displayShows.map((show, index) => (
               <ShowTab
                 key={show.tmdbId}
                 show={show}
@@ -236,6 +217,19 @@ interface EpisodeCardProps {
 function EpisodeCard({ episode }: EpisodeCardProps) {
   const stillUrl = TMDbClient.getStillUrl(episode.stillPath, 'w300')
   const hasRelated = (episode.relatedCount ?? 0) > 0
+  const relatedShows = episode.relatedShows ?? []
+  
+  // Build the indicator text
+  let relatedText = ''
+  if (hasRelated) {
+    if (relatedShows.length > 0) {
+      // Cross-show match - show the other show name
+      relatedText = `Also on ${relatedShows[0]}`
+    } else {
+      // Same-show match only
+      relatedText = `+${episode.relatedCount} related`
+    }
+  }
 
   return (
     <Link
@@ -266,9 +260,8 @@ function EpisodeCard({ episode }: EpisodeCardProps) {
         </div>
         {/* Related episodes indicator */}
         {hasRelated && (
-          <div className="absolute top-2 right-2 bg-amber-500/90 px-2 py-1 rounded text-xs font-medium text-black flex items-center gap-1">
-            <Link2 className="h-3 w-3" />
-            {episode.relatedCount}
+          <div className="absolute top-2 right-2 bg-amber-500 px-2 py-1 rounded text-xs font-medium text-black">
+            {relatedText}
           </div>
         )}
       </div>
