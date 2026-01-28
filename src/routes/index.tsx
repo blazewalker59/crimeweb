@@ -10,6 +10,7 @@ import { Loading } from '@/components/common'
 import { TMDbClient } from '@/lib/tmdb'
 import { getLatestEpisodes, type ShowWithEpisodes, type EpisodeData } from '@/lib/tmdb/server'
 import { useEpisodes } from '@/lib/episodes'
+import { useInfiniteScroll } from '@/lib/hooks'
 import { formatDate, formatEpisodeNumber, formatRuntime } from '@/lib/utils'
 import { Calendar, Clock, Tv, Loader2 } from 'lucide-react'
 
@@ -173,6 +174,14 @@ interface ShowContentProps {
 }
 
 function ShowContent({ episodes, hasMore, isLoading, onLoadMore }: ShowContentProps) {
+  // Infinite scroll - loads more when sentinel becomes visible
+  const sentinelRef = useInfiniteScroll({
+    onLoadMore,
+    hasMore,
+    isLoading,
+    rootMargin: '400px', // Start loading 400px before reaching the bottom
+  })
+
   return (
     <div>
       {/* Episode count */}
@@ -187,25 +196,18 @@ function ShowContent({ episodes, hasMore, isLoading, onLoadMore }: ShowContentPr
         ))}
       </div>
 
-      {/* Load More Button */}
-      {hasMore && (
-        <div className="mt-8 text-center">
-          <button
-            onClick={onLoadMore}
-            disabled={isLoading}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-800 disabled:opacity-50 border border-slate-600 hover:border-slate-500 rounded-lg text-white font-medium transition-colors"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Loading...
-              </>
-            ) : (
-              'Load More Episodes'
-            )}
-          </button>
-        </div>
-      )}
+      {/* Infinite scroll sentinel & loading indicator */}
+      <div ref={sentinelRef} className="mt-8 flex justify-center min-h-[60px]">
+        {isLoading && (
+          <div className="flex items-center gap-2 text-slate-400">
+            <Loader2 className="h-5 w-5 animate-spin" />
+            <span>Loading more episodes...</span>
+          </div>
+        )}
+        {!hasMore && episodes.length > 0 && (
+          <p className="text-slate-500 text-sm">No more episodes to load</p>
+        )}
+      </div>
     </div>
   )
 }
