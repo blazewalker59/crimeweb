@@ -4,15 +4,16 @@
  * Mobile: Tabbed interface to switch between shows
  * Desktop: Same tabbed interface for consistency
  */
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Loading } from '@/components/common'
 import { TMDbClient } from '@/lib/tmdb'
 import { getLatestEpisodes, type ShowWithEpisodes, type EpisodeData } from '@/lib/tmdb/server'
-import { useEpisodes } from '@/lib/episodes'
+import { useEpisodes, isViewed } from '@/lib/episodes'
 import { useInfiniteScroll } from '@/lib/hooks'
 import { formatDate, formatEpisodeNumber, formatRuntime } from '@/lib/utils'
-import { Calendar, Clock, Tv, Loader2 } from 'lucide-react'
+import { getDeniedMatchIds } from '@/lib/matching'
+import { Calendar, Clock, Tv, Loader2, Eye } from 'lucide-react'
 
 export const Route = createFileRoute('/')({
   loader: async () => {
@@ -218,18 +219,31 @@ interface EpisodeCardProps {
 
 function EpisodeCard({ episode }: EpisodeCardProps) {
   const stillUrl = TMDbClient.getStillUrl(episode.stillPath, 'w300')
-  const hasRelated = (episode.relatedCount ?? 0) > 0
-  const relatedShows = episode.relatedShows ?? []
   
-  // Build the indicator text
+  // Get denied match IDs to filter out from related count
+  const [deniedIds, setDeniedIds] = useState<Set<number>>(new Set())
+  const [viewed, setViewed] = useState(false)
+  
+  useEffect(() => {
+    setDeniedIds(getDeniedMatchIds(episode.id))
+    setViewed(isViewed(episode.id))
+  }, [episode.id])
+  
+  // Filter related episode IDs by removing denied ones
+  const relatedIds = episode.relatedEpisodeIds ?? []
+  const filteredRelatedIds = relatedIds.filter(id => !deniedIds.has(id))
+  const hasRelated = filteredRelatedIds.length > 0
+  
+  // Build the indicator text based on filtered count
   let relatedText = ''
   if (hasRelated) {
+    const relatedShows = episode.relatedShows ?? []
     if (relatedShows.length > 0) {
       // Cross-show match - show the other show name
       relatedText = `Also on ${relatedShows[0]}`
     } else {
       // Same-show match only
-      relatedText = `+${episode.relatedCount} related`
+      relatedText = `+${filteredRelatedIds.length} related`
     }
   }
 
@@ -240,7 +254,11 @@ function EpisodeCard({ episode }: EpisodeCardProps) {
         showId: String(episode.showTmdbId), 
         episodeId: String(episode.id) 
       }}
-      className="bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-red-500 transition-colors group"
+      className={`bg-slate-800 rounded-lg overflow-hidden border transition-colors group ${
+        viewed 
+          ? 'border-green-600/50 hover:border-green-500' 
+          : 'border-slate-700 hover:border-red-500'
+      }`}
     >
       {/* Thumbnail */}
       <div className="aspect-video bg-slate-700 relative overflow-hidden">
@@ -248,7 +266,9 @@ function EpisodeCard({ episode }: EpisodeCardProps) {
           <img
             src={stillUrl}
             alt={episode.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
+              viewed ? 'opacity-60' : ''
+            }`}
             loading="lazy"
           />
         ) : (
@@ -266,11 +286,21 @@ function EpisodeCard({ episode }: EpisodeCardProps) {
             {relatedText}
           </div>
         )}
+        {/* Viewed indicator */}
+        {viewed && (
+          <div className="absolute bottom-2 right-2 bg-green-600 p-1.5 rounded-full">
+            <Eye className="h-3 w-3 text-white" />
+          </div>
+        )}
       </div>
 
       {/* Info */}
       <div className="p-3">
-        <h3 className="font-medium text-white group-hover:text-red-400 transition-colors line-clamp-2 text-sm">
+        <h3 className={`font-medium transition-colors line-clamp-2 text-sm ${
+          viewed 
+            ? 'text-slate-400 group-hover:text-green-400' 
+            : 'text-white group-hover:text-red-400'
+        }`}>
           {episode.name}
         </h3>
 

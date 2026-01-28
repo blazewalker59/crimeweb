@@ -54,6 +54,7 @@ export interface EpisodeData {
   runtime: number | null
   relatedCount?: number // Number of related episodes found
   relatedShows?: string[] // Names of shows with related episodes (for cross-show indicator)
+  relatedEpisodeIds?: number[] // IDs of related episodes (for client-side filtering)
 }
 
 /**
@@ -94,6 +95,7 @@ export const getLatestEpisodes = createServerFn({ method: 'GET' }).handler(
           // Calculate related episodes count and which shows they're from
           let relatedCount = 0
           let relatedShows: string[] = []
+          let relatedEpisodeIds: number[] = []
           if (episodeDatabase?.episodes) {
             const sourceEp: Episode = {
               id: ep.id,
@@ -112,6 +114,7 @@ export const getLatestEpisodes = createServerFn({ method: 'GET' }).handler(
               excludeSameShow: false,
             })
             relatedCount = related.length
+            relatedEpisodeIds = related.map(r => r.episodeId)
             // Get unique show names from related episodes (excluding current show)
             relatedShows = [...new Set(
               related
@@ -133,6 +136,7 @@ export const getLatestEpisodes = createServerFn({ method: 'GET' }).handler(
             runtime: ep.runtime,
             relatedCount,
             relatedShows,
+            relatedEpisodeIds,
           }
         })
 
@@ -235,6 +239,7 @@ export const getMoreEpisodes = createServerFn({ method: 'GET' })
     const episodes: EpisodeData[] = slicedEpisodes.map(({ episode, showName }) => {
       let relatedCount = 0
       let relatedShows: string[] = []
+      let relatedEpisodeIds: number[] = []
       if (episodeDatabase?.episodes) {
         const sourceEp: Episode = {
           id: episode.id,
@@ -253,6 +258,7 @@ export const getMoreEpisodes = createServerFn({ method: 'GET' })
           excludeSameShow: false,
         })
         relatedCount = related.length
+        relatedEpisodeIds = related.map(r => r.episodeId)
         // Get unique show names from related episodes (excluding current show)
         relatedShows = [...new Set(
           related
@@ -274,6 +280,7 @@ export const getMoreEpisodes = createServerFn({ method: 'GET' })
         runtime: episode.runtime,
         relatedCount,
         relatedShows,
+        relatedEpisodeIds,
       }
     })
 
