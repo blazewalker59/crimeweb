@@ -1,5 +1,5 @@
 /**
- * Loading Spinner Component
+ * Loading Spinner Component - Crime Scene Theme
  */
 
 interface LoadingSpinnerProps {
@@ -19,7 +19,7 @@ export function LoadingSpinner({
 }: LoadingSpinnerProps) {
   return (
     <div
-      className={`animate-spin rounded-full border-2 border-slate-600 border-t-red-500 ${sizeStyles[size]} ${className}`}
+      className={`animate-spin rounded-full border-2 border-crime-elevated border-t-blood ${sizeStyles[size]} ${className}`}
       role="status"
       aria-label="Loading"
     />
@@ -48,7 +48,7 @@ export function Loading({ message }: LoadingProps) {
   return (
     <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4">
       <LoadingSpinner size="lg" />
-      {message && <p className="text-slate-400">{message}</p>}
+      {message && <p className="text-chalk-muted">{message}</p>}
     </div>
   )
 }

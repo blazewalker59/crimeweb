@@ -1,42 +1,47 @@
 /**
  * Footer Component
+ * Crime scene themed footer
  */
 
 export function Footer() {
   return (
-    <footer className="bg-slate-800 border-t border-slate-700 mt-auto">
+    <footer className="bg-crime-dark border-t border-crime-elevated mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Brand */}
           <div>
-            <span className="text-red-500 text-xl font-bold">CrimeWeb</span>
-            <p className="mt-2 text-slate-400 text-sm">
+            <span className="text-blood-light text-xl font-bold tracking-tight">
+              Crime<span className="text-chalk">Web</span>
+            </span>
+            <p className="mt-2 text-chalk-dim text-sm">
               Latest episodes from your favorite true crime shows.
             </p>
           </div>
 
           {/* Data Attribution */}
           <div>
-            <h3 className="text-white font-semibold mb-3">Data Sources</h3>
-            <p className="text-slate-400 text-sm">
+            <h3 className="text-chalk font-semibold mb-3 text-sm uppercase tracking-wider">
+              Data Sources
+            </h3>
+            <p className="text-chalk-dim text-sm">
               Episode data provided by{' '}
               <a
                 href="https://www.themoviedb.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-red-400 hover:text-red-300"
+                className="text-blood-light hover:text-blood-glow transition-colors"
               >
                 TMDb
               </a>
             </p>
-            <p className="text-slate-500 text-xs mt-2">
+            <p className="text-chalk-dim/50 text-xs mt-2">
               This product uses the TMDB API but is not endorsed or certified by
               TMDB.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-slate-700 text-center text-slate-500 text-sm">
+        <div className="mt-8 pt-6 border-t border-crime-elevated text-center text-chalk-dim text-sm">
           <p>&copy; {new Date().getFullYear()} CrimeWeb</p>
         </div>
       </div>

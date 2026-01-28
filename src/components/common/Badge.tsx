@@ -1,5 +1,5 @@
 /**
- * Badge Component
+ * Badge Component - Crime Scene Theme
  */
 interface BadgeProps {
   children: React.ReactNode
@@ -8,11 +8,11 @@ interface BadgeProps {
 }
 
 const variantStyles = {
-  default: 'bg-slate-700 text-slate-300',
-  success: 'bg-green-900/50 text-green-400 border border-green-700',
-  warning: 'bg-yellow-900/50 text-yellow-400 border border-yellow-700',
-  danger: 'bg-red-900/50 text-red-400 border border-red-700',
-  info: 'bg-blue-900/50 text-blue-400 border border-blue-700',
+  default: 'bg-crime-elevated text-chalk-muted',
+  success: 'bg-green-900/50 text-green-400 border border-green-800',
+  warning: 'bg-yellow-900/50 text-tape border border-yellow-800',
+  danger: 'bg-blood-dark/50 text-blood-glow border border-blood',
+  info: 'bg-blue-900/50 text-blue-400 border border-blue-800',
 }
 
 const sizeStyles = {

@@ -1,19 +1,31 @@
 @import 'tailwindcss';
 
-/* Custom CSS variables for the crime theme */
-:root {
-  --color-primary: #dc2626;
-  --color-primary-dark: #991b1b;
-  --color-secondary: #1e293b;
-  --color-background: #0f172a;
-  --color-surface: #1e293b;
-  --color-text: #f8fafc;
-  --color-text-muted: #94a3b8;
+/* Crime Scene Theme - Dark blacks, white, blood red */
+@theme {
+  /* True black backgrounds */
+  --color-crime-black: #000000;
+  --color-crime-dark: #0a0a0a;
+  --color-crime-surface: #111111;
+  --color-crime-elevated: #1a1a1a;
+  
+  /* Blood red accents */
+  --color-blood: #b91c1c;
+  --color-blood-dark: #7f1d1d;
+  --color-blood-light: #dc2626;
+  --color-blood-glow: #ef4444;
+  
+  /* Evidence tape yellow */
+  --color-tape: #eab308;
+  
+  /* Chalk outline white */
+  --color-chalk: #ffffff;
+  --color-chalk-muted: #a3a3a3;
+  --color-chalk-dim: #525252;
 }
 
 /* Base styles */
 body {
-  @apply bg-slate-900 text-slate-100 antialiased;
+  @apply bg-crime-black text-chalk antialiased;
   font-family:
     system-ui,
     -apple-system,
@@ -24,32 +36,33 @@ body {
   margin: 0;
 }
 
-/* Focus styles */
+/* Focus styles - blood red glow */
 *:focus-visible {
-  @apply outline-2 outline-offset-2 outline-red-500;
+  @apply outline-2 outline-offset-2 outline-blood-light;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - minimal, dark */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-800;
+  background: #0a0a0a;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-600 rounded-full;
+  background: #333333;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-500;
+  background: #b91c1c;
 }
 
 code {
   font-family:
-    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 /* Hide scrollbar utility */
@@ -60,4 +73,41 @@ code {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Crime scene tape pattern for decorative borders */
+.crime-tape {
+  background: repeating-linear-gradient(
+    -45deg,
+    #eab308,
+    #eab308 10px,
+    #000000 10px,
+    #000000 20px
+  );
+}
+
+/* Blood drip effect for accents */
+.blood-gradient {
+  background: linear-gradient(180deg, #b91c1c 0%, #7f1d1d 100%);
+}
+
+/* Subtle noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* Red glow effect for hover states */
+.glow-red {
+  box-shadow: 0 0 20px rgba(185, 28, 28, 0.3);
+}
+
+/* Selection styling */
+::selection {
+  background: #b91c1c;
+  color: #ffffff;
 }

@@ -29,14 +29,14 @@ function useServiceWorker() {
 function NotFoundComponent() {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
-      <h1 className="text-6xl font-bold text-red-500 mb-4">404</h1>
-      <h2 className="text-2xl font-semibold text-white mb-2">Page Not Found</h2>
-      <p className="text-slate-400 mb-8 text-center max-w-md">
+      <h1 className="text-6xl font-bold text-blood mb-4">404</h1>
+      <h2 className="text-2xl font-semibold text-chalk mb-2">Page Not Found</h2>
+      <p className="text-chalk-muted mb-8 text-center max-w-md">
         The page you're looking for doesn't exist or has been moved.
       </p>
       <Link
         to="/"
-        className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+        className="px-6 py-3 bg-blood hover:bg-blood-light text-chalk rounded-lg transition-colors"
       >
         Go Home
       </Link>
@@ -65,7 +65,7 @@ export const Route = createRootRoute({
       // PWA meta tags
       {
         name: 'theme-color',
-        content: '#0f172a',
+        content: '#000000',
       },
       {
         name: 'apple-mobile-web-app-capable',
@@ -126,7 +126,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-screen bg-slate-900 text-white flex flex-col">
+      <body className="min-h-screen bg-crime-black text-chalk flex flex-col">
         <EpisodeProvider>
           <Header />
           <main className="flex-1">{children}</main>

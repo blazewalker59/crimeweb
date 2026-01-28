@@ -1,5 +1,5 @@
 /**
- * Pagination Component
+ * Pagination Component - Crime Scene Theme
  */
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -53,7 +53,7 @@ export function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="p-2 rounded-lg text-chalk-muted hover:text-chalk hover:bg-crime-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         aria-label="Previous page"
       >
         <ChevronLeft className="h-5 w-5" />
@@ -62,7 +62,7 @@ export function Pagination({
       {/* Page numbers */}
       {pages.map((page, index) =>
         page === 'ellipsis' ? (
-          <span key={`ellipsis-${index}`} className="px-3 py-2 text-slate-500">
+          <span key={`ellipsis-${index}`} className="px-3 py-2 text-chalk-dim">
             ...
           </span>
         ) : (
@@ -71,8 +71,8 @@ export function Pagination({
             onClick={() => onPageChange(page)}
             className={`px-3 py-2 rounded-lg font-medium transition-colors ${
               page === currentPage
-                ? 'bg-red-600 text-white'
-                : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                ? 'bg-blood text-chalk'
+                : 'text-chalk-muted hover:text-chalk hover:bg-crime-surface'
             }`}
           >
             {page}
@@ -84,7 +84,7 @@ export function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="p-2 rounded-lg text-chalk-muted hover:text-chalk hover:bg-crime-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         aria-label="Next page"
       >
         <ChevronRight className="h-5 w-5" />

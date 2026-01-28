@@ -90,20 +90,20 @@ function HomePage() {
   if (displayShows.length === 0) {
     return (
       <div className="min-h-screen">
-        <section className="bg-gradient-to-b from-slate-800 to-slate-900 py-12">
+        <section className="bg-gradient-to-b from-crime-surface to-crime-black py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-chalk mb-2">
               Latest Episodes
             </h1>
-            <p className="text-slate-400">
+            <p className="text-chalk-muted">
               Recent episodes from your favorite true crime shows
             </p>
           </div>
         </section>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <Tv className="h-12 w-12 text-slate-500 mx-auto mb-4" />
-            <p className="text-slate-400">No episodes found</p>
+            <Tv className="h-12 w-12 text-chalk-dim mx-auto mb-4" />
+            <p className="text-chalk-muted">No episodes found</p>
           </div>
         </div>
       </div>
@@ -118,19 +118,19 @@ function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Header Section */}
-      <section className="bg-gradient-to-b from-slate-800 to-slate-900 pt-8 pb-4">
+      <section className="bg-gradient-to-b from-crime-surface to-crime-black pt-8 pb-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
+          <h1 className="text-2xl md:text-3xl font-bold text-chalk mb-1">
             Latest Episodes
           </h1>
-          <p className="text-slate-400 text-sm">
+          <p className="text-chalk-dim text-sm">
             Recent episodes from your favorite true crime shows
           </p>
         </div>
       </section>
 
       {/* Show Tabs */}
-      <div className="sticky top-16 z-40 bg-slate-900 border-b border-slate-700">
+      <div className="sticky top-16 z-40 bg-crime-black border-b border-crime-elevated">
         <div className="max-w-7xl mx-auto">
           <div className="flex overflow-x-auto scrollbar-hide">
             {displayShows.map((show, index) => (
@@ -174,8 +174,8 @@ function ShowTab({ show, isActive, onClick }: ShowTabProps) {
       onClick={onClick}
       className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors flex-shrink-0 ${
         isActive
-          ? 'border-red-500 bg-slate-800/50 text-white'
-          : 'border-transparent text-slate-400 hover:text-white hover:bg-slate-800/30'
+          ? 'border-blood bg-crime-surface text-chalk'
+          : 'border-transparent text-chalk-dim hover:text-chalk hover:bg-crime-surface/50'
       }`}
     >
       {posterUrl && (
@@ -186,11 +186,11 @@ function ShowTab({ show, isActive, onClick }: ShowTabProps) {
         />
       )}
       <div className="text-left">
-        <div className={`font-medium text-sm ${isActive ? 'text-white' : ''}`}>
+        <div className={`font-medium text-sm ${isActive ? 'text-chalk' : ''}`}>
           {show.name}
         </div>
         {show.network && (
-          <div className="text-xs text-slate-500">{show.network}</div>
+          <div className="text-xs text-chalk-dim">{show.network}</div>
         )}
       </div>
     </button>
@@ -230,19 +230,19 @@ function ShowContent({ episodes, hasMore, isLoading, onLoadMore, viewFilter, onF
     <div>
       {/* Filter controls */}
       <div className="flex items-center justify-between mb-4">
-        <p className="text-slate-400 text-sm">
+        <p className="text-chalk-dim text-sm">
           {filteredEpisodes.length} of {episodes.length} episode{episodes.length !== 1 ? 's' : ''}
           {viewFilter !== 'all' && ` (${viewFilter})`}
         </p>
         
         {/* View filter toggle */}
-        <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-crime-surface rounded-lg p-1">
           <button
             onClick={() => onFilterChange('all')}
             className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
               viewFilter === 'all'
-                ? 'bg-slate-700 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-crime-elevated text-chalk'
+                : 'text-chalk-dim hover:text-chalk'
             }`}
           >
             All
@@ -251,8 +251,8 @@ function ShowContent({ episodes, hasMore, isLoading, onLoadMore, viewFilter, onF
             onClick={() => onFilterChange('unviewed')}
             className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
               viewFilter === 'unviewed'
-                ? 'bg-slate-700 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-crime-elevated text-chalk'
+                : 'text-chalk-dim hover:text-chalk'
             }`}
           >
             <EyeOff className="h-3 w-3" />
@@ -262,8 +262,8 @@ function ShowContent({ episodes, hasMore, isLoading, onLoadMore, viewFilter, onF
             onClick={() => onFilterChange('viewed')}
             className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
               viewFilter === 'viewed'
-                ? 'bg-green-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-green-700 text-chalk'
+                : 'text-chalk-dim hover:text-chalk'
             }`}
           >
             <Eye className="h-3 w-3" />
@@ -281,14 +281,14 @@ function ShowContent({ episodes, hasMore, isLoading, onLoadMore, viewFilter, onF
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="text-slate-500 mb-2">
+          <div className="text-chalk-dim mb-2">
             {viewFilter === 'viewed' ? (
               <Eye className="h-8 w-8 mx-auto" />
             ) : (
               <EyeOff className="h-8 w-8 mx-auto" />
             )}
           </div>
-          <p className="text-slate-400">
+          <p className="text-chalk-muted">
             {viewFilter === 'viewed' 
               ? "No episodes marked as viewed yet"
               : "All episodes have been viewed"}
@@ -299,16 +299,16 @@ function ShowContent({ episodes, hasMore, isLoading, onLoadMore, viewFilter, onF
       {/* Infinite scroll sentinel & loading indicator */}
       <div ref={sentinelRef} className="mt-8 flex justify-center min-h-[60px]">
         {isLoading && viewFilter === 'all' && (
-          <div className="flex items-center gap-2 text-slate-400">
+          <div className="flex items-center gap-2 text-chalk-muted">
             <Loader2 className="h-5 w-5 animate-spin" />
             <span>Loading more episodes...</span>
           </div>
         )}
         {viewFilter === 'all' && !hasMore && episodes.length > 0 && (
-          <p className="text-slate-500 text-sm">No more episodes to load</p>
+          <p className="text-chalk-dim text-sm">No more episodes to load</p>
         )}
         {viewFilter !== 'all' && filteredEpisodes.length > 0 && (
-          <p className="text-slate-500 text-sm">
+          <p className="text-chalk-dim text-sm">
             Showing {filteredEpisodes.length} {viewFilter} episode{filteredEpisodes.length !== 1 ? 's' : ''} from {episodes.length} loaded
           </p>
         )}
@@ -358,42 +358,42 @@ function EpisodeCard({ episode }: EpisodeCardProps) {
         showId: String(episode.showTmdbId), 
         episodeId: String(episode.id) 
       }}
-      className={`bg-slate-800 rounded-lg overflow-hidden border transition-colors group ${
+      className={`bg-crime-surface rounded-lg overflow-hidden border transition-all group ${
         viewed 
-          ? 'border-green-600/50 hover:border-green-500' 
-          : 'border-slate-700 hover:border-red-500'
+          ? 'border-green-700/50 hover:border-green-600' 
+          : 'border-crime-elevated hover:border-blood'
       }`}
     >
       {/* Thumbnail */}
-      <div className="aspect-video bg-slate-700 relative overflow-hidden">
+      <div className="aspect-video bg-crime-dark relative overflow-hidden">
         {stillUrl ? (
           <img
             src={stillUrl}
             alt={episode.name}
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-              viewed ? 'opacity-60' : ''
+              viewed ? 'opacity-50' : ''
             }`}
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-slate-500 text-sm">
+          <div className="w-full h-full flex items-center justify-center text-chalk-dim text-sm">
             No Image
           </div>
         )}
         {/* Episode number badge */}
-        <div className="absolute top-2 left-2 bg-black/70 px-2 py-1 rounded text-xs font-mono text-white">
+        <div className="absolute top-2 left-2 bg-crime-black/80 px-2 py-1 rounded text-xs font-mono text-chalk">
           {formatEpisodeNumber(episode.seasonNumber, episode.episodeNumber)}
         </div>
         {/* Related episodes indicator */}
         {hasRelated && (
-          <div className="absolute top-2 right-2 bg-amber-500 px-2 py-1 rounded text-xs font-medium text-black">
+          <div className="absolute top-2 right-2 bg-tape px-2 py-1 rounded text-xs font-medium text-crime-black">
             {relatedText}
           </div>
         )}
         {/* Viewed indicator */}
         {viewed && (
-          <div className="absolute bottom-2 right-2 bg-green-600 p-1.5 rounded-full">
-            <Eye className="h-3 w-3 text-white" />
+          <div className="absolute bottom-2 right-2 bg-green-700 p-1.5 rounded-full">
+            <Eye className="h-3 w-3 text-chalk" />
           </div>
         )}
       </div>
@@ -402,14 +402,14 @@ function EpisodeCard({ episode }: EpisodeCardProps) {
       <div className="p-3">
         <h3 className={`font-medium transition-colors line-clamp-2 text-sm ${
           viewed 
-            ? 'text-slate-400 group-hover:text-green-400' 
-            : 'text-white group-hover:text-red-400'
+            ? 'text-chalk-muted group-hover:text-green-400' 
+            : 'text-chalk group-hover:text-blood-light'
         }`}>
           {episode.name}
         </h3>
 
         {/* Meta */}
-        <div className="flex items-center gap-3 mt-2 text-xs text-slate-500">
+        <div className="flex items-center gap-3 mt-2 text-xs text-chalk-dim">
           {episode.airDate && (
             <span className="flex items-center gap-1">
               <Calendar className="h-3 w-3" />

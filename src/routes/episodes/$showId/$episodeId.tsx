@@ -55,11 +55,11 @@ function EpisodeError() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="text-center py-12">
-        <Tv className="h-12 w-12 text-slate-500 mx-auto mb-4" />
-        <p className="text-red-400 text-lg">Episode not found</p>
+        <Tv className="h-12 w-12 text-chalk-dim mx-auto mb-4" />
+        <p className="text-blood-light text-lg">Episode not found</p>
         <Link
           to="/"
-          className="inline-flex items-center gap-2 mt-4 text-slate-400 hover:text-white"
+          className="inline-flex items-center gap-2 mt-4 text-chalk-muted hover:text-chalk"
         >
           <ArrowLeft className="h-4 w-4" /> Back to home
         </Link>
@@ -111,13 +111,13 @@ function EpisodeDetailPage() {
       {/* Back link */}
       <Link
         to="/"
-        className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-6"
+        className="inline-flex items-center gap-2 text-chalk-muted hover:text-chalk mb-6"
       >
         <ArrowLeft className="h-4 w-4" /> Back to home
       </Link>
 
       {/* Episode Card */}
-      <div className="bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
+      <div className="bg-crime-surface rounded-lg border border-crime-elevated overflow-hidden">
         {/* Still image */}
         {stillUrl && (
           <div className="w-full">
@@ -133,20 +133,20 @@ function EpisodeDetailPage() {
         <div className="p-6">
           {/* Show info badges */}
           <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="text-red-400 font-medium">{episode.showName}</span>
+            <span className="text-blood-light font-medium">{episode.showName}</span>
             {episode.showNetwork && (
               <Badge variant="default">{episode.showNetwork}</Badge>
             )}
           </div>
 
           {/* Episode title */}
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">
+          <h1 className="text-2xl md:text-3xl font-bold text-chalk mb-3">
             {episode.name}
           </h1>
 
           {/* Episode meta */}
-          <div className="flex flex-wrap items-center gap-4 text-slate-400 mb-4">
-            <span className="font-mono text-sm bg-slate-700 px-2 py-1 rounded">
+          <div className="flex flex-wrap items-center gap-4 text-chalk-muted mb-4">
+            <span className="font-mono text-sm bg-crime-elevated px-2 py-1 rounded">
               {formatEpisodeNumber(
                 episode.seasonNumber,
                 episode.episodeNumber,
@@ -171,8 +171,8 @@ function EpisodeDetailPage() {
             onClick={handleToggleViewed}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
               viewed
-                ? 'bg-green-600 hover:bg-green-700 text-white'
-                : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
+                ? 'bg-green-700 hover:bg-green-600 text-chalk'
+                : 'bg-crime-elevated hover:bg-crime-dark text-chalk-muted'
             }`}
           >
             {viewed ? (
@@ -190,11 +190,11 @@ function EpisodeDetailPage() {
 
           {/* Overview */}
           {episode.overview && (
-            <div className="border-t border-slate-700 pt-4 mt-4">
-              <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">
+            <div className="border-t border-crime-elevated pt-4 mt-4">
+              <h2 className="text-sm font-semibold text-chalk-dim uppercase tracking-wide mb-2">
                 Overview
               </h2>
-              <p className="text-slate-300 leading-relaxed">{episode.overview}</p>
+              <p className="text-chalk-muted leading-relaxed">{episode.overview}</p>
             </div>
           )}
         </div>
@@ -203,11 +203,11 @@ function EpisodeDetailPage() {
       {/* Related Episodes */}
       {visibleRelatedEpisodes.length > 0 && (
         <div className="mt-8">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-            <Link2 className="h-5 w-5 text-red-500" />
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-chalk mb-4">
+            <Link2 className="h-5 w-5 text-blood" />
             Related Episodes
           </h2>
-          <p className="text-slate-400 text-sm mb-4">
+          <p className="text-chalk-dim text-sm mb-4">
             Other episodes that may cover the same case or story
           </p>
           <div className="space-y-3">
@@ -277,10 +277,10 @@ function RelatedEpisodeCard({
 
   return (
     <div
-      className={`flex gap-4 bg-slate-800/50 rounded-lg border transition-colors p-3 group ${
+      className={`flex gap-4 bg-crime-surface/50 rounded-lg border transition-colors p-3 group ${
         isConfirmed
-          ? 'border-green-500/50'
-          : 'border-slate-700 hover:border-red-500/50'
+          ? 'border-green-700/50'
+          : 'border-crime-elevated hover:border-blood/50'
       }`}
     >
       {/* Thumbnail - clickable link */}
@@ -290,7 +290,7 @@ function RelatedEpisodeCard({
           showId: String(episode.showTmdbId),
           episodeId: String(episode.episodeId),
         }}
-        className="flex-shrink-0 w-24 h-16 bg-slate-700 rounded overflow-hidden"
+        className="flex-shrink-0 w-24 h-16 bg-crime-dark rounded overflow-hidden"
       >
         {stillUrl ? (
           <img
@@ -300,7 +300,7 @@ function RelatedEpisodeCard({
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">
+          <div className="w-full h-full flex items-center justify-center text-chalk-dim text-xs">
             No Image
           </div>
         )}
@@ -317,11 +317,11 @@ function RelatedEpisodeCard({
             }}
             className="min-w-0"
           >
-            <p className="text-xs text-slate-500 mb-0.5">
+            <p className="text-xs text-chalk-dim mb-0.5">
               {episode.showName} &middot;{' '}
               {formatEpisodeNumber(episode.seasonNumber, episode.episodeNumber)}
             </p>
-            <h3 className="font-medium text-white group-hover:text-red-400 transition-colors line-clamp-1">
+            <h3 className="font-medium text-chalk group-hover:text-blood-light transition-colors line-clamp-1">
               {episode.name}
             </h3>
           </Link>
@@ -329,7 +329,7 @@ function RelatedEpisodeCard({
             {/* Match percentage */}
             <span
               className={`text-xs font-medium ${
-                isConfirmed ? 'text-green-400' : 'text-amber-400'
+                isConfirmed ? 'text-green-400' : 'text-tape'
               }`}
             >
               {isConfirmed ? 'Confirmed' : `${matchPercent}% match`}
@@ -341,7 +341,7 @@ function RelatedEpisodeCard({
                 <>
                   <button
                     onClick={handleConfirm}
-                    className="p-1 rounded hover:bg-green-500/20 text-slate-400 hover:text-green-400 transition-colors"
+                    className="p-1 rounded hover:bg-green-500/20 text-chalk-dim hover:text-green-400 transition-colors"
                     title="Confirm this match"
                     aria-label="Confirm match"
                   >
@@ -349,7 +349,7 @@ function RelatedEpisodeCard({
                   </button>
                   <button
                     onClick={handleDeny}
-                    className="p-1 rounded hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors"
+                    className="p-1 rounded hover:bg-blood/20 text-chalk-dim hover:text-blood-light transition-colors"
                     title="Not related"
                     aria-label="Deny match"
                   >
@@ -359,7 +359,7 @@ function RelatedEpisodeCard({
               ) : (
                 <button
                   onClick={handleReset}
-                  className="p-1 rounded hover:bg-slate-600 text-slate-400 hover:text-white transition-colors"
+                  className="p-1 rounded hover:bg-crime-elevated text-chalk-dim hover:text-chalk transition-colors"
                   title="Reset decision"
                   aria-label="Reset match decision"
                 >
@@ -371,9 +371,9 @@ function RelatedEpisodeCard({
         </div>
         
         {/* Match reason and date */}
-        <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
+        <div className="flex items-center gap-2 mt-1 text-xs text-chalk-dim">
           {episode.matchReason && (
-            <span className="bg-slate-700/50 px-1.5 py-0.5 rounded">
+            <span className="bg-crime-elevated/50 px-1.5 py-0.5 rounded">
               {episode.matchReason}
             </span>
           )}
