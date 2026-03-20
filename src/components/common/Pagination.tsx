@@ -1,50 +1,42 @@
 /**
  * Pagination Component - Crime Scene Theme
  */
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationProps {
-  currentPage: number
-  totalPages: number
-  onPageChange: (page: number) => void
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
-export function Pagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: PaginationProps) {
-  if (totalPages <= 1) return null
+export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+  if (totalPages <= 1) return null;
 
-  const pages: (number | 'ellipsis')[] = []
+  const pages: (number | "ellipsis")[] = [];
 
   // Always show first page
-  pages.push(1)
+  pages.push(1);
 
   // Add ellipsis or pages near current
   if (currentPage > 3) {
-    pages.push('ellipsis')
+    pages.push("ellipsis");
   }
 
   // Pages around current
-  for (
-    let i = Math.max(2, currentPage - 1);
-    i <= Math.min(totalPages - 1, currentPage + 1);
-    i++
-  ) {
+  for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
     if (!pages.includes(i)) {
-      pages.push(i)
+      pages.push(i);
     }
   }
 
   // Add ellipsis before last
   if (currentPage < totalPages - 2) {
-    pages.push('ellipsis')
+    pages.push("ellipsis");
   }
 
   // Always show last page
   if (totalPages > 1 && !pages.includes(totalPages)) {
-    pages.push(totalPages)
+    pages.push(totalPages);
   }
 
   return (
@@ -61,7 +53,7 @@ export function Pagination({
 
       {/* Page numbers */}
       {pages.map((page, index) =>
-        page === 'ellipsis' ? (
+        page === "ellipsis" ? (
           <span key={`ellipsis-${index}`} className="px-3 py-2 text-chalk-dim">
             ...
           </span>
@@ -71,8 +63,8 @@ export function Pagination({
             onClick={() => onPageChange(page)}
             className={`px-3 py-2 rounded-lg font-medium transition-colors ${
               page === currentPage
-                ? 'bg-blood text-chalk'
-                : 'text-chalk-muted hover:text-chalk hover:bg-crime-surface'
+                ? "bg-blood text-chalk"
+                : "text-chalk-muted hover:text-chalk hover:bg-crime-surface"
             }`}
           >
             {page}
@@ -90,5 +82,5 @@ export function Pagination({
         <ChevronRight className="h-5 w-5" />
       </button>
     </nav>
-  )
+  );
 }

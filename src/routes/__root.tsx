@@ -1,29 +1,23 @@
-import {
-  HeadContent,
-  Link,
-  Outlet,
-  Scripts,
-  createRootRoute,
-} from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
-import { useEffect } from 'react'
+import { HeadContent, Link, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import { useEffect } from "react";
 
-import { EpisodeProvider } from '@/lib/episodes'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
+import { EpisodeProvider } from "@/lib/episodes";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
-import appCss from '../styles.css?url'
+import appCss from "../styles.css?url";
 
 // Register service worker for PWA
 function useServiceWorker() {
   useEffect(() => {
-    if ('serviceWorker' in navigator && import.meta.env.PROD) {
-      navigator.serviceWorker.register('/sw.js').catch((error) => {
-        console.warn('Service worker registration failed:', error)
-      })
+    if ("serviceWorker" in navigator && import.meta.env.PROD) {
+      navigator.serviceWorker.register("/sw.js").catch((error) => {
+        console.warn("Service worker registration failed:", error);
+      });
     }
-  }, [])
+  }, []);
 }
 
 function NotFoundComponent() {
@@ -41,85 +35,85 @@ function NotFoundComponent() {
         Go Home
       </Link>
     </div>
-  )
+  );
 }
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
-        charSet: 'utf-8',
+        charSet: "utf-8",
       },
       {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1, viewport-fit=cover',
+        name: "viewport",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
       {
-        title: 'CrimeWeb - Latest True Crime Episodes',
+        title: "CrimeWeb - Latest True Crime Episodes",
       },
       {
-        name: 'description',
+        name: "description",
         content:
-          'Latest episodes from Dateline, 20/20, 48 Hours, Forensic Files and more true crime shows.',
+          "Latest episodes from Dateline, 20/20, 48 Hours, Forensic Files and more true crime shows.",
       },
       // PWA meta tags
       {
-        name: 'theme-color',
-        content: '#000000',
+        name: "theme-color",
+        content: "#000000",
       },
       {
-        name: 'apple-mobile-web-app-capable',
-        content: 'yes',
+        name: "apple-mobile-web-app-capable",
+        content: "yes",
       },
       {
-        name: 'apple-mobile-web-app-status-bar-style',
-        content: 'black-translucent',
+        name: "apple-mobile-web-app-status-bar-style",
+        content: "black-translucent",
       },
       {
-        name: 'apple-mobile-web-app-title',
-        content: 'CrimeWeb',
+        name: "apple-mobile-web-app-title",
+        content: "CrimeWeb",
       },
       {
-        name: 'mobile-web-app-capable',
-        content: 'yes',
+        name: "mobile-web-app-capable",
+        content: "yes",
       },
     ],
     links: [
       {
-        rel: 'stylesheet',
+        rel: "stylesheet",
         href: appCss,
       },
       {
-        rel: 'icon',
-        type: 'image/svg+xml',
-        href: '/favicon.svg',
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/favicon.svg",
       },
       {
-        rel: 'manifest',
-        href: '/manifest.json',
+        rel: "manifest",
+        href: "/manifest.json",
       },
       {
-        rel: 'apple-touch-icon',
-        href: '/icon-192.svg',
+        rel: "apple-touch-icon",
+        href: "/icon-192.svg",
       },
     ],
   }),
 
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-})
+});
 
 function RootComponent() {
   return (
     <RootDocument>
       <Outlet />
     </RootDocument>
-  )
+  );
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   // Register service worker for PWA support
-  useServiceWorker()
+  useServiceWorker();
 
   return (
     <html lang="en" className="dark">
@@ -137,11 +131,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         {import.meta.env.DEV && (
           <TanStackDevtools
             config={{
-              position: 'bottom-right',
+              position: "bottom-right",
             }}
             plugins={[
               {
-                name: 'Tanstack Router',
+                name: "Tanstack Router",
                 render: <TanStackRouterDevtoolsPanel />,
               },
             ]}
@@ -150,5 +144,5 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  )
+  );
 }

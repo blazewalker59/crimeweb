@@ -24,7 +24,7 @@ export function Footer() {
               Data Sources
             </h3>
             <p className="text-chalk-dim text-sm">
-              Episode data provided by{' '}
+              Episode data provided by{" "}
               <a
                 href="https://www.themoviedb.org"
                 target="_blank"
@@ -35,8 +35,7 @@ export function Footer() {
               </a>
             </p>
             <p className="text-chalk-dim/50 text-xs mt-2">
-              This product uses the TMDB API but is not endorsed or certified by
-              TMDB.
+              This product uses the TMDB API but is not endorsed or certified by TMDB.
             </p>
           </div>
         </div>
@@ -46,5 +45,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
