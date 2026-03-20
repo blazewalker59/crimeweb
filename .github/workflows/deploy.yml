@@ -11,20 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - uses: voidzero-dev/setup-vp@v1
         with:
-          version: 10
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          node-version: "22"
+          cache: true
 
       - name: Build
-        run: pnpm exec vp run build:cf
+        run: vp run build:cf
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           TMDB_API_READ_ACCESS_TOKEN: ${{ secrets.TMDB_API_READ_ACCESS_TOKEN }}
