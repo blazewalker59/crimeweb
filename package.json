@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "vp dev --port 3000",
     "build": "vp build",
-    "build:cf": "CF_PAGES=1 vp build",
     "preview": "vp preview",
-    "deploy": "vp run build:cf && wrangler pages deploy dist",
+    "deploy": "vp build && wrangler deploy",
     "test": "vp test run",
     "prepare": "vp config"
   },
@@ -20,13 +19,13 @@
     "@tanstack/react-start": "^1.132.0",
     "@tanstack/router-plugin": "^1.132.0",
     "lucide-react": "^0.561.0",
-    "nitro": "npm:nitro-nightly@latest",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "string-similarity": "^4.0.4",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.30.0",
     "@tanstack/devtools-vite": "^0.3.11",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",

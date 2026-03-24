@@ -1,12 +1,15 @@
-# Cloudflare Pages configuration for CrimeWeb
+# Cloudflare Workers configuration for CrimeWeb
 name = "crimeweb"
-compatibility_date = "2024-01-01"
-pages_build_output_dir = "dist"
+main = "@tanstack/react-start/server-entry"
+compatibility_date = "2025-01-04"
+compatibility_flags = ["nodejs_compat"]
 
 [vars]
 NODE_ENV = "production"
 
-# Development settings
+# Secrets are set via: wrangler secret put TMDB_API_KEY
+# - TMDB_API_KEY
+# - TMDB_API_READ_ACCESS_TOKEN
+
 [dev]
 port = 8788
-
