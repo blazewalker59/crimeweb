@@ -10,10 +10,3 @@ NODE_ENV = "production"
 [dev]
 port = 8788
 
-# Production environment
-[env.production]
-name = "crimeweb"
-
-# Preview environment (for PR deployments)
-[env.preview]
-name = "crimeweb-preview"
