@@ -41,6 +41,9 @@ const EpisodeContext = createContext<EpisodeContextValue | null>(null);
 export function EpisodeProvider({ children }: { children: ReactNode }) {
   const location = useLocation();
   const scrollPositionRef = useRef(0);
+  // Ref to track in-flight loads synchronously (avoids React batching issues)
+  const loadingRef = useRef<Record<number, boolean>>({});
+  const stateRef = useRef<EpisodeState | null>(null);
   const [state, setState] = useState<EpisodeState>({
     initialShows: [],
     showEpisodes: {},
@@ -49,6 +52,9 @@ export function EpisodeProvider({ children }: { children: ReactNode }) {
     activeShowIndex: 0,
     initialized: false,
   });
+
+  // Keep stateRef in sync so loadMore can read current episodes without stale closures
+  stateRef.current = state;
 
   // Restore scroll position when navigating back to home
   useEffect(() => {
@@ -104,21 +110,17 @@ export function EpisodeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const loadMore = useCallback(async (showId: number) => {
-    // Use setState updater to check/set loading state atomically (avoids stale closures)
-    let shouldFetch = false;
-    let offset = 0;
+    // Guard with ref (synchronous, not affected by React batching)
+    if (loadingRef.current[showId]) return;
+    loadingRef.current[showId] = true;
 
-    setState((prev) => {
-      if (prev.loadingMore[showId]) return prev;
-      shouldFetch = true;
-      offset = (prev.showEpisodes[showId] || []).length;
-      return {
-        ...prev,
-        loadingMore: { ...prev.loadingMore, [showId]: true },
-      };
-    });
+    const currentEpisodes = stateRef.current?.showEpisodes[showId] || [];
+    const offset = currentEpisodes.length;
 
-    if (!shouldFetch) return;
+    setState((prev) => ({
+      ...prev,
+      loadingMore: { ...prev.loadingMore, [showId]: true },
+    }));
 
     try {
       const result = await getMoreEpisodes({
@@ -140,6 +142,8 @@ export function EpisodeProvider({ children }: { children: ReactNode }) {
         ...prev,
         loadingMore: { ...prev.loadingMore, [showId]: false },
       }));
+    } finally {
+      loadingRef.current[showId] = false;
     }
   }, []);
 
