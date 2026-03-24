@@ -2,7 +2,7 @@ import { defineConfig } from "vite-plus";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import viteTsConfigPaths from "vite-tsconfig-paths";
+
 import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath, URL } from "url";
 import { nitro } from "nitro/vite";
@@ -20,6 +20,7 @@ const config = defineConfig({
     exclude: ["node_modules", ".output", "dist"],
   },
   resolve: {
+    tsconfigPaths: true,
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
       "@test": fileURLToPath(new URL("./src/__tests__/_setup", import.meta.url)),
@@ -33,11 +34,6 @@ const config = defineConfig({
       preset: process.env.CF_PAGES ? "cloudflare-pages" : "node-server",
     }),
     tailwindcss(),
-    // this is the plugin that enables path aliases
-    viteTsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
-
     tanstackStart(),
     viteReact(),
   ],

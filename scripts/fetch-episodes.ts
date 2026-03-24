@@ -1,8 +1,9 @@
-#!/usr/bin/env bun
 /**
  * Fetch historical episodes from TMDb and save to JSON
  * Run with: bun scripts/fetch-episodes.ts
  */
+
+import { writeFile } from "node:fs/promises";
 
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = process.env.TMDB_API_KEY;
@@ -163,7 +164,7 @@ async function main() {
 
   // Write to file
   const outputPath = "./data/episodes.json";
-  await Bun.write(outputPath, JSON.stringify(database, null, 2));
+  await writeFile(outputPath, JSON.stringify(database, null, 2));
 
   console.log(`\n✓ Saved ${database.episodes.length} episodes to ${outputPath}`);
   console.log(`  Shows: ${database.shows.map((s) => s.name).join(", ")}`);
