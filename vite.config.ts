@@ -2,10 +2,10 @@ import { defineConfig } from "vite-plus";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-
 import tailwindcss from "@tailwindcss/vite";
-import { fileURLToPath, URL } from "url";
-import { nitro } from "nitro/vite";
+import { cloudflare } from "@cloudflare/vite-plugin";
+
+const isTest = process.env.VITEST === "true";
 
 const config = defineConfig({
   staged: {
@@ -21,18 +21,11 @@ const config = defineConfig({
   },
   resolve: {
     tsconfigPaths: true,
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-      "@test": fileURLToPath(new URL("./src/__tests__/_setup", import.meta.url)),
-    },
   },
   plugins: [
     devtools(),
-    nitro({
-      // Use cloudflare-pages preset for production deployment
-      // Change to 'node-server' for local development if needed
-      preset: process.env.CF_PAGES ? "cloudflare-pages" : "node-server",
-    }),
+    // Cloudflare plugin conflicts with Vitest (sets resolve.external for SSR)
+    !isTest && cloudflare({ viteEnvironment: { name: "ssr" } }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
