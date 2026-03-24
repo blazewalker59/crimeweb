@@ -7,7 +7,7 @@
     "build": "vp build",
     "build:cf": "CF_PAGES=1 vp build",
     "preview": "vp preview",
-    "deploy": "vp run build:cf && wrangler pages deploy .output/public",
+    "deploy": "vp run build:cf && wrangler pages deploy dist",
     "test": "vp test run",
     "prepare": "vp config"
   },
