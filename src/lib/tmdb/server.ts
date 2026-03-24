@@ -30,50 +30,21 @@ try {
 }
 
 /**
- * Get the TMDB API key from Cloudflare runtime env or fallback to process.env
+ * Get the TMDB API key from Cloudflare worker env or fallback to process.env
  */
-function getTmdbApiKey(cloudflareEnv: Record<string, string> | undefined): string {
-  if (cloudflareEnv?.TMDB_API_KEY) {
-    console.log("[CrimeWeb] Using TMDB_API_KEY from Cloudflare env");
-    return cloudflareEnv.TMDB_API_KEY;
-  }
-  const fallback = process.env.TMDB_API_KEY ?? "";
-  console.log("[CrimeWeb] TMDB_API_KEY fallback to process.env:", fallback ? "found" : "MISSING");
-  return fallback;
-}
-
-/**
- * Get the Cloudflare runtime environment from the current request
- */
-async function getCloudflareEnv(): Promise<Record<string, string> | undefined> {
+async function getTmdbApiKey(): Promise<string> {
+  // Try Cloudflare Workers runtime bindings (secrets set via wrangler secret put)
   try {
-    console.log("[CrimeWeb] getCloudflareEnv: attempting import");
-    const mod = await import("@tanstack/react-start/server");
-    console.log("[CrimeWeb] getCloudflareEnv: import succeeded, exports:", Object.keys(mod));
-    const { getRequest } = mod;
-    const request = getRequest() as Request & {
-      runtime?: {
-        cloudflare?: {
-          env?: Record<string, string>;
-        };
-      };
-    };
-    const env = request?.runtime?.cloudflare?.env;
-    console.log(
-      "[CrimeWeb] getCloudflareEnv:",
-      JSON.stringify({
-        hasRequest: !!request,
-        hasRuntime: !!request?.runtime,
-        hasCloudflare: !!request?.runtime?.cloudflare,
-        hasEnv: !!env,
-        envKeys: env ? Object.keys(env) : [],
-      }),
-    );
-    return env;
-  } catch (error) {
-    console.error("[CrimeWeb] getCloudflareEnv CATCH:", String(error));
-    return undefined;
+    const { env } = (await import("cloudflare:workers")) as { env: Record<string, string> };
+    if (env?.TMDB_API_KEY) {
+      return env.TMDB_API_KEY;
+    }
+  } catch {
+    // Not running in Cloudflare Workers context (local dev)
   }
+
+  // Fallback to process.env (local dev with .env / .dev.vars)
+  return process.env.TMDB_API_KEY ?? "";
 }
 
 /**
@@ -119,8 +90,8 @@ export interface EpisodeData {
  */
 export const getLatestEpisodes = createServerFn({ method: "GET" }).handler(
   async (): Promise<ShowWithEpisodes[]> => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
     const showsWithEpisodes: ShowWithEpisodes[] = [];
 
     for (const show of CRIME_SHOWS) {
@@ -219,8 +190,8 @@ export const getLatestEpisodes = createServerFn({ method: "GET" }).handler(
 export const getMoreEpisodes = createServerFn({ method: "GET" })
   .inputValidator((d: { showId: number; offset: number; limit?: number }) => d)
   .handler(async ({ data }): Promise<{ episodes: EpisodeData[]; hasMore: boolean }> => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
     const limit = data.limit ?? 10;
 
     const showDetails = await tmdb.getShowDetails(data.showId);
@@ -349,8 +320,8 @@ export const getMoreEpisodes = createServerFn({ method: "GET" })
 export const getEpisode = createServerFn({ method: "GET" })
   .inputValidator((d: { showId: number; seasonNumber: number; episodeNumber: number }) => d)
   .handler(async ({ data }) => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
 
     const [showDetails, seasonDetails] = await Promise.all([
       tmdb.getShowDetails(data.showId),
@@ -384,8 +355,8 @@ export const getEpisode = createServerFn({ method: "GET" })
 export const getEpisodeById = createServerFn({ method: "GET" })
   .inputValidator((d: { episodeId: number; showId: number }) => d)
   .handler(async ({ data }) => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
 
     const showDetails = await tmdb.getShowDetails(data.showId);
 
