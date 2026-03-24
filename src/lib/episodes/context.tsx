@@ -2,7 +2,15 @@
  * Episode Context
  * Persists episode data and UI state across navigation
  */
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  type ReactNode,
+} from "react";
 import { useLocation } from "@tanstack/react-router";
 import { type ShowWithEpisodes, type EpisodeData, getMoreEpisodes } from "@/lib/tmdb/server";
 
@@ -19,8 +27,6 @@ interface EpisodeState {
   activeShowIndex: number;
   // Whether state has been initialized
   initialized: boolean;
-  // Scroll position for home page
-  scrollPosition: number;
 }
 
 interface EpisodeContextValue extends EpisodeState {
@@ -34,6 +40,10 @@ const EpisodeContext = createContext<EpisodeContextValue | null>(null);
 
 export function EpisodeProvider({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const scrollPositionRef = useRef(0);
+  // Ref to track in-flight loads synchronously (avoids React batching issues)
+  const loadingRef = useRef<Record<number, boolean>>({});
+  const stateRef = useRef<EpisodeState | null>(null);
   const [state, setState] = useState<EpisodeState>({
     initialShows: [],
     showEpisodes: {},
@@ -41,19 +51,21 @@ export function EpisodeProvider({ children }: { children: ReactNode }) {
     loadingMore: {},
     activeShowIndex: 0,
     initialized: false,
-    scrollPosition: 0,
   });
+
+  // Keep stateRef in sync so loadMore can read current episodes without stale closures
+  stateRef.current = state;
 
   // Restore scroll position when navigating back to home
   useEffect(() => {
-    if (location.pathname === "/" && state.initialized && state.scrollPosition > 0) {
+    if (location.pathname === "/" && state.initialized && scrollPositionRef.current > 0) {
       // Small delay to ensure DOM is ready
       const timeoutId = setTimeout(() => {
-        window.scrollTo(0, state.scrollPosition);
+        window.scrollTo(0, scrollPositionRef.current);
       }, 50);
       return () => clearTimeout(timeoutId);
     }
-  }, [location.pathname, state.initialized, state.scrollPosition]);
+  }, [location.pathname, state.initialized]);
 
   const initialize = useCallback((shows: ShowWithEpisodes[]) => {
     // Only initialize if not already done or if shows changed
@@ -94,50 +106,46 @@ export function EpisodeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const saveScrollPosition = useCallback((position: number) => {
-    setState((prev) => ({ ...prev, scrollPosition: position }));
+    scrollPositionRef.current = position;
   }, []);
 
-  const loadMore = useCallback(
-    async (showId: number) => {
-      if (state.loadingMore[showId]) return;
+  const loadMore = useCallback(async (showId: number) => {
+    // Guard with ref (synchronous, not affected by React batching)
+    if (loadingRef.current[showId]) return;
+    loadingRef.current[showId] = true;
+
+    const currentEpisodes = stateRef.current?.showEpisodes[showId] || [];
+    const offset = currentEpisodes.length;
+
+    setState((prev) => ({
+      ...prev,
+      loadingMore: { ...prev.loadingMore, [showId]: true },
+    }));
+
+    try {
+      const result = await getMoreEpisodes({
+        data: { showId, offset, limit: 10 },
+      });
 
       setState((prev) => ({
         ...prev,
-        loadingMore: { ...prev.loadingMore, [showId]: true },
+        showEpisodes: {
+          ...prev.showEpisodes,
+          [showId]: [...(prev.showEpisodes[showId] || []), ...result.episodes],
+        },
+        hasMore: { ...prev.hasMore, [showId]: result.hasMore },
+        loadingMore: { ...prev.loadingMore, [showId]: false },
       }));
-
-      try {
-        const currentEpisodes = state.showEpisodes[showId] || [];
-        const result = await getMoreEpisodes({
-          data: {
-            showId,
-            offset: currentEpisodes.length,
-            limit: 10,
-          },
-        });
-
-        setState((prev) => ({
-          ...prev,
-          showEpisodes: {
-            ...prev.showEpisodes,
-            [showId]: [...(prev.showEpisodes[showId] || []), ...result.episodes],
-          },
-          hasMore: {
-            ...prev.hasMore,
-            [showId]: result.hasMore,
-          },
-          loadingMore: { ...prev.loadingMore, [showId]: false },
-        }));
-      } catch (error) {
-        console.error("Failed to load more episodes:", error);
-        setState((prev) => ({
-          ...prev,
-          loadingMore: { ...prev.loadingMore, [showId]: false },
-        }));
-      }
-    },
-    [state.loadingMore, state.showEpisodes],
-  );
+    } catch (error) {
+      console.error("Failed to load more episodes:", error);
+      setState((prev) => ({
+        ...prev,
+        loadingMore: { ...prev.loadingMore, [showId]: false },
+      }));
+    } finally {
+      loadingRef.current[showId] = false;
+    }
+  }, []);
 
   return (
     <EpisodeContext.Provider

@@ -30,33 +30,21 @@ try {
 }
 
 /**
- * Get the TMDB API key from Cloudflare runtime env or fallback to process.env
+ * Get the TMDB API key from Cloudflare worker env or fallback to process.env
  */
-function getTmdbApiKey(cloudflareEnv: Record<string, string> | undefined): string {
-  if (cloudflareEnv?.TMDB_API_KEY) {
-    return cloudflareEnv.TMDB_API_KEY;
-  }
-  return process.env.TMDB_API_KEY ?? "";
-}
-
-/**
- * Get the Cloudflare runtime environment from the current request
- */
-async function getCloudflareEnv(): Promise<Record<string, string> | undefined> {
+async function getTmdbApiKey(): Promise<string> {
+  // Try Cloudflare Workers runtime bindings (secrets set via wrangler secret put)
   try {
-    const { getRequest } = await import("@tanstack/react-start/server");
-    const request = getRequest() as Request & {
-      runtime?: {
-        cloudflare?: {
-          env?: Record<string, string>;
-        };
-      };
-    };
-    return request?.runtime?.cloudflare?.env;
+    const { env } = (await import("cloudflare:workers")) as { env: Record<string, string> };
+    if (env?.TMDB_API_KEY) {
+      return env.TMDB_API_KEY;
+    }
   } catch {
-    // Not running in Cloudflare context
-    return undefined;
+    // Not running in Cloudflare Workers context (local dev)
   }
+
+  // Fallback to process.env (local dev with .env / .dev.vars)
+  return process.env.TMDB_API_KEY ?? "";
 }
 
 /**
@@ -102,8 +90,8 @@ export interface EpisodeData {
  */
 export const getLatestEpisodes = createServerFn({ method: "GET" }).handler(
   async (): Promise<ShowWithEpisodes[]> => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
     const showsWithEpisodes: ShowWithEpisodes[] = [];
 
     for (const show of CRIME_SHOWS) {
@@ -202,8 +190,8 @@ export const getLatestEpisodes = createServerFn({ method: "GET" }).handler(
 export const getMoreEpisodes = createServerFn({ method: "GET" })
   .inputValidator((d: { showId: number; offset: number; limit?: number }) => d)
   .handler(async ({ data }): Promise<{ episodes: EpisodeData[]; hasMore: boolean }> => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
     const limit = data.limit ?? 10;
 
     const showDetails = await tmdb.getShowDetails(data.showId);
@@ -332,8 +320,8 @@ export const getMoreEpisodes = createServerFn({ method: "GET" })
 export const getEpisode = createServerFn({ method: "GET" })
   .inputValidator((d: { showId: number; seasonNumber: number; episodeNumber: number }) => d)
   .handler(async ({ data }) => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
 
     const [showDetails, seasonDetails] = await Promise.all([
       tmdb.getShowDetails(data.showId),
@@ -367,8 +355,8 @@ export const getEpisode = createServerFn({ method: "GET" })
 export const getEpisodeById = createServerFn({ method: "GET" })
   .inputValidator((d: { episodeId: number; showId: number }) => d)
   .handler(async ({ data }) => {
-    const cloudflareEnv = await getCloudflareEnv();
-    const tmdb = new TMDbClient(getTmdbApiKey(cloudflareEnv));
+    const apiKey = await getTmdbApiKey();
+    const tmdb = new TMDbClient(apiKey);
 
     const showDetails = await tmdb.getShowDetails(data.showId);
 
