@@ -34,9 +34,12 @@ try {
  */
 function getTmdbApiKey(cloudflareEnv: Record<string, string> | undefined): string {
   if (cloudflareEnv?.TMDB_API_KEY) {
+    console.log("[CrimeWeb] Using TMDB_API_KEY from Cloudflare env");
     return cloudflareEnv.TMDB_API_KEY;
   }
-  return process.env.TMDB_API_KEY ?? "";
+  const fallback = process.env.TMDB_API_KEY ?? "";
+  console.log("[CrimeWeb] TMDB_API_KEY fallback to process.env:", fallback ? "found" : "MISSING");
+  return fallback;
 }
 
 /**
@@ -52,9 +55,17 @@ async function getCloudflareEnv(): Promise<Record<string, string> | undefined> {
         };
       };
     };
-    return request?.runtime?.cloudflare?.env;
-  } catch {
-    // Not running in Cloudflare context
+    const env = request?.runtime?.cloudflare?.env;
+    console.log("[CrimeWeb] getCloudflareEnv:", {
+      hasRequest: !!request,
+      hasRuntime: !!request?.runtime,
+      hasCloudflare: !!request?.runtime?.cloudflare,
+      hasEnv: !!env,
+      envKeys: env ? Object.keys(env) : [],
+    });
+    return env;
+  } catch (error) {
+    console.error("[CrimeWeb] getCloudflareEnv failed:", error);
     return undefined;
   }
 }
