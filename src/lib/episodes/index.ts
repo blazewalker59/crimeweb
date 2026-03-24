@@ -1,2 +1,2 @@
-export { EpisodeProvider, useEpisodes } from './context'
-export * from './viewed'
+export { EpisodeProvider, useEpisodes } from "./context";
+export * from "./viewed";

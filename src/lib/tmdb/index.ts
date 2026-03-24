@@ -1,2 +1,2 @@
-export { TMDbClient, tmdb } from './client'
-export * from './types'
+export { TMDbClient, tmdb } from "./client";
+export * from "./types";

@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* Crime Scene Theme - Dark blacks, white, blood red */
 @theme {
@@ -7,16 +7,16 @@
   --color-crime-dark: #0a0a0a;
   --color-crime-surface: #111111;
   --color-crime-elevated: #1a1a1a;
-  
+
   /* Blood red accents */
   --color-blood: #b91c1c;
   --color-blood-dark: #7f1d1d;
   --color-blood-light: #dc2626;
   --color-blood-glow: #ef4444;
-  
+
   /* Evidence tape yellow */
   --color-tape: #eab308;
-  
+
   /* Chalk outline white */
   --color-chalk: #ffffff;
   --color-chalk-muted: #a3a3a3;
@@ -30,7 +30,7 @@ body {
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
-    'Segoe UI',
+    "Segoe UI",
     Roboto,
     sans-serif;
   margin: 0;
@@ -61,8 +61,7 @@ body {
 }
 
 code {
-  font-family:
-    'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: "JetBrains Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 /* Hide scrollbar utility */
@@ -77,13 +76,7 @@ code {
 
 /* Crime scene tape pattern for decorative borders */
 .crime-tape {
-  background: repeating-linear-gradient(
-    -45deg,
-    #eab308,
-    #eab308 10px,
-    #000000 10px,
-    #000000 20px
-  );
+  background: repeating-linear-gradient(-45deg, #eab308, #eab308 10px, #000000 10px, #000000 20px);
 }
 
 /* Blood drip effect for accents */
@@ -93,7 +86,7 @@ code {
 
 /* Subtle noise texture overlay */
 .noise-overlay::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
@@ -110,4 +103,13 @@ code {
 ::selection {
   background: #b91c1c;
   color: #ffffff;
+}
+
+/* PWA safe area utilities */
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
 }

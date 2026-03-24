@@ -85,15 +85,15 @@ data/
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start development server |
-| `bun run build` | Build for production |
-| `bun run build:cf` | Build for Cloudflare Pages |
-| `bun run deploy` | Deploy to Cloudflare Pages |
-| `bun tsc --noEmit` | Type-check without emitting |
+| Command                         | Description                    |
+| ------------------------------- | ------------------------------ |
+| `bun run dev`                   | Start development server       |
+| `bun run build`                 | Build for production           |
+| `bun run build:cf`              | Build for Cloudflare Pages     |
+| `bun run deploy`                | Deploy to Cloudflare Pages     |
+| `bun tsc --noEmit`              | Type-check without emitting    |
 | `bun scripts/fetch-episodes.ts` | Refresh episode data from TMDb |
-| `bun scripts/test-matching.ts` | Test fuzzy matching logic |
+| `bun scripts/test-matching.ts`  | Test fuzzy matching logic      |
 
 ## Theme
 
@@ -106,8 +106,8 @@ CrimeWeb uses a crime scene inspired dark theme:
 
 ## Environment Variables
 
-| Variable | Description |
-|----------|-------------|
+| Variable       | Description                  |
+| -------------- | ---------------------------- |
 | `TMDB_API_KEY` | Your TMDb API key (required) |
 
 ## Data Attribution

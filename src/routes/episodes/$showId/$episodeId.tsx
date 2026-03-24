@@ -2,38 +2,45 @@
  * Episode Detail Route
  * Displays episode information from TMDb with related episodes
  */
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState, useEffect, useCallback } from 'react'
-import { TMDbClient } from '@/lib/tmdb'
-import { getEpisodeById, getRelatedEpisodes } from '@/lib/tmdb/server'
-import { Badge, Loading } from '@/components/common'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect, useCallback } from "react";
+import { TMDbClient } from "@/lib/tmdb";
+import { getEpisodeById, getRelatedEpisodes } from "@/lib/tmdb/server";
+import { Badge, Loading } from "@/components/common";
+import { formatDate, formatEpisodeNumber, formatRuntime } from "@/lib/utils/formatters";
 import {
-  formatDate,
-  formatEpisodeNumber,
-  formatRuntime,
-} from '@/lib/utils/formatters'
-import { ArrowLeft, Calendar, Clock, Tv, Link2, Check, X, RotateCcw, Eye, EyeOff } from 'lucide-react'
-import type { MatchResult } from '@/lib/matching'
+  ArrowLeft,
+  Calendar,
+  Clock,
+  Tv,
+  Link2,
+  Check,
+  X,
+  RotateCcw,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+import type { MatchResult } from "@/lib/matching";
 import {
   type MatchDecision,
   getDecision,
   saveDecision,
   removeDecision,
   getDeniedMatchIds,
-} from '@/lib/matching'
-import { isViewed, toggleViewed } from '@/lib/episodes'
+} from "@/lib/matching";
+import { isViewed, toggleViewed } from "@/lib/episodes";
 
-export const Route = createFileRoute('/episodes/$showId/$episodeId')({
+export const Route = createFileRoute("/episodes/$showId/$episodeId")({
   loader: async ({ params }) => {
-    const showId = parseInt(params.showId, 10)
-    const episodeId = parseInt(params.episodeId, 10)
-    
+    const showId = parseInt(params.showId, 10);
+    const episodeId = parseInt(params.episodeId, 10);
+
     if (isNaN(showId) || isNaN(episodeId)) {
-      throw new Error('Invalid show or episode ID')
+      throw new Error("Invalid show or episode ID");
     }
-    
-    const episode = await getEpisodeById({ data: { showId, episodeId } })
-    
+
+    const episode = await getEpisodeById({ data: { showId, episodeId } });
+
     // Fetch related episodes in parallel
     const relatedEpisodes = await getRelatedEpisodes({
       data: {
@@ -42,14 +49,14 @@ export const Route = createFileRoute('/episodes/$showId/$episodeId')({
         name: episode.name,
         overview: episode.overview,
       },
-    })
-    
-    return { episode, relatedEpisodes }
+    });
+
+    return { episode, relatedEpisodes };
   },
   pendingComponent: () => <Loading message="Loading episode..." />,
   errorComponent: EpisodeError,
   component: EpisodeDetailPage,
-})
+});
 
 function EpisodeError() {
   return (
@@ -65,46 +72,46 @@ function EpisodeError() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 function EpisodeDetailPage() {
-  const { episode, relatedEpisodes } = Route.useLoaderData()
-  const [deniedIds, setDeniedIds] = useState<Set<number>>(new Set())
-  const [viewed, setViewed] = useState(false)
-  
+  const { episode, relatedEpisodes } = Route.useLoaderData();
+  const [deniedIds, setDeniedIds] = useState<Set<number>>(new Set());
+  const [viewed, setViewed] = useState(false);
+
   // Load denied match IDs and viewed status on mount
   useEffect(() => {
-    setDeniedIds(getDeniedMatchIds(episode.id))
-    setViewed(isViewed(episode.id))
-  }, [episode.id])
+    setDeniedIds(getDeniedMatchIds(episode.id));
+    setViewed(isViewed(episode.id));
+  }, [episode.id]);
 
   // Filter out denied matches
   const visibleRelatedEpisodes = relatedEpisodes.filter(
-    (related) => !deniedIds.has(related.episodeId)
-  )
+    (related) => !deniedIds.has(related.episodeId),
+  );
 
   // Callback when a match is denied - update local state immediately
   const handleMatchDenied = useCallback((matchedEpisodeId: number) => {
-    setDeniedIds((prev) => new Set([...prev, matchedEpisodeId]))
-  }, [])
+    setDeniedIds((prev) => new Set([...prev, matchedEpisodeId]));
+  }, []);
 
   // Callback when a denial is undone - remove from denied set
   const handleMatchRestored = useCallback((matchedEpisodeId: number) => {
     setDeniedIds((prev) => {
-      const next = new Set(prev)
-      next.delete(matchedEpisodeId)
-      return next
-    })
-  }, [])
+      const next = new Set(prev);
+      next.delete(matchedEpisodeId);
+      return next;
+    });
+  }, []);
 
   // Toggle viewed status
   const handleToggleViewed = () => {
-    const newViewed = toggleViewed(episode.id)
-    setViewed(newViewed)
-  }
+    const newViewed = toggleViewed(episode.id);
+    setViewed(newViewed);
+  };
 
-  const stillUrl = TMDbClient.getStillUrl(episode.stillPath, 'original')
+  const stillUrl = TMDbClient.getStillUrl(episode.stillPath, "original");
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -134,23 +141,16 @@ function EpisodeDetailPage() {
           {/* Show info badges */}
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <span className="text-blood-light font-medium">{episode.showName}</span>
-            {episode.showNetwork && (
-              <Badge variant="default">{episode.showNetwork}</Badge>
-            )}
+            {episode.showNetwork && <Badge variant="default">{episode.showNetwork}</Badge>}
           </div>
 
           {/* Episode title */}
-          <h1 className="text-2xl md:text-3xl font-bold text-chalk mb-3">
-            {episode.name}
-          </h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-chalk mb-3">{episode.name}</h1>
 
           {/* Episode meta */}
           <div className="flex flex-wrap items-center gap-4 text-chalk-muted mb-4">
             <span className="font-mono text-sm bg-crime-elevated px-2 py-1 rounded">
-              {formatEpisodeNumber(
-                episode.seasonNumber,
-                episode.episodeNumber,
-              )}
+              {formatEpisodeNumber(episode.seasonNumber, episode.episodeNumber)}
             </span>
             {episode.airDate && (
               <span className="flex items-center gap-1">
@@ -171,8 +171,8 @@ function EpisodeDetailPage() {
             onClick={handleToggleViewed}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
               viewed
-                ? 'bg-green-700 hover:bg-green-600 text-chalk'
-                : 'bg-crime-elevated hover:bg-crime-dark text-chalk-muted'
+                ? "bg-green-700 hover:bg-green-600 text-chalk"
+                : "bg-crime-elevated hover:bg-crime-dark text-chalk-muted"
             }`}
           >
             {viewed ? (
@@ -224,14 +224,14 @@ function EpisodeDetailPage() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 interface RelatedEpisodeCardProps {
-  episode: MatchResult
-  sourceEpisodeId: number
-  onDeny: (matchedEpisodeId: number) => void
-  onRestore: (matchedEpisodeId: number) => void
+  episode: MatchResult;
+  sourceEpisodeId: number;
+  onDeny: (matchedEpisodeId: number) => void;
+  onRestore: (matchedEpisodeId: number) => void;
 }
 
 function RelatedEpisodeCard({
@@ -240,47 +240,45 @@ function RelatedEpisodeCard({
   onDeny,
   onRestore,
 }: RelatedEpisodeCardProps) {
-  const stillUrl = TMDbClient.getStillUrl(episode.stillPath, 'w185')
-  const matchPercent = Math.round(episode.score * 100)
-  
+  const stillUrl = TMDbClient.getStillUrl(episode.stillPath, "w185");
+  const matchPercent = Math.round(episode.score * 100);
+
   // Load initial decision state
   const [decision, setDecision] = useState<MatchDecision | null>(() => {
-    if (typeof window === 'undefined') return null
-    return getDecision(sourceEpisodeId, episode.episodeId)
-  })
+    if (typeof window === "undefined") return null;
+    return getDecision(sourceEpisodeId, episode.episodeId);
+  });
 
   const handleConfirm = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    saveDecision(sourceEpisodeId, episode.episodeId, 'confirmed')
-    setDecision('confirmed')
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    saveDecision(sourceEpisodeId, episode.episodeId, "confirmed");
+    setDecision("confirmed");
+  };
 
   const handleDeny = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    saveDecision(sourceEpisodeId, episode.episodeId, 'denied')
-    setDecision('denied')
-    onDeny(episode.episodeId)
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    saveDecision(sourceEpisodeId, episode.episodeId, "denied");
+    setDecision("denied");
+    onDeny(episode.episodeId);
+  };
 
   const handleReset = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    removeDecision(sourceEpisodeId, episode.episodeId)
-    setDecision(null)
+    e.preventDefault();
+    e.stopPropagation();
+    removeDecision(sourceEpisodeId, episode.episodeId);
+    setDecision(null);
     // If we're undoing a denial, notify parent
-    onRestore(episode.episodeId)
-  }
+    onRestore(episode.episodeId);
+  };
 
-  const isConfirmed = decision === 'confirmed'
+  const isConfirmed = decision === "confirmed";
 
   return (
     <div
       className={`flex gap-4 bg-crime-surface/50 rounded-lg border transition-colors p-3 group ${
-        isConfirmed
-          ? 'border-green-700/50'
-          : 'border-crime-elevated hover:border-blood/50'
+        isConfirmed ? "border-green-700/50" : "border-crime-elevated hover:border-blood/50"
       }`}
     >
       {/* Thumbnail - clickable link */}
@@ -318,7 +316,7 @@ function RelatedEpisodeCard({
             className="min-w-0"
           >
             <p className="text-xs text-chalk-dim mb-0.5">
-              {episode.showName} &middot;{' '}
+              {episode.showName} &middot;{" "}
               {formatEpisodeNumber(episode.seasonNumber, episode.episodeNumber)}
             </p>
             <h3 className="font-medium text-chalk group-hover:text-blood-light transition-colors line-clamp-1">
@@ -327,14 +325,10 @@ function RelatedEpisodeCard({
           </Link>
           <div className="flex-shrink-0 flex items-center gap-2">
             {/* Match percentage */}
-            <span
-              className={`text-xs font-medium ${
-                isConfirmed ? 'text-green-400' : 'text-tape'
-              }`}
-            >
-              {isConfirmed ? 'Confirmed' : `${matchPercent}% match`}
+            <span className={`text-xs font-medium ${isConfirmed ? "text-green-400" : "text-tape"}`}>
+              {isConfirmed ? "Confirmed" : `${matchPercent}% match`}
             </span>
-            
+
             {/* Action buttons */}
             <div className="flex items-center gap-1">
               {decision === null ? (
@@ -369,7 +363,7 @@ function RelatedEpisodeCard({
             </div>
           </div>
         </div>
-        
+
         {/* Match reason and date */}
         <div className="flex items-center gap-2 mt-1 text-xs text-chalk-dim">
           {episode.matchReason && (
@@ -377,11 +371,9 @@ function RelatedEpisodeCard({
               {episode.matchReason}
             </span>
           )}
-          {episode.airDate && (
-            <span>{formatDate(episode.airDate)}</span>
-          )}
+          {episode.airDate && <span>{formatDate(episode.airDate)}</span>}
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,2 +1,2 @@
-export * from './fuzzy'
-export * from './decisions'
+export * from "./fuzzy";
+export * from "./decisions";

@@ -3,27 +3,24 @@
  */
 
 interface LoadingSpinnerProps {
-  size?: 'sm' | 'md' | 'lg'
-  className?: string
+  size?: "sm" | "md" | "lg";
+  className?: string;
 }
 
 const sizeStyles = {
-  sm: 'h-4 w-4',
-  md: 'h-8 w-8',
-  lg: 'h-12 w-12',
-}
+  sm: "h-4 w-4",
+  md: "h-8 w-8",
+  lg: "h-12 w-12",
+};
 
-export function LoadingSpinner({
-  size = 'md',
-  className = '',
-}: LoadingSpinnerProps) {
+export function LoadingSpinner({ size = "md", className = "" }: LoadingSpinnerProps) {
   return (
     <div
       className={`animate-spin rounded-full border-2 border-crime-elevated border-t-blood ${sizeStyles[size]} ${className}`}
       role="status"
       aria-label="Loading"
     />
-  )
+  );
 }
 
 /**
@@ -34,14 +31,14 @@ export function LoadingPage() {
     <div className="min-h-[50vh] flex items-center justify-center">
       <LoadingSpinner size="lg" />
     </div>
-  )
+  );
 }
 
 /**
  * Loading component with optional message
  */
 interface LoadingProps {
-  message?: string
+  message?: string;
 }
 
 export function Loading({ message }: LoadingProps) {
@@ -50,5 +47,5 @@ export function Loading({ message }: LoadingProps) {
       <LoadingSpinner size="lg" />
       {message && <p className="text-chalk-muted">{message}</p>}
     </div>
-  )
+  );
 }

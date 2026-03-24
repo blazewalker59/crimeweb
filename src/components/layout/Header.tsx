@@ -2,14 +2,14 @@
  * Header Component
  * Crime scene themed navigation header
  */
-import { Link } from '@tanstack/react-router'
+import { Link } from "@tanstack/react-router";
 
 export function Header() {
   return (
-    <header className="bg-crime-dark border-b border-crime-elevated sticky top-0 z-50">
+    <header className="bg-crime-dark border-b border-crime-elevated sticky top-0 z-50 pt-safe">
       {/* Subtle red accent line at top */}
       <div className="h-0.5 bg-gradient-to-r from-transparent via-blood to-transparent" />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -26,5 +26,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
