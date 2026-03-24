@@ -47,7 +47,10 @@ function getTmdbApiKey(cloudflareEnv: Record<string, string> | undefined): strin
  */
 async function getCloudflareEnv(): Promise<Record<string, string> | undefined> {
   try {
-    const { getRequest } = await import("@tanstack/react-start/server");
+    console.log("[CrimeWeb] getCloudflareEnv: attempting import");
+    const mod = await import("@tanstack/react-start/server");
+    console.log("[CrimeWeb] getCloudflareEnv: import succeeded, exports:", Object.keys(mod));
+    const { getRequest } = mod;
     const request = getRequest() as Request & {
       runtime?: {
         cloudflare?: {
@@ -56,16 +59,19 @@ async function getCloudflareEnv(): Promise<Record<string, string> | undefined> {
       };
     };
     const env = request?.runtime?.cloudflare?.env;
-    console.log("[CrimeWeb] getCloudflareEnv:", {
-      hasRequest: !!request,
-      hasRuntime: !!request?.runtime,
-      hasCloudflare: !!request?.runtime?.cloudflare,
-      hasEnv: !!env,
-      envKeys: env ? Object.keys(env) : [],
-    });
+    console.log(
+      "[CrimeWeb] getCloudflareEnv:",
+      JSON.stringify({
+        hasRequest: !!request,
+        hasRuntime: !!request?.runtime,
+        hasCloudflare: !!request?.runtime?.cloudflare,
+        hasEnv: !!env,
+        envKeys: env ? Object.keys(env) : [],
+      }),
+    );
     return env;
   } catch (error) {
-    console.error("[CrimeWeb] getCloudflareEnv failed:", error);
+    console.error("[CrimeWeb] getCloudflareEnv CATCH:", String(error));
     return undefined;
   }
 }
