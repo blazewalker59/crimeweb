@@ -35,3 +35,13 @@ _Avoid_: match, related episode, link, association
 **Source**:
 The programme or outlet a Media Item comes from — Dateline, 20/20, Netflix.
 _Avoid_: show, network, provider, publisher
+
+### Surfacing
+
+**Convergence**:
+Two or more distinct Sources covering the same Case within the decay window. The signal the product exists to surface, and rare — roughly one case in twenty attracts it.
+_Avoid_: overlap, cluster, cross-reference, pile-on
+
+**Heat**:
+A Case's current rank in the feed: recency of its coverage, multiplied by how many distinct Sources have converged on it. Depth within a single Source does not raise Heat.
+_Avoid_: score, trending, popularity, buzz
