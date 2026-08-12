@@ -62,13 +62,20 @@ export const mediaItems = sqliteTable(
     // Within-source duplicate detection: 13% of the v1 catalogue, 54% of The First 48.
     duplicateOf: text("duplicate_of"),
 
+    // Hash of the TMDb title+overview this item was last extracted from.
+    // Ingest compares it to detect volunteer-edited upstream metadata; a change
+    // refreshes the item and re-queues extraction ONLY if no human has touched
+    // the resulting graph.
+    contentHash: text("content_hash"),
+
     extractionStatus: text("extraction_status", {
-      enum: ["pending", "extracted", "failed"],
+      enum: ["pending", "extracted", "failed", "stale"],
     })
       .notNull()
       .default("pending"),
     extractedAt: integer("extracted_at", { mode: "timestamp" }),
     ingestedAt: integer("ingested_at", { mode: "timestamp" }).notNull(),
+    refreshedAt: integer("refreshed_at", { mode: "timestamp" }),
   },
   (t) => [
     unique("media_tmdb_kind").on(t.tmdbId, t.kind),
