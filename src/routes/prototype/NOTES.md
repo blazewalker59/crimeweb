@@ -1,57 +1,50 @@
-# PROTOTYPE — v2 surfaces
+# Accepted design references — v2 surfaces
 
-Throwaway UI prototypes for the two remaining wayfinder tickets. **Neither ticket
-is resolved** — both are HITL, and the whole point is your reaction.
+The UI prototypes have been reviewed and decided. Losing variants and the
+variant switcher are deleted. What remains is the **accepted design reference**
+for each surface, not v2 itself — rewrite properly when v2 is built.
 
 Run `pnpm dev`, then:
 
-| Ticket                                                                        | URL                                |
-| ----------------------------------------------------------------------------- | ---------------------------------- |
-| [The home screen](https://github.com/blazewalker59/crimeweb/issues/14)        | `/prototype/case-feed?variant=A`   |
-| [The correction surface](https://github.com/blazewalker59/crimeweb/issues/15) | `/prototype/corrections?variant=A` |
+| Surface           | URL                      | Ticket                                                     |
+| ----------------- | ------------------------ | ---------------------------------------------------------- |
+| Coverage timeline | `/prototype/case-feed`   | [#14](https://github.com/blazewalker59/crimeweb/issues/14) |
+| Needs review      | `/prototype/corrections` | [#15](https://github.com/blazewalker59/crimeweb/issues/15) |
 
-Flip variants with the floating yellow bar at the bottom, or the ← / → arrow
-keys. The bar is hidden in production builds.
+## /prototype/case-feed — the home screen
 
-## /prototype/case-feed — issue #14
+**Chronological coverage timeline**, chosen over a heat-ranked card grid and an
+editorial ledger. Every release is a marker on a rail, newest first. Converged
+cases get a blood-red marker; single-source cases a grey one.
 
-Question: convergence is the differentiator but happens ~once every ten weeks.
-Make it unmissable **without** reserving space that sits empty the rest of the time.
+Convergence is revealed by an **expandable disclosure** rather than stated in
+prose. The button names the other source outright — "Also on Dateline", or
+"Also on Dateline +1" — and expanding lists each sibling release with its date,
+title, watched state, and **how far apart the coverage fell** ("same day",
+"21 days apart"). That gap is the interesting number and nothing else surfaces it.
 
-- **A — Heat grid.** Dense ranked card grid. Convergence carried by the card:
-  blood-red ring, a "2 SOURCES" ribbon, stacked source badges. Costs no layout
-  when nothing has converged.
-- **B — Coverage timeline.** Not ranked at all. Chronological rail; convergence
-  appears as _geometry_ — markers for the same case are drawn joined.
-- **C — Editorial ledger.** Hierarchy inverted: the relationship is the headline
-  ("20/20 and Dateline both covered this — on the same day"), the case is the
-  subhead. Single-source items are deliberately quieter rows.
+Two things removed from the prototype version:
 
-## /prototype/corrections — issue #15
+- The flat `← also covered elsewhere` line. It stated that convergence existed
+  without letting you see it.
+- The joined-marker line, which only rendered when two events for one case
+  happened to land adjacent in the date sort — coincidental, so it almost never
+  appeared. The disclosure does that job reliably.
 
-Question: ADR-0002 ships no moderation queue, so audit + reversal is the entire
-mechanism. The hard part is **noticing** a wrong link, not fixing it.
+## /prototype/corrections — the correction surface
 
-- **A — Triage inbox.** A destination you visit. Everything pending, ordered by
-  confidence ascending — exactly what `coverage_status_idx (status, confidence)`
-  was put in the schema to serve.
-- **B — Side-by-side judgement.** One decision at a time, both items physically
-  adjacent so the call is possible at a glance. Optimises decision _quality_
-  over throughput, which matters because a wrong Merge is destructive.
-- **C — Activity feed.** Rejects the queue premise. Machine and human changes
-  stream past together, each undoable in place. The only variant that serves
-  ADR-0002 literally, and the only one that shows auto-applied links at all.
+**Triage inbox**, chosen over side-by-side judgement and an activity feed. A
+destination you visit; everything awaiting a human in one list, ordered by
+confidence **ascending** so the least certain proposals come first.
+
+That ordering is exactly what `coverage_status_idx (status, confidence)` exists
+to serve in `docs/v2-schema.md`. Each row states its kind (coverage link,
+duplicate, merge, external link), its confidence, and _why_ it was proposed.
 
 ## Data
 
-`fixture.ts` — built from the real ground truth in issue #9: the 10 verified
-cross-source convergences from `data/episodes.json`, plus provisional cases and
-a review queue. The Sydney/Sidney Powell row in the queue is the real
-false-positive class measured at 44%.
+`-fixture.ts` — the 10 verified cross-source convergences from
+`data/episodes.json` (per issue #9), plus provisional cases and a review queue
+that includes the real Sydney/Sidney Powell false positive.
 
 Read-only throughout. Buttons are stubs; nothing mutates.
-
-## When a variant wins
-
-Record which and why on the ticket, fold the winner into a real route, then
-delete this directory and `src/components/PrototypeSwitcher.tsx`.
