@@ -5,7 +5,7 @@
 - **Never run the dev server** (`bun run dev`) as part of your workflow. The user will run this themselves.
 - Use `bun run build` to compile the project for production.
 - Use `bun run typecheck` to type-check without emitting files.
-- Use `bun run check` for format, lint and type checks in one pass (`vp check`).
+- Use `bun run check` for Prettier + ESLint, and `bun run lint:fix` / `bun run format` to fix.
 - Use `bun run ci` to run exactly what CI runs before pushing.
 - **Bun is the package manager.** `bun.lock` is committed and CI installs with
   `--frozen-lockfile`; do not introduce a second lockfile.

@@ -12,7 +12,7 @@ interface PaginationProps {
 export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
   if (totalPages <= 1) return null;
 
-  const pages: (number | "ellipsis")[] = [];
+  const pages: Array<number | "ellipsis"> = [];
 
   // Always show first page
   pages.push(1);

@@ -11,7 +11,7 @@ name: CI/CD
 #
 # Replaces the previous split of ci.yml + deploy.yml, which had four problems:
 #
-# - `ci.yml` never ran the tests. `vp test run` existed in package.json and was
+# - `ci.yml` never ran the tests. A test script existed in package.json and was
 #   simply not wired up, so 43 assertions were decorative.
 # - `ci.yml` triggered on `push` only, so a PR from a fork was never checked,
 #   and there was no `workflow_dispatch` to re-run anything by hand.
@@ -21,9 +21,8 @@ name: CI/CD
 #   and re-uploaded Worker secrets on every single deploy.
 #
 # Decisions worth keeping:
-# - `checks` folds format, lint, typecheck and build into one job. `vp check`
-#   already does format+lint+types in a single pass, so this is two commands.
-#   Each is seconds of work; one install beats several.
+# - `checks` folds format, lint, typecheck and build into one job. Each is
+#   seconds of work, so one install beats several.
 # - `deploy` downloads the dist/ artifact from `checks` rather than rebuilding,
 #   so the bytes that passed the gate are the bytes that ship.
 # - `deploy` uses the build's own generated config
@@ -80,7 +79,7 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      # vp check = format + lint + type checks in one pass.
+      # bun run check = prettier --check . && eslint .
       - name: Lint
         run: bun run check
 

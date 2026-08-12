@@ -3,11 +3,12 @@
 // Ground truth hand-built by reading all 261 title+overview pairs.
 import { findRelatedEpisodes } from "../../src/lib/matching/fuzzy";
 import db from "../../data/episodes.json";
-const eps = db.episodes as any[];
+
+const eps = db.episodes as Array<any>;
 const byId = new Map(eps.map((e) => [e.id, e]));
 
 // Cross-show case clusters, verified by reading. Each = one Case covered by 2+ Sources.
-const TRUTH: [string, number[]][] = [
+const TRUTH: Array<[string, Array<number>]> = [
   ["Menendez brothers", [5737433, 5685850]],
   ["Leslie Preer / Chevy Chase", [6606752, 6526732]],
   ["Univ. of Idaho / Kohberger", [6220206, 6522407]],
@@ -48,7 +49,7 @@ for (const min of [0.3, 0.5, 0.65, 0.7]) {
 }
 
 // Within-show duplicates: identical title AND overview, different id
-const seen = new Map<string, number[]>();
+const seen = new Map<string, Array<number>>();
 for (const e of eps) {
   const k = `${e.showName}::${(e.name || "").toLowerCase().trim()}`;
   seen.set(k, [...(seen.get(k) || []), e.id]);

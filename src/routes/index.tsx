@@ -5,15 +5,16 @@
  * Desktop: Same tabbed interface for consistency
  */
 import { useEffect, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { Calendar, Clock, Eye, EyeOff, Loader2, Tv } from "lucide-react";
+import type { EpisodeData, ShowWithEpisodes } from "@/lib/tmdb/server";
 import { Loading } from "@/components/common";
 import { TMDbClient } from "@/lib/tmdb";
-import { getLatestEpisodes, type ShowWithEpisodes, type EpisodeData } from "@/lib/tmdb/server";
-import { useEpisodes, isViewed } from "@/lib/episodes";
+import { getLatestEpisodes } from "@/lib/tmdb/server";
+import { isViewed, useEpisodes } from "@/lib/episodes";
 import { useInfiniteScroll } from "@/lib/hooks";
 import { formatDate, formatEpisodeNumber, formatRuntime } from "@/lib/utils";
 import { getDeniedMatchIds } from "@/lib/matching";
-import { Calendar, Clock, Tv, Loader2, Eye, EyeOff } from "lucide-react";
 
 type ViewFilter = "all" | "unviewed" | "viewed";
 
@@ -185,7 +186,7 @@ function ShowTab({ show, isActive, onClick }: ShowTabProps) {
 }
 
 interface ShowContentProps {
-  episodes: EpisodeData[];
+  episodes: Array<EpisodeData>;
   hasMore: boolean;
   isLoading: boolean;
   onLoadMore: () => void;

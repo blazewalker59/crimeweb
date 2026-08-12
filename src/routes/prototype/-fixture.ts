@@ -30,7 +30,7 @@ export interface FixtureCase {
   heat: number;
   lastCoverageAt: string;
   sourceCount90d: number;
-  coverage: FixtureCoverage[];
+  coverage: Array<FixtureCoverage>;
 }
 
 const c = (
@@ -55,7 +55,7 @@ const c = (
   status,
 });
 
-export const CASES: FixtureCase[] = [
+export const CASES: Array<FixtureCase> = [
   {
     id: "case_sementilli",
     displayTitle: "Murder of Fabio Sementilli",

@@ -12,11 +12,11 @@ export interface TMDbShow {
   vote_average: number;
   vote_count: number;
   popularity: number;
-  origin_country: string[];
+  origin_country: Array<string>;
   original_language: string;
   original_name: string;
-  genre_ids?: number[];
-  networks?: TMDbNetwork[];
+  genre_ids?: Array<number>;
+  networks?: Array<TMDbNetwork>;
   number_of_seasons?: number;
   number_of_episodes?: number;
   status?: string;
@@ -56,8 +56,8 @@ export interface TMDbEpisode {
 }
 
 export interface TMDbShowDetails extends TMDbShow {
-  seasons: TMDbSeason[];
-  networks: TMDbNetwork[];
+  seasons: Array<TMDbSeason>;
+  networks: Array<TMDbNetwork>;
   number_of_seasons: number;
   number_of_episodes: number;
   status: string;
@@ -77,12 +77,12 @@ export interface TMDbSeasonDetails {
   poster_path: string | null;
   season_number: number;
   air_date: string | null;
-  episodes: TMDbEpisode[];
+  episodes: Array<TMDbEpisode>;
 }
 
 export interface TMDbSearchResult<T> {
   page: number;
-  results: T[];
+  results: Array<T>;
   total_pages: number;
   total_results: number;
 }
@@ -90,9 +90,9 @@ export interface TMDbSearchResult<T> {
 export interface TMDbImageConfig {
   base_url: string;
   secure_base_url: string;
-  backdrop_sizes: string[];
-  logo_sizes: string[];
-  poster_sizes: string[];
-  profile_sizes: string[];
-  still_sizes: string[];
+  backdrop_sizes: Array<string>;
+  logo_sizes: Array<string>;
+  poster_sizes: Array<string>;
+  profile_sizes: Array<string>;
+  still_sizes: Array<string>;
 }

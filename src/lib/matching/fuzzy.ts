@@ -295,7 +295,7 @@ const US_STATES = new Set([
  * Extract person names from text
  * Looks for patterns like "FirstName LastName" in the description
  */
-function extractNames(text: string): string[] {
+function extractNames(text: string): Array<string> {
   if (!text) return [];
 
   const namesSet = new Set<string>();
@@ -372,10 +372,10 @@ function extractNames(text: string): string[] {
  * Only extracts actual geographic places - cities, towns, states, counties
  * NOT generic locations like "her home", "the hospital", etc.
  */
-function extractLocations(text: string): string[] {
+function extractLocations(text: string): Array<string> {
   if (!text) return [];
 
-  const locations: string[] = [];
+  const locations: Array<string> = [];
 
   // Full US state names for validation
   const fullStateNames = [
@@ -535,10 +535,10 @@ function extractLocations(text: string): string[] {
 /**
  * Extract years from text (focus on crime-relevant years)
  */
-function extractYears(text: string): string[] {
+function extractYears(text: string): Array<string> {
   if (!text) return [];
 
-  const years: string[] = [];
+  const years: Array<string> = [];
 
   // Match years from 1970-2029 (relevant for true crime)
   const yearPattern = /\b(19[7-9]\d|20[0-2]\d)\b/g;
@@ -554,9 +554,9 @@ function extractYears(text: string): string[] {
  * Extract all key identifiers from episode text
  */
 export function extractKeyTerms(text: string): {
-  names: string[];
-  locations: string[];
-  years: string[];
+  names: Array<string>;
+  locations: Array<string>;
+  years: Array<string>;
 } {
   return {
     names: extractNames(text),
@@ -585,10 +585,10 @@ export function calculateMatchScore(
   const targetTerms = extractKeyTerms(targetText);
 
   let score = 0;
-  const reasons: string[] = [];
+  const reasons: Array<string> = [];
 
   // 1. Name matches (highest weight - same name = likely same case)
-  const nameMatches: string[] = [];
+  const nameMatches: Array<string> = [];
   for (const sName of sourceTerms.names) {
     for (const tName of targetTerms.names) {
       // Exact match
@@ -670,16 +670,16 @@ export function calculateMatchScore(
  */
 export function findRelatedEpisodes(
   episode: Episode,
-  allEpisodes: Episode[],
+  allEpisodes: Array<Episode>,
   options: {
     maxResults?: number;
     minScore?: number;
     excludeSameShow?: boolean;
   } = {},
-): MatchResult[] {
+): Array<MatchResult> {
   const { maxResults = 5, minScore = 0.3, excludeSameShow = false } = options;
 
-  const results: MatchResult[] = [];
+  const results: Array<MatchResult> = [];
 
   for (const candidate of allEpisodes) {
     // Skip same episode

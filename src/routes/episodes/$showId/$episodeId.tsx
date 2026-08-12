@@ -2,32 +2,26 @@
  * Episode Detail Route
  * Displays episode information from TMDb with related episodes
  */
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect, useCallback } from "react";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { useCallback, useEffect, useState } from "react";
+import {
+  ArrowLeft,
+  Calendar,
+  Check,
+  Clock,
+  Eye,
+  EyeOff,
+  Link2,
+  RotateCcw,
+  Tv,
+  X,
+} from "lucide-react";
+import type { MatchDecision, MatchResult } from "@/lib/matching";
+import { getDecision, getDeniedMatchIds, removeDecision, saveDecision } from "@/lib/matching";
 import { TMDbClient } from "@/lib/tmdb";
 import { getEpisodeById, getRelatedEpisodes } from "@/lib/tmdb/server";
 import { Badge, Loading } from "@/components/common";
 import { formatDate, formatEpisodeNumber, formatRuntime } from "@/lib/utils/formatters";
-import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  Tv,
-  Link2,
-  Check,
-  X,
-  RotateCcw,
-  Eye,
-  EyeOff,
-} from "lucide-react";
-import type { MatchResult } from "@/lib/matching";
-import {
-  type MatchDecision,
-  getDecision,
-  saveDecision,
-  removeDecision,
-  getDeniedMatchIds,
-} from "@/lib/matching";
 import { isViewed, toggleViewed } from "@/lib/episodes";
 
 export const Route = createFileRoute("/episodes/$showId/$episodeId")({

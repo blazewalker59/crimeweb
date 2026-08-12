@@ -1,7 +1,7 @@
 /**
  * Vitest global setup
  */
-import { beforeAll, afterAll, afterEach } from "vite-plus/test";
+import { afterAll, afterEach, beforeAll } from "vitest";
 
 beforeAll(() => {
   // Global setup before all tests

@@ -15,9 +15,9 @@ A true crime episode tracker that aggregates the latest episodes from popular tr
 
 - **Framework**: [TanStack Start](https://tanstack.com/start) (React)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Runtime**: [Bun](https://bun.sh/)
+- **Build**: [Vite](https://vite.dev/) 8, [Vitest](https://vitest.dev/) 4, ESLint + Prettier
+- **Package manager**: [Bun](https://bun.sh/)
 - **Data**: [TMDb API](https://www.themoviedb.org/documentation/api)
-- **Toolchain**: [Vite+](https://vite.plus/) (`vp`) with [Bun](https://bun.sh/) as package manager
 - **Deployment**: Cloudflare Workers
 
 ## Getting Started
@@ -90,7 +90,7 @@ data/
 | ------------------------------- | -------------------------------------------------- |
 | `bun run dev`                   | Start development server                           |
 | `bun run build`                 | Build for production                               |
-| `bun run check`                 | Format, lint and type checks (one pass)            |
+| `bun run check`                 | Prettier check + ESLint                            |
 | `bun run typecheck`             | Type-check only                                    |
 | `bun run test`                  | Tests in watch mode                                |
 | `bun run test:run`              | Tests once                                         |
