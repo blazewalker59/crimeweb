@@ -8,12 +8,12 @@
  * not the fixing but the NOTICING: with ~7 users and no moderation, how does
  * anyone find a wrong link in the first place?
  *
- * Read-only; buttons are stubs. Data is src/routes/prototype/fixture.ts.
+ * Read-only; buttons are stubs. Data is src/routes/prototype/-fixture.ts.
  */
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AlertTriangle, Check, GitMerge, Link2, Undo2, X } from "lucide-react";
 import { PrototypeSwitcher } from "@/components/PrototypeSwitcher";
-import { REVIEW_QUEUE } from "./fixture";
+import { REVIEW_QUEUE } from "./-fixture";
 
 const VARIANTS = [
   { key: "A", name: "Triage inbox" },

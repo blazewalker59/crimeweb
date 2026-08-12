@@ -7,13 +7,13 @@
  * once every ten weeks. The feed must make a convergence unmistakable when it
  * occurs WITHOUT reserving permanent space that sits empty the rest of the time.
  *
- * Read-only. Data is src/routes/prototype/fixture.ts, built from the real
+ * Read-only. Data is src/routes/prototype/-fixture.ts, built from the real
  * ground truth in issue #9.
  */
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Eye, Flame, Radio, Sparkles } from "lucide-react";
 import { PrototypeSwitcher } from "@/components/PrototypeSwitcher";
-import { CASES, type FixtureCase } from "./fixture";
+import { CASES, type FixtureCase } from "./-fixture";
 
 const VARIANTS = [
   { key: "A", name: "Heat grid" },
