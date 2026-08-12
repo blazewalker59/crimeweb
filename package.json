@@ -6,8 +6,15 @@
     "dev": "vp dev --port 3000",
     "build": "vp build",
     "preview": "vp preview",
+    "test": "vp test",
+    "test:run": "vp test run",
+    "check": "vp check",
+    "typecheck": "tsc --noEmit",
+    "ci": "bun run check && bun run typecheck && bun run test:run && bun run build",
+    "ship": "bun run ci && wrangler deploy",
     "deploy": "vp build && wrangler deploy",
-    "test": "vp test run",
+    "cf:tail": "wrangler tail crimeweb",
+    "cf:secret": "wrangler secret put",
     "prepare": "vp config"
   },
   "dependencies": {
@@ -42,11 +49,8 @@
     "web-vitals": "^5.1.0",
     "wrangler": "^4.76.0"
   },
-  "packageManager": "pnpm@10.29.3",
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-    }
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
   }
 }

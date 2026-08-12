@@ -1,19 +1,172 @@
-name: CI
+name: CI/CD
 
+# One pipeline for PRs and production, following the pattern established in the
+# tome repo.
+#
+#   PR:            checks ─┐
+#                  test   ─┘ (gate only)
+#
+#   push to main:  checks(+artifact) ─┐
+#                  test              ─┴─ deploy (reuses the build)
+#
+# Replaces the previous split of ci.yml + deploy.yml, which had four problems:
+#
+# - `ci.yml` never ran the tests. `vp test run` existed in package.json and was
+#   simply not wired up, so 43 assertions were decorative.
+# - `ci.yml` triggered on `push` only, so a PR from a fork was never checked,
+#   and there was no `workflow_dispatch` to re-run anything by hand.
+# - `deploy.yml` set `cancel-in-progress: true` on a group keyed by ref, so a
+#   second merge to main could cancel a deploy mid-flight.
+# - `deploy.yml` rebuilt from source instead of shipping what CI had tested,
+#   and re-uploaded Worker secrets on every single deploy.
+#
+# Decisions worth keeping:
+# - `checks` folds format, lint, typecheck and build into one job. `vp check`
+#   already does format+lint+types in a single pass, so this is two commands.
+#   Each is seconds of work; one install beats several.
+# - `deploy` downloads the dist/ artifact from `checks` rather than rebuilding,
+#   so the bytes that passed the gate are the bytes that ship.
+# - `deploy` uses the build's own generated config
+#   (`dist/server/wrangler.json`), which is Cloudflare's documented path for
+#   @cloudflare/vite-plugin builds. It carries `no_bundle: true`, so nothing is
+#   re-bundled at deploy time. Verified with `wrangler deploy --dry-run`.
+# - Worker secrets (TMDB_API_KEY, TMDB_API_READ_ACCESS_TOKEN) are managed
+#   out-of-band via `wrangler secret put` and persist across deploys. Both were
+#   confirmed present with `wrangler secret list`, so nothing is uploaded
+#   per-deploy.
+#
+# Deliberate divergences from tome:
+# - tome shards `test` three ways because its runners are the bottleneck. This
+#   suite is 43 tests in ~0.4s, so sharding would triple runner startup to
+#   parallelise nothing. Revisit if the suite grows past ~30s.
+# - tome has `integration` (real D1 via @cloudflare/vitest-pool-workers) and
+#   `migrate` (applies ./drizzle before deploy) jobs. Neither applies yet:
+#   crimeweb has no D1 binding and no migrations. Both land with v2 — see
+#   docs/v2-schema.md. When they do, `migrate` must run BEFORE `deploy` and as
+#   its own job, so a migration failure blocks the deploy rather than leaving
+#   new code against an old schema.
 on:
   push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Never cancel a main-branch run mid-deploy; superseded PR runs are fair game.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  ci:
+  checks:
+    name: Lint / Types / Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - uses: voidzero-dev/setup-vp@v1
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22"
-          cache: true
+          bun-version: latest
 
-      - run: vp check
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
 
-      - run: vp build
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # vp check = format + lint + type checks in one pass.
+      - name: Lint
+        run: bun run check
+
+      - name: Type check
+        run: bun run typecheck
+
+      - name: Build
+        run: bun run build
+
+      # Only main pushes need the build downstream (deploy). PR builds are a
+      # pass/fail gate; skip the upload. dist/ includes both server/ and
+      # client/ — the generated config points assets at ../client, so the whole
+      # directory has to travel together.
+      - name: Upload build artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v5
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run tests
+        run: bun run test:run
+
+  deploy:
+    name: Deploy to Cloudflare Workers
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [checks, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      # Installed for wrangler alone, pinned by bun.lock. Letting
+      # wrangler-action fall back to its own bundled wrangler invites version
+      # drift; using the repo's binary means CI runs the same wrangler as
+      # `bun run ship` locally.
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # Reuse the build from `checks` — no rebuild, so the artifact that passed
+      # the gate is the artifact that ships.
+      - name: Download build artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: dist
+          path: dist/
+
+      - name: Deploy
+        run: bunx wrangler deploy --config dist/server/wrangler.json
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

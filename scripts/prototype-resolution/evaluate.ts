@@ -24,7 +24,7 @@ for (const [, ids] of TRUTH)
   for (let i = 0; i < ids.length; i++)
     for (let j = i + 1; j < ids.length; j++)
       if (byId.get(ids[i])?.showName !== byId.get(ids[j])?.showName)
-        truthPairs.add([ids[i], ids[j]].sort().join("_"));
+        truthPairs.add([ids[i], ids[j]].sort((x, y) => x - y).join("_"));
 
 console.log(
   `GROUND TRUTH: ${TRUTH.length} cross-show cases -> ${truthPairs.size} cross-show pairs\n`,
@@ -38,7 +38,7 @@ for (const min of [0.3, 0.5, 0.65, 0.7]) {
       minScore: min,
       excludeSameShow: true,
     }))
-      proposed.add([ep.id, r.episodeId].sort().join("_"));
+      proposed.add([ep.id, r.episodeId].sort((x, y) => x - y).join("_"));
   const tp = [...proposed].filter((p) => truthPairs.has(p)).length;
   const prec = proposed.size ? ((100 * tp) / proposed.size).toFixed(0) : "0";
   const rec = ((100 * tp) / truthPairs.size).toFixed(0);

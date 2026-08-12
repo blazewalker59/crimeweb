@@ -17,7 +17,8 @@ A true crime episode tracker that aggregates the latest episodes from popular tr
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Runtime**: [Bun](https://bun.sh/)
 - **Data**: [TMDb API](https://www.themoviedb.org/documentation/api)
-- **Deployment**: Cloudflare Pages
+- **Toolchain**: [Vite+](https://vite.plus/) (`vp`) with [Bun](https://bun.sh/) as package manager
+- **Deployment**: Cloudflare Workers
 
 ## Getting Started
 
@@ -52,12 +53,12 @@ The app will be available at `http://localhost:3000`.
 ### Building for Production
 
 ```bash
-# Standard build
 bun run build
-
-# Cloudflare Pages build
-bun run build:cf
 ```
+
+Deploys happen in CI: merging to `main` runs `.github/workflows/ci.yml`, which
+builds once and ships that exact artifact to Cloudflare Workers. `bun run ship`
+does the same thing locally.
 
 ## Project Structure
 
@@ -85,15 +86,19 @@ data/
 
 ## Scripts
 
-| Command                         | Description                    |
-| ------------------------------- | ------------------------------ |
-| `bun run dev`                   | Start development server       |
-| `bun run build`                 | Build for production           |
-| `bun run build:cf`              | Build for Cloudflare Pages     |
-| `bun run deploy`                | Deploy to Cloudflare Pages     |
-| `bun tsc --noEmit`              | Type-check without emitting    |
-| `bun scripts/fetch-episodes.ts` | Refresh episode data from TMDb |
-| `bun scripts/test-matching.ts`  | Test fuzzy matching logic      |
+| Command                         | Description                                        |
+| ------------------------------- | -------------------------------------------------- |
+| `bun run dev`                   | Start development server                           |
+| `bun run build`                 | Build for production                               |
+| `bun run check`                 | Format, lint and type checks (one pass)            |
+| `bun run typecheck`             | Type-check only                                    |
+| `bun run test`                  | Tests in watch mode                                |
+| `bun run test:run`              | Tests once                                         |
+| `bun run ci`                    | Everything CI runs: check, typecheck, tests, build |
+| `bun run ship`                  | `ci`, then deploy to Cloudflare Workers            |
+| `bun run cf:tail`               | Tail production Worker logs                        |
+| `bun scripts/fetch-episodes.ts` | Refresh episode data from TMDb                     |
+| `bun scripts/test-matching.ts`  | Test fuzzy matching logic                          |
 
 ## Theme
 
