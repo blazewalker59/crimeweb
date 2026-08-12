@@ -2,7 +2,7 @@
 /**
  * Test fuzzy matching logic
  */
-import { findRelatedEpisodes, extractKeyTerms } from "../src/lib/matching/fuzzy";
+import { extractKeyTerms, findRelatedEpisodes } from "../src/lib/matching/fuzzy";
 import episodeDatabase from "../data/episodes.json";
 
 const episodes = episodeDatabase.episodes;

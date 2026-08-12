@@ -2,7 +2,7 @@
  * TMDb API Client
  * Handles all interactions with The Movie Database API
  */
-import type { TMDbShow, TMDbShowDetails, TMDbSeasonDetails, TMDbSearchResult } from "./types";
+import type { TMDbSearchResult, TMDbSeasonDetails, TMDbShow, TMDbShowDetails } from "./types";
 
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
@@ -96,9 +96,9 @@ class TMDbClient {
    * Get all episodes for a show
    * Fetches each season sequentially to avoid rate limits
    */
-  async getAllEpisodes(showId: number): Promise<TMDbSeasonDetails[]> {
+  async getAllEpisodes(showId: number): Promise<Array<TMDbSeasonDetails>> {
     const showDetails = await this.getShowDetails(showId);
-    const seasons: TMDbSeasonDetails[] = [];
+    const seasons: Array<TMDbSeasonDetails> = [];
 
     for (const season of showDetails.seasons) {
       // Skip specials (season 0) unless explicitly requested

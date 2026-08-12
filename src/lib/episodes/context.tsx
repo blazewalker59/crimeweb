@@ -2,23 +2,17 @@
  * Episode Context
  * Persists episode data and UI state across navigation
  */
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "@tanstack/react-router";
-import { type ShowWithEpisodes, type EpisodeData, getMoreEpisodes } from "@/lib/tmdb/server";
+import type { ReactNode } from "react";
+import type { EpisodeData, ShowWithEpisodes } from "@/lib/tmdb/server";
+import { getMoreEpisodes } from "@/lib/tmdb/server";
 
 interface EpisodeState {
   // Initial shows data from loader
-  initialShows: ShowWithEpisodes[];
+  initialShows: Array<ShowWithEpisodes>;
   // Episodes per show (may have more than initial if user loaded more)
-  showEpisodes: Record<number, EpisodeData[]>;
+  showEpisodes: Record<number, Array<EpisodeData>>;
   // Whether each show has more episodes to load
   hasMore: Record<number, boolean>;
   // Loading state per show
@@ -30,7 +24,7 @@ interface EpisodeState {
 }
 
 interface EpisodeContextValue extends EpisodeState {
-  initialize: (shows: ShowWithEpisodes[]) => void;
+  initialize: (shows: Array<ShowWithEpisodes>) => void;
   setActiveShowIndex: (index: number) => void;
   loadMore: (showId: number) => Promise<void>;
   saveScrollPosition: (position: number) => void;
@@ -67,7 +61,7 @@ export function EpisodeProvider({ children }: { children: ReactNode }) {
     }
   }, [location.pathname, state.initialized]);
 
-  const initialize = useCallback((shows: ShowWithEpisodes[]) => {
+  const initialize = useCallback((shows: Array<ShowWithEpisodes>) => {
     // Only initialize if not already done or if shows changed
     setState((prev) => {
       if (prev.initialized && prev.initialShows.length === shows.length) {
@@ -75,7 +69,7 @@ export function EpisodeProvider({ children }: { children: ReactNode }) {
         return prev;
       }
 
-      const showEpisodes: Record<number, EpisodeData[]> = {};
+      const showEpisodes: Record<number, Array<EpisodeData>> = {};
       const hasMore: Record<number, boolean> = {};
 
       for (const show of shows) {

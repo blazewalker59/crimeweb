@@ -42,12 +42,12 @@ interface Episode {
 
 interface EpisodeDatabase {
   lastUpdated: string;
-  shows: {
+  shows: Array<{
     tmdbId: number;
     name: string;
     network: string | null;
-  }[];
-  episodes: Episode[];
+  }>;
+  episodes: Array<Episode>;
 }
 
 async function fetchWithRateLimit(url: string): Promise<Response> {

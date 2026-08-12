@@ -16,7 +16,8 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown, Eye, Radio } from "lucide-react";
-import { CASES, type FixtureCase, type FixtureCoverage } from "./-fixture";
+import { CASES } from "./-fixture";
+import type { FixtureCase, FixtureCoverage } from "./-fixture";
 
 export const Route = createFileRoute("/prototype/case-feed")({
   component: CaseFeed,
@@ -24,10 +25,10 @@ export const Route = createFileRoute("/prototype/case-feed")({
 
 interface Event extends FixtureCoverage {
   case: FixtureCase;
-  siblings: FixtureCoverage[];
+  siblings: Array<FixtureCoverage>;
 }
 
-const EVENTS: Event[] = CASES.flatMap((c) =>
+const EVENTS: Array<Event> = CASES.flatMap((c) =>
   c.coverage.map((cov) => ({
     ...cov,
     case: c,
@@ -42,7 +43,7 @@ const daysBetween = (a: string, b: string) =>
   Math.round(Math.abs(new Date(a).getTime() - new Date(b).getTime()) / 86400000);
 
 /** "Also on Dateline" / "Also on Dateline +1" — names the source rather than hinting at it. */
-function disclosureLabel(siblings: FixtureCoverage[]) {
+function disclosureLabel(siblings: Array<FixtureCoverage>) {
   const names = [...new Set(siblings.map((s) => s.sourceName))];
   return names.length === 1 ? `Also on ${names[0]}` : `Also on ${names[0]} +${names.length - 1}`;
 }

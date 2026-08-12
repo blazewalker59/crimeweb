@@ -1,35 +1,27 @@
-import { defineConfig } from "vite-plus";
+import { defineConfig } from "vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 
-const isTest = process.env.VITEST === "true";
-
-const config = defineConfig({
-  staged: {
-    "*": "vp check --fix",
-  },
-  lint: { options: { typeAware: true, typeCheck: true } },
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: ["./src/__tests__/_setup/setup.ts"],
-    include: ["src/__tests__/**/*.test.{ts,tsx}"],
-    exclude: ["node_modules", ".output", "dist"],
-  },
-  resolve: {
-    tsconfigPaths: true,
-  },
+/**
+ * Build/dev config only. Test config lives in vitest.config.ts, deliberately
+ * separate: @cloudflare/vite-plugin sets `resolve.external` for the SSR
+ * environment and breaks Vitest's module resolution. Keeping them apart is
+ * cleaner than the `isTest` guard this file used to carry.
+ *
+ * `resolve.tsconfigPaths` is Vite 8's native replacement for vite-plus's
+ * option of the same name; it reads the `@/*` and `@test/*` aliases straight
+ * from tsconfig.json, so no path-alias plugin is needed.
+ */
+export default defineConfig({
+  resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),
-    // Cloudflare plugin conflicts with Vitest (sets resolve.external for SSR)
-    !isTest && cloudflare({ viteEnvironment: { name: "ssr" } }),
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
   ],
 });
-
-export default config;

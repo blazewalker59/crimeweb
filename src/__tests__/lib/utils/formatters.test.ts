@@ -1,15 +1,15 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vite-plus/test";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   formatDate,
-  formatRelativeTime,
   formatEpisodeNumber,
-  formatRuntime,
-  truncate,
-  slugify,
   formatNumber,
   formatRating,
+  formatRelativeTime,
+  formatRuntime,
   pluralize,
+  slugify,
   titleCase,
+  truncate,
 } from "@/lib/utils/formatters";
 
 describe("formatDate", () => {

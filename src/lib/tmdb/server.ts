@@ -4,13 +4,14 @@
  */
 import { createServerFn } from "@tanstack/react-start";
 import { TMDbClient } from "./client";
-import { findRelatedEpisodes, type MatchResult, type Episode } from "@/lib/matching";
+import type { Episode, MatchResult } from "@/lib/matching";
+import { findRelatedEpisodes } from "@/lib/matching";
 
 // Type for episode database
 interface EpisodeDatabase {
   lastUpdated: string;
-  shows: { tmdbId: number; name: string; network: string | null }[];
-  episodes: Episode[];
+  shows: Array<{ tmdbId: number; name: string; network: string | null }>;
+  episodes: Array<Episode>;
 }
 
 // Load episode database - will be empty if file doesn't exist
@@ -66,7 +67,7 @@ export interface ShowWithEpisodes {
   name: string;
   network: string | null;
   posterPath: string | null;
-  episodes: EpisodeData[];
+  episodes: Array<EpisodeData>;
 }
 
 export interface EpisodeData {
@@ -81,18 +82,18 @@ export interface EpisodeData {
   episodeNumber: number;
   runtime: number | null;
   relatedCount?: number; // Number of related episodes found
-  relatedShows?: string[]; // Names of shows with related episodes (for cross-show indicator)
-  relatedEpisodeIds?: number[]; // IDs of related episodes (for client-side filtering)
+  relatedShows?: Array<string>; // Names of shows with related episodes (for cross-show indicator)
+  relatedEpisodeIds?: Array<number>; // IDs of related episodes (for client-side filtering)
 }
 
 /**
  * Fetch latest episodes for all supported shows
  */
 export const getLatestEpisodes = createServerFn({ method: "GET" }).handler(
-  async (): Promise<ShowWithEpisodes[]> => {
+  async (): Promise<Array<ShowWithEpisodes>> => {
     const apiKey = await getTmdbApiKey();
     const tmdb = new TMDbClient(apiKey);
-    const showsWithEpisodes: ShowWithEpisodes[] = [];
+    const showsWithEpisodes: Array<ShowWithEpisodes> = [];
 
     for (const show of CRIME_SHOWS) {
       try {
@@ -118,11 +119,11 @@ export const getLatestEpisodes = createServerFn({ method: "GET" }).handler(
           })
           .slice(0, 10);
 
-        const episodes: EpisodeData[] = sortedEpisodes.map((ep) => {
+        const episodes: Array<EpisodeData> = sortedEpisodes.map((ep) => {
           // Calculate related episodes count and which shows they're from
           let relatedCount = 0;
-          let relatedShows: string[] = [];
-          let relatedEpisodeIds: number[] = [];
+          let relatedShows: Array<string> = [];
+          let relatedEpisodeIds: Array<number> = [];
           if (episodeDatabase?.episodes) {
             const sourceEp: Episode = {
               id: ep.id,
@@ -189,7 +190,7 @@ export const getLatestEpisodes = createServerFn({ method: "GET" }).handler(
  */
 export const getMoreEpisodes = createServerFn({ method: "GET" })
   .inputValidator((d: { showId: number; offset: number; limit?: number }) => d)
-  .handler(async ({ data }): Promise<{ episodes: EpisodeData[]; hasMore: boolean }> => {
+  .handler(async ({ data }): Promise<{ episodes: Array<EpisodeData>; hasMore: boolean }> => {
     const apiKey = await getTmdbApiKey();
     const tmdb = new TMDbClient(apiKey);
     const limit = data.limit ?? 10;
@@ -265,10 +266,10 @@ export const getMoreEpisodes = createServerFn({ method: "GET" })
     const hasMore = allEpisodes.length > data.offset + limit;
 
     // Map to EpisodeData with related counts
-    const episodes: EpisodeData[] = slicedEpisodes.map(({ episode, showName }) => {
+    const episodes: Array<EpisodeData> = slicedEpisodes.map(({ episode, showName }) => {
       let relatedCount = 0;
-      let relatedShows: string[] = [];
-      let relatedEpisodeIds: number[] = [];
+      let relatedShows: Array<string> = [];
+      let relatedEpisodeIds: Array<number> = [];
       if (episodeDatabase?.episodes) {
         const sourceEp: Episode = {
           id: episode.id,
@@ -403,7 +404,7 @@ export const getRelatedEpisodes = createServerFn({ method: "GET" })
   .inputValidator(
     (d: { episodeId: number; showId: number; name: string; overview: string | null }) => d,
   )
-  .handler(async ({ data }): Promise<MatchResult[]> => {
+  .handler(async ({ data }): Promise<Array<MatchResult>> => {
     if (!episodeDatabase || !episodeDatabase.episodes) {
       console.warn("Episode database not loaded");
       return [];
