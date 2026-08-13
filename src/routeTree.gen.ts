@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as ReviewRouteImport } from './routes/review'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CasesIndexRouteImport } from './routes/cases/index'
 import { Route as PrototypeCorrectionsRouteImport } from './routes/prototype/corrections'
@@ -26,6 +27,11 @@ const TimelineRoute = TimelineRouteImport.update({
 const SigninRoute = SigninRouteImport.update({
   id: '/signin',
   path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewRoute = ReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,6 +67,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/review': typeof ReviewRoute
   '/signin': typeof SigninRoute
   '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/review': typeof ReviewRoute
   '/signin': typeof SigninRoute
   '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/review': typeof ReviewRoute
   '/signin': typeof SigninRoute
   '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/review'
     | '/signin'
     | '/timeline'
     | '/prototype/case-feed'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/review'
     | '/signin'
     | '/timeline'
     | '/prototype/case-feed'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/review'
     | '/signin'
     | '/timeline'
     | '/prototype/case-feed'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ReviewRoute: typeof ReviewRoute
   SigninRoute: typeof SigninRoute
   TimelineRoute: typeof TimelineRoute
   PrototypeCaseFeedRoute: typeof PrototypeCaseFeedRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review': {
+      id: '/review'
+      path: '/review'
+      fullPath: '/review'
+      preLoaderRoute: typeof ReviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ReviewRoute: ReviewRoute,
   SigninRoute: SigninRoute,
   TimelineRoute: TimelineRoute,
   PrototypeCaseFeedRoute: PrototypeCaseFeedRoute,
