@@ -1,4 +1,5 @@
 import { createStartHandler, defaultStreamHandler } from "@tanstack/react-start/server";
+import { extractPending } from "./server/ingest/extract";
 import { pendingCount, refreshEpisodes } from "./server/ingest/refresh";
 
 /**
@@ -37,6 +38,16 @@ export default {
           console.warn(`[ingest] sources returned no episodes: ${report.emptySources.join(", ")}`);
         }
         for (const e of report.errors) console.error(`[ingest] ${e}`);
+
+        // Phase 3: drain a bounded batch of pending items through the LLM.
+        // Whatever is left stays pending for the next run.
+        const ex = await extractPending();
+        console.log(
+          `[extract] processed=${ex.processed} failed=${ex.failed} ` +
+            `cases=${ex.casesCreated} provisional=${ex.provisional} ` +
+            `confirmed=${ex.coverageConfirmed} proposed=${ex.coverageProposed} ` +
+            `dupes=${ex.duplicatesFlagged} remaining=${await pendingCount()}`,
+        );
       })(),
     );
   },

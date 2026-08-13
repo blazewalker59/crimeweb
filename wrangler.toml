@@ -25,6 +25,12 @@ migrations_dir = "drizzle"
 # Used for ingest-time case-attribute extraction — see ADR-0003.
 [ai]
 binding = "AI"
+# Workers AI has no local implementation — `wrangler dev --local` fails with
+# "Binding AI needs to be run remotely". `remote = true` proxies just this
+# binding to the real service during local dev (D1 stays local) and suppresses
+# wrangler's usage-charge warning. Note --local disables remote bindings
+# entirely, so use plain `wrangler dev` when exercising extraction.
+remote = true
 
 # Secrets are set out-of-band with `wrangler secret put` and persist across
 # deploys; nothing is uploaded per-deploy (see .github/workflows/ci.yml).
