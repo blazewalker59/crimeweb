@@ -1,5 +1,6 @@
 import { createStartHandler, defaultStreamHandler } from "@tanstack/react-start/server";
 import { extractPending } from "./server/ingest/extract";
+import { recomputeHeatInputs } from "./server/ingest/heat";
 import { pendingCount, refreshEpisodes } from "./server/ingest/refresh";
 
 /**
@@ -48,6 +49,11 @@ export default {
             `confirmed=${ex.coverageConfirmed} proposed=${ex.coverageProposed} ` +
             `dupes=${ex.duplicatesFlagged} remaining=${await pendingCount()}`,
         );
+
+        // Phase 3b: Heat inputs. source_count_90d is a sliding window, so it
+        // goes stale with no new coverage at all — this must run every cron,
+        // not only when ingest inserted something.
+        console.log(`[heat] recomputed inputs for ${await recomputeHeatInputs()} cases`);
       })(),
     );
   },

@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CasesIndexRouteImport } from './routes/cases/index'
@@ -17,6 +18,11 @@ import { Route as PrototypeCaseFeedRouteImport } from './routes/prototype/case-f
 import { Route as EpisodesShowIdEpisodeIdRouteImport } from './routes/episodes/$showId/$episodeId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 
+const TimelineRoute = TimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SigninRoute = SigninRouteImport.update({
   id: '/signin',
   path: '/signin',
@@ -56,6 +62,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/signin': typeof SigninRoute
+  '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
   '/cases/': typeof CasesIndexRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/signin': typeof SigninRoute
+  '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
   '/cases': typeof CasesIndexRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/signin': typeof SigninRoute
+  '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
   '/cases/': typeof CasesIndexRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/signin'
+    | '/timeline'
     | '/prototype/case-feed'
     | '/prototype/corrections'
     | '/cases/'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/signin'
+    | '/timeline'
     | '/prototype/case-feed'
     | '/prototype/corrections'
     | '/cases'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/signin'
+    | '/timeline'
     | '/prototype/case-feed'
     | '/prototype/corrections'
     | '/cases/'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SigninRoute: typeof SigninRoute
+  TimelineRoute: typeof TimelineRoute
   PrototypeCaseFeedRoute: typeof PrototypeCaseFeedRoute
   PrototypeCorrectionsRoute: typeof PrototypeCorrectionsRoute
   CasesIndexRoute: typeof CasesIndexRoute
@@ -123,6 +136,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/timeline': {
+      id: '/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signin': {
       id: '/signin'
       path: '/signin'
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SigninRoute: SigninRoute,
+  TimelineRoute: TimelineRoute,
   PrototypeCaseFeedRoute: PrototypeCaseFeedRoute,
   PrototypeCorrectionsRoute: PrototypeCorrectionsRoute,
   CasesIndexRoute: CasesIndexRoute,
