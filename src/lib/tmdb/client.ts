@@ -60,7 +60,7 @@ class TMDbClient {
       throw new Error(`TMDb API error: ${response.status} ${response.statusText}`);
     }
 
-    return response.json() as Promise<T>;
+    return response.json();
   }
 
   private sleep(ms: number): Promise<void> {

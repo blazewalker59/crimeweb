@@ -56,16 +56,34 @@ async function fetchWithRateLimit(url: string): Promise<Response> {
   return fetch(url);
 }
 
-async function fetchShowDetails(showId: number) {
+interface ShowDetails {
+  seasons?: Array<{ season_number: number }>;
+  networks?: Array<{ name: string }>;
+  name: string;
+}
+
+interface SeasonDetails {
+  episodes?: Array<{
+    id: number;
+    name: string;
+    overview: string | null;
+    air_date: string | null;
+    season_number: number;
+    episode_number: number;
+    still_path: string | null;
+  }>;
+}
+
+async function fetchShowDetails(showId: number): Promise<ShowDetails> {
   const url = `${TMDB_BASE_URL}/tv/${showId}?api_key=${API_KEY}`;
   const response = await fetchWithRateLimit(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch show ${showId}: ${response.statusText}`);
   }
-  return response.json();
+  return (await response.json()) as ShowDetails;
 }
 
-async function fetchSeasonDetails(showId: number, seasonNumber: number) {
+async function fetchSeasonDetails(showId: number, seasonNumber: number): Promise<SeasonDetails> {
   const url = `${TMDB_BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${API_KEY}`;
   const response = await fetchWithRateLimit(url);
   if (!response.ok) {
@@ -73,7 +91,7 @@ async function fetchSeasonDetails(showId: number, seasonNumber: number) {
       `Failed to fetch season ${seasonNumber} for show ${showId}: ${response.statusText}`,
     );
   }
-  return response.json();
+  return (await response.json()) as SeasonDetails;
 }
 
 async function main() {
@@ -121,7 +139,7 @@ async function main() {
         try {
           const seasonDetails = await fetchSeasonDetails(show.tmdbId, season.season_number);
 
-          for (const ep of seasonDetails.episodes) {
+          for (const ep of seasonDetails.episodes ?? []) {
             // Check if episode is within our date range
             if (ep.air_date) {
               const airDate = new Date(ep.air_date);

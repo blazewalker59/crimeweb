@@ -1,6 +1,8 @@
 # Cloudflare Workers configuration for CrimeWeb
 name = "crimeweb"
-main = "@tanstack/react-start/server-entry"
+# Custom entry: the TanStack Start fetch handler plus a scheduled
+# handler for ingest. See src/worker.ts.
+main = "src/worker.ts"
 compatibility_date = "2025-01-04"
 compatibility_flags = ["nodejs_compat"]
 
@@ -31,6 +33,10 @@ binding = "AI"
 # - BETTER_AUTH_SECRET
 # - GOOGLE_CLIENT_ID
 # - GOOGLE_CLIENT_SECRET
+
+# Ingest cadence. Refresh is daily; discovery is weekly and lands in #27.
+[triggers]
+crons = ["0 6 * * *"]
 
 [dev]
 port = 8788
