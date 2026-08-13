@@ -1,15 +1,17 @@
 # CrimeWeb
 
-A true crime episode tracker that aggregates the latest episodes from popular true crime TV shows. Track what you've watched, discover related episodes covering the same cases, and never miss a new episode.
+A true crime tracker built around **cases** rather than releases. It surfaces which criminal cases are being covered right now across television and streaming, and cross-references coverage of the same case between sources.
+
+Invite-only: access is a hand-maintained allowlist, enforced at Google sign-in.
 
 ## Features
 
-- **Episode Tracking** - Browse latest episodes from Dateline, 20/20, 48 Hours, Forensic Files, and more
-- **Viewed Status** - Mark episodes as viewed to track your progress
-- **Related Episodes** - Discover episodes from different shows covering the same case
-- **Infinite Scroll** - Seamlessly load more episodes as you browse
-- **Filter by Status** - Show all, unviewed, or viewed episodes
-- **PWA Support** - Install as a progressive web app
+- **Coverage timeline** - Every release, newest first, with a disclosure showing where else a case was covered and how far apart
+- **Cases, not episodes** - One Case is one criminal incident; episodes and films are _coverage_ of it
+- **Heat** - Cases ranked by recency of coverage multiplied by how many distinct sources converged on them
+- **Correction surface** - A triage inbox for links the pipeline was not confident about, plus merge for cases minted twice
+- **Search** - Full-text over cases and media, via D1 FTS5
+- **Continuous ingest** - Daily refresh and extraction, weekly discovery, on Cloudflare cron
 
 ## Tech Stack
 
@@ -17,6 +19,9 @@ A true crime episode tracker that aggregates the latest episodes from popular tr
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Build**: [Vite](https://vite.dev/) 8, [Vitest](https://vitest.dev/) 4, ESLint + Prettier
 - **Package manager**: [Bun](https://bun.sh/)
+- **Database**: Cloudflare D1 + Drizzle
+- **Auth**: better-auth with Google, behind an invite allowlist
+- **Extraction**: Workers AI
 - **Data**: [TMDb API](https://www.themoviedb.org/documentation/api)
 - **Deployment**: Cloudflare Workers
 

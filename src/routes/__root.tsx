@@ -4,7 +4,6 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
-import { EpisodeProvider } from "@/lib/episodes";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -120,11 +119,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="min-h-screen bg-crime-black text-chalk flex flex-col">
-        <EpisodeProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </EpisodeProvider>
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
 
         {/* Dev tools only in development */}
         {import.meta.env.DEV && (

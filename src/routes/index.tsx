@@ -1,427 +1,193 @@
 /**
- * Home Page
- * Simple page showing latest episodes from each supported show
- * Mobile: Tabbed interface to switch between shows
- * Desktop: Same tabbed interface for consistency
+ * The coverage timeline (issue #14, #24).
+ *
+ * The home screen: a chronological coverage timeline (issue #14).
+ *
+ * Replaced the v1 episode list at cutover (#28). The prototype it was promoted
+ * from is deleted.
  */
-import { useEffect, useState } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { Calendar, Clock, Eye, EyeOff, Loader2, Tv } from "lucide-react";
-import type { EpisodeData, ShowWithEpisodes } from "@/lib/tmdb/server";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { useState } from "react";
+import { ChevronDown, Radio } from "lucide-react";
+import type { TimelineSibling } from "@/server/timeline";
 import { Loading } from "@/components/common";
 import { TMDbClient } from "@/lib/tmdb";
-import { getLatestEpisodes } from "@/lib/tmdb/server";
-import { isViewed, useEpisodes } from "@/lib/episodes";
-import { useInfiniteScroll } from "@/lib/hooks";
-import { formatDate, formatEpisodeNumber, formatRuntime } from "@/lib/utils";
-import { getDeniedMatchIds } from "@/lib/matching";
-
-type ViewFilter = "all" | "unviewed" | "viewed";
+import { currentUser } from "@/server/auth";
+import { listTimeline } from "@/server/timeline";
 
 export const Route = createFileRoute("/")({
-  loader: async () => {
-    const shows = await getLatestEpisodes();
-    return { shows };
+  beforeLoad: async () => {
+    const user = await currentUser();
+    if (!user) throw redirect({ to: "/signin" });
   },
-  pendingComponent: () => <Loading message="Loading latest episodes..." />,
-  component: HomePage,
+  loader: async () => ({ events: await listTimeline() }),
+  pendingComponent: () => <Loading message="Loading coverage..." />,
+  component: Timeline,
 });
 
-function HomePage() {
-  const { shows } = Route.useLoaderData();
-  const {
-    initialShows,
-    showEpisodes,
-    hasMore,
-    loadingMore,
-    activeShowIndex,
-    initialized,
-    initialize,
-    setActiveShowIndex,
-    loadMore,
-    saveScrollPosition,
-  } = useEpisodes();
+const fmt = (d: string | null) =>
+  d
+    ? new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    : "undated";
 
-  // View filter state - persisted in localStorage
-  const [viewFilter, setViewFilter] = useState<ViewFilter>("all");
-  // Counter to force re-evaluation of isViewed when returning to page
-  const [, setRefreshKey] = useState(0);
-
-  // Load filter preference on mount
-  useEffect(() => {
-    const savedFilter = localStorage.getItem("crimeweb_view_filter") as ViewFilter;
-    if (savedFilter && ["all", "unviewed", "viewed"].includes(savedFilter)) {
-      setViewFilter(savedFilter);
-    }
-  }, []);
-
-  // Save filter preference when it changes
-  const handleFilterChange = (filter: ViewFilter) => {
-    setViewFilter(filter);
-    localStorage.setItem("crimeweb_view_filter", filter);
-  };
-
-  // Force refresh when page regains focus (to pick up viewed changes from detail page)
-  useEffect(() => {
-    const handleFocus = () => setRefreshKey((k) => k + 1);
-    window.addEventListener("focus", handleFocus);
-    return () => window.removeEventListener("focus", handleFocus);
-  }, []);
-
-  // Initialize context with loader data (only if not already initialized with data)
-  useEffect(() => {
-    if (shows.length > 0) {
-      initialize(shows);
-    }
-  }, [shows, initialize]);
-
-  // Save scroll position when leaving the page
-  useEffect(() => {
-    const handleScroll = () => {
-      saveScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [saveScrollPosition]);
-
-  // Use context data if initialized, otherwise fall back to loader data
-  const displayShows = initialized ? initialShows : shows;
-
-  if (displayShows.length === 0) {
+/**
+ * Thumbnail, or a fallback tile.
+ *
+ * Only ~68% of items carry a TMDb still, and the split is lopsided: Dateline,
+ * 20/20 and 48 Hours are near-complete, Snapped has 9 of 59 and The First 48
+ * has none. So the slot is always reserved and always filled — a missing image
+ * gets the source name on a muted tile rather than a hole in the rail.
+ */
+function Thumb({ stillPath, sourceName }: { stillPath: string | null; sourceName: string }) {
+  const url = TMDbClient.getStillUrl(stillPath, "w185");
+  if (!url) {
     return (
-      <div className="min-h-screen">
-        <section className="bg-gradient-to-b from-crime-surface to-crime-black py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-chalk mb-2">Latest Episodes</h1>
-            <p className="text-chalk-muted">Recent episodes from your favorite true crime shows</p>
-          </div>
-        </section>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <Tv className="h-12 w-12 text-chalk-dim mx-auto mb-4" />
-            <p className="text-chalk-muted">No episodes found</p>
-          </div>
-        </div>
+      <div
+        className="h-14 w-24 shrink-0 rounded-md bg-crime-elevated ring-1 ring-white/5 flex items-center justify-center"
+        aria-hidden
+      >
+        <span className="px-1 text-center text-[9px] font-semibold uppercase leading-tight tracking-wide text-chalk-dim">
+          {sourceName}
+        </span>
+      </div>
+    );
+  }
+  return (
+    <img
+      src={url}
+      alt=""
+      loading="lazy"
+      className="h-14 w-24 shrink-0 rounded-md object-cover ring-1 ring-white/5"
+    />
+  );
+}
+
+/** "Also on Dateline" / "Also on Dateline +1" — names the source outright. */
+function disclosureLabel(siblings: Array<TimelineSibling>) {
+  const names = [...new Set(siblings.map((s) => s.sourceName))];
+  return names.length === 1 ? `Also on ${names[0]}` : `Also on ${names[0]} +${names.length - 1}`;
+}
+
+function Timeline() {
+  const { events } = Route.useLoaderData();
+  const [open, setOpen] = useState<Set<string>>(new Set());
+
+  const toggle = (id: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  if (events.length === 0) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+        <h1 className="text-3xl font-bold text-chalk">Coverage timeline</h1>
+        <p className="mt-3 text-chalk-muted">
+          Nothing here yet. Ingest runs daily and populates this as episodes air.
+        </p>
       </div>
     );
   }
 
-  const activeShow = displayShows[activeShowIndex] || displayShows[0];
-  const activeEpisodes = showEpisodes[activeShow.tmdbId] || activeShow.episodes;
-  const activeHasMore = hasMore[activeShow.tmdbId] ?? activeShow.episodes.length >= 10;
-  const activeLoading = loadingMore[activeShow.tmdbId] ?? false;
-
   return (
-    <div className="min-h-screen">
-      {/* Header Section */}
-      <section className="bg-gradient-to-b from-crime-surface to-crime-black pt-8 pb-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-chalk mb-1">Latest Episodes</h1>
-          <p className="text-chalk-dim text-sm">
-            Recent episodes from your favorite true crime shows
-          </p>
-        </div>
-      </section>
-
-      {/* Show Tabs */}
-      <div className="sticky top-16 z-40 bg-crime-black border-b border-crime-elevated">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex overflow-x-auto scrollbar-hide">
-            {displayShows.map((show, index) => (
-              <ShowTab
-                key={show.tmdbId}
-                show={show}
-                isActive={index === activeShowIndex}
-                onClick={() => setActiveShowIndex(index)}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Active Show Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <ShowContent
-          key={activeShow.tmdbId}
-          episodes={activeEpisodes}
-          hasMore={activeHasMore}
-          isLoading={activeLoading}
-          onLoadMore={() => loadMore(activeShow.tmdbId)}
-          viewFilter={viewFilter}
-          onFilterChange={handleFilterChange}
-        />
-      </div>
-    </div>
-  );
-}
-
-interface ShowTabProps {
-  show: ShowWithEpisodes;
-  isActive: boolean;
-  onClick: () => void;
-}
-
-function ShowTab({ show, isActive, onClick }: ShowTabProps) {
-  const posterUrl = TMDbClient.getPosterUrl(show.posterPath, "w92");
-
-  return (
-    <button
-      onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors flex-shrink-0 ${
-        isActive
-          ? "border-blood bg-crime-surface text-chalk"
-          : "border-transparent text-chalk-dim hover:text-chalk hover:bg-crime-surface/50"
-      }`}
-    >
-      {posterUrl && (
-        <img src={posterUrl} alt={show.name} className="w-8 h-12 object-cover rounded" />
-      )}
-      <div className="text-left">
-        <div className={`font-medium text-sm ${isActive ? "text-chalk" : ""}`}>{show.name}</div>
-        {show.network && <div className="text-xs text-chalk-dim">{show.network}</div>}
-      </div>
-    </button>
-  );
-}
-
-interface ShowContentProps {
-  episodes: Array<EpisodeData>;
-  hasMore: boolean;
-  isLoading: boolean;
-  onLoadMore: () => void;
-  viewFilter: ViewFilter;
-  onFilterChange: (filter: ViewFilter) => void;
-}
-
-function ShowContent({
-  episodes,
-  hasMore,
-  isLoading,
-  onLoadMore,
-  viewFilter,
-  onFilterChange,
-}: ShowContentProps) {
-  // Only enable infinite scroll when showing all episodes
-  // (filtering would cause endless loading as new unfiltered results keep triggering loads)
-  const shouldLoadMore = viewFilter === "all" && hasMore;
-
-  // Infinite scroll - loads more when sentinel becomes visible
-  const sentinelRef = useInfiniteScroll({
-    onLoadMore,
-    hasMore: shouldLoadMore,
-    isLoading,
-    rootMargin: "400px", // Start loading 400px before reaching the bottom
-  });
-
-  // Filter episodes based on view filter (using isViewed for transitive checks)
-  const filteredEpisodes = episodes.filter((episode) => {
-    if (viewFilter === "all") return true;
-    const episodeViewed = isViewed(episode.id);
-    return viewFilter === "viewed" ? episodeViewed : !episodeViewed;
-  });
-
-  return (
-    <div>
-      {/* Filter controls */}
-      <div className="flex items-center justify-between mb-4">
-        <p className="text-chalk-dim text-sm">
-          {filteredEpisodes.length} of {episodes.length} episode{episodes.length !== 1 ? "s" : ""}
-          {viewFilter !== "all" && ` (${viewFilter})`}
+    <div className="max-w-3xl mx-auto px-4 py-8">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold text-chalk">Coverage timeline</h1>
+        <p className="text-chalk-muted mt-1">
+          Every release, newest first. Expand a case to see where else it was covered.
         </p>
+      </header>
 
-        {/* View filter toggle */}
-        <div className="flex items-center gap-1 bg-crime-surface rounded-lg p-1">
-          <button
-            onClick={() => onFilterChange("all")}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-              viewFilter === "all"
-                ? "bg-crime-elevated text-chalk"
-                : "text-chalk-dim hover:text-chalk"
-            }`}
-          >
-            All
-          </button>
-          <button
-            onClick={() => onFilterChange("unviewed")}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
-              viewFilter === "unviewed"
-                ? "bg-crime-elevated text-chalk"
-                : "text-chalk-dim hover:text-chalk"
-            }`}
-          >
-            <EyeOff className="h-3 w-3" />
-            Unviewed
-          </button>
-          <button
-            onClick={() => onFilterChange("viewed")}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
-              viewFilter === "viewed"
-                ? "bg-green-700 text-chalk"
-                : "text-chalk-dim hover:text-chalk"
-            }`}
-          >
-            <Eye className="h-3 w-3" />
-            Viewed
-          </button>
-        </div>
-      </div>
+      <ol className="relative border-l border-white/10 ml-3">
+        {events.map((e) => {
+          const isOpen = open.has(e.id);
+          const converged = e.siblings.length > 0;
+          return (
+            <li key={e.id} className="relative pl-6 pb-6">
+              <span
+                className={`absolute -left-[6.5px] top-1.5 h-3 w-3 rounded-full ring-4 ring-crime-black ${
+                  converged ? "bg-blood" : "bg-chalk-dim"
+                }`}
+                aria-hidden
+              />
 
-      {/* Episodes Grid */}
-      {filteredEpisodes.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredEpisodes.map((episode) => (
-            <EpisodeCard key={episode.id} episode={episode} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <div className="text-chalk-dim mb-2">
-            {viewFilter === "viewed" ? (
-              <Eye className="h-8 w-8 mx-auto" />
-            ) : (
-              <EyeOff className="h-8 w-8 mx-auto" />
-            )}
-          </div>
-          <p className="text-chalk-muted">
-            {viewFilter === "viewed"
-              ? "No episodes marked as viewed yet"
-              : "All episodes have been viewed"}
-          </p>
-        </div>
-      )}
+              <div className="flex gap-3">
+                <Thumb stillPath={e.stillPath} sourceName={e.sourceName} />
 
-      {/* Infinite scroll sentinel & loading indicator */}
-      <div ref={sentinelRef} className="mt-8 flex justify-center min-h-[60px]">
-        {isLoading && viewFilter === "all" && (
-          <div className="flex items-center gap-2 text-chalk-muted">
-            <Loader2 className="h-5 w-5 animate-spin" />
-            <span>Loading more episodes...</span>
-          </div>
-        )}
-        {viewFilter === "all" && !hasMore && episodes.length > 0 && (
-          <p className="text-chalk-dim text-sm">No more episodes to load</p>
-        )}
-        {viewFilter !== "all" && filteredEpisodes.length > 0 && (
-          <p className="text-chalk-dim text-sm">
-            Showing {filteredEpisodes.length} {viewFilter} episode
-            {filteredEpisodes.length !== 1 ? "s" : ""} from {episodes.length} loaded
-          </p>
-        )}
-      </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline gap-2 flex-wrap">
+                    <span className="text-xs text-chalk-dim tabular-nums">{fmt(e.releasedAt)}</span>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-chalk">
+                      <Radio className="h-3 w-3" />
+                      {e.sourceName}
+                    </span>
+                  </div>
+
+                  <p className="mt-1 text-chalk">{e.title}</p>
+
+                  <div className="mt-1 flex items-center gap-2 flex-wrap">
+                    <span className="text-sm text-chalk-muted">{e.caseTitle}</span>
+                    {e.isProvisional && (
+                      <span className="rounded bg-tape/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-tape">
+                        Provisional
+                      </span>
+                    )}
+                    {e.proposed && (
+                      <span className="rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-chalk-dim">
+                        Unconfirmed
+                      </span>
+                    )}
+                  </div>
+
+                  {converged && (
+                    <div className="mt-2">
+                      <button
+                        onClick={() => toggle(e.id)}
+                        aria-expanded={isOpen}
+                        aria-controls={`elsewhere-${e.id}`}
+                        className="inline-flex items-center gap-1.5 rounded-md bg-blood/15 px-2 py-1 text-xs font-semibold text-blood-glow ring-1 ring-blood/30 hover:bg-blood/25 transition-colors"
+                      >
+                        <ChevronDown
+                          className={`h-3.5 w-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                        />
+                        {disclosureLabel(e.siblings)}
+                      </button>
+
+                      {isOpen && (
+                        <ul
+                          id={`elsewhere-${e.id}`}
+                          className="mt-2 space-y-2 border-l-2 border-blood/30 pl-3"
+                        >
+                          {e.siblings.map((s) => (
+                            <li key={s.id} className="text-sm">
+                              <div className="flex items-baseline gap-2 flex-wrap">
+                                <span className="text-xs text-chalk-dim tabular-nums">
+                                  {fmt(s.releasedAt)}
+                                </span>
+                                <span className="text-xs font-semibold text-chalk">
+                                  {s.sourceName}
+                                </span>
+                                {s.gapDays !== null && (
+                                  <span className="text-xs text-chalk-dim">
+                                    {s.gapDays === 0 ? "same day" : `${s.gapDays} days apart`}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-chalk-muted">{s.title}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
     </div>
-  );
-}
-
-interface EpisodeCardProps {
-  episode: EpisodeData;
-}
-
-function EpisodeCard({ episode }: EpisodeCardProps) {
-  const stillUrl = TMDbClient.getStillUrl(episode.stillPath, "w300");
-
-  // Get denied match IDs to filter out from related count
-  const [deniedIds, setDeniedIds] = useState<Set<number>>(new Set());
-  const [viewed, setViewed] = useState(false);
-
-  useEffect(() => {
-    setDeniedIds(getDeniedMatchIds(episode.id));
-    setViewed(isViewed(episode.id));
-  }, [episode.id]);
-
-  // Filter related episode IDs by removing denied ones
-  const relatedIds = episode.relatedEpisodeIds ?? [];
-  const filteredRelatedIds = relatedIds.filter((id) => !deniedIds.has(id));
-  const hasRelated = filteredRelatedIds.length > 0;
-
-  // Build the indicator text based on filtered count
-  let relatedText = "";
-  if (hasRelated) {
-    const relatedShows = episode.relatedShows ?? [];
-    if (relatedShows.length > 0) {
-      // Cross-show match - show the other show name
-      relatedText = `Also on ${relatedShows[0]}`;
-    } else {
-      // Same-show match only
-      relatedText = `+${filteredRelatedIds.length} related`;
-    }
-  }
-
-  return (
-    <Link
-      to="/episodes/$showId/$episodeId"
-      params={{
-        showId: String(episode.showTmdbId),
-        episodeId: String(episode.id),
-      }}
-      className={`bg-crime-surface rounded-lg overflow-hidden border transition-all group ${
-        viewed
-          ? "border-green-700/50 hover:border-green-600"
-          : "border-crime-elevated hover:border-blood"
-      }`}
-    >
-      {/* Thumbnail */}
-      <div className="aspect-video bg-crime-dark relative overflow-hidden">
-        {stillUrl ? (
-          <img
-            src={stillUrl}
-            alt={episode.name}
-            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-              viewed ? "opacity-50" : ""
-            }`}
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-chalk-dim text-sm">
-            No Image
-          </div>
-        )}
-        {/* Episode number badge */}
-        <div className="absolute top-2 left-2 bg-crime-black/80 px-2 py-1 rounded text-xs font-mono text-chalk">
-          {formatEpisodeNumber(episode.seasonNumber, episode.episodeNumber)}
-        </div>
-        {/* Related episodes indicator */}
-        {hasRelated && (
-          <div className="absolute top-2 right-2 bg-tape px-2 py-1 rounded text-xs font-medium text-crime-black">
-            {relatedText}
-          </div>
-        )}
-        {/* Viewed indicator */}
-        {viewed && (
-          <div className="absolute bottom-2 right-2 bg-green-700 p-1.5 rounded-full">
-            <Eye className="h-3 w-3 text-chalk" />
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="p-3">
-        <h3
-          className={`font-medium transition-colors line-clamp-2 text-sm ${
-            viewed
-              ? "text-chalk-muted group-hover:text-green-400"
-              : "text-chalk group-hover:text-blood-light"
-          }`}
-        >
-          {episode.name}
-        </h3>
-
-        {/* Meta */}
-        <div className="flex items-center gap-3 mt-2 text-xs text-chalk-dim">
-          {episode.airDate && (
-            <span className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
-              {formatDate(episode.airDate)}
-            </span>
-          )}
-          {episode.runtime && (
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {formatRuntime(episode.runtime)}
-            </span>
-          )}
-        </div>
-      </div>
-    </Link>
   );
 }
