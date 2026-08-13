@@ -3,11 +3,13 @@ name: CI/CD
 # One pipeline for PRs and production, following the pattern established in the
 # tome repo.
 #
-#   PR:            checks ─┐
-#                  test   ─┘ (gate only)
+#   PR:            checks      ─┐
+#                  test        ─┼─ (gate only)
+#                  integration ─┘
 #
 #   push to main:  checks(+artifact) ─┐
-#                  test              ─┴─ deploy (reuses the build)
+#                  test              ─┼─ migrate ─ deploy (reuses the build)
+#                  integration       ─┘
 #
 # Replaces the previous split of ci.yml + deploy.yml, which had four problems:
 #
@@ -34,16 +36,24 @@ name: CI/CD
 #   confirmed present with `wrangler secret list`, so nothing is uploaded
 #   per-deploy.
 #
-# Deliberate divergences from tome:
+# - `integration` runs real code against a real D1 in-process, applying the
+#   same ./drizzle migrations wrangler applies to production. It exists because
+#   several things here cannot be checked any other way: SQLite has no
+#   ALTER TABLE ADD CONSTRAINT so the coverage CHECK is inlined by hand; the
+#   Heat query depends on exp() and unixepoch() returning seconds; and FTS5
+#   external-content tables only stay in step via triggers. A fake accepts all
+#   of those. Not sharded — the suite is under a second, so runner startup
+#   dominates.
+# - `migrate` applies D1 migrations BEFORE deploy. The new Worker may expect
+#   columns the old schema lacks, so schema-first is the safe order. It is a
+#   separate job so a migration failure blocks the deploy instead of leaving
+#   new code against an old schema. Wrangler tracks applied migrations in D1's
+#   own d1_migrations table, so re-running is a no-op on the common path.
+#
+# Deliberate divergence from tome:
 # - tome shards `test` three ways because its runners are the bottleneck. This
-#   suite is 43 tests in ~0.4s, so sharding would triple runner startup to
+#   suite is 53 tests in ~0.5s, so sharding would triple runner startup to
 #   parallelise nothing. Revisit if the suite grows past ~30s.
-# - tome has `integration` (real D1 via @cloudflare/vitest-pool-workers) and
-#   `migrate` (applies ./drizzle before deploy) jobs. Neither applies yet:
-#   crimeweb has no D1 binding and no migrations. Both land with v2 — see
-#   docs/v2-schema.md. When they do, `migrate` must run BEFORE `deploy` and as
-#   its own job, so a migration failure blocks the deploy rather than leaving
-#   new code against an old schema.
 on:
   push:
     branches: [main]
@@ -127,10 +137,69 @@ jobs:
       - name: Run tests
         run: bun run test:run
 
+  integration:
+    name: Integration (real D1)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # No Cloudflare credentials needed: miniflare runs D1 locally.
+      - name: Run integration tests
+        run: bun run test:integration
+
+  migrate:
+    name: Apply D1 migrations
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [checks, test, integration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      # Installed for wrangler alone, pinned by bun.lock.
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Apply migrations to remote D1
+        run: bunx wrangler d1 migrations apply crimeweb-db --remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
   deploy:
     name: Deploy to Cloudflare Workers
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [checks, test]
+    needs: [checks, test, integration, migrate]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

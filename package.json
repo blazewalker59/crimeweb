@@ -21,7 +21,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply crimeweb-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply crimeweb-db --remote",
-    "cf:types": "wrangler types"
+    "cf:types": "wrangler types",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.30.0",
+    "@cloudflare/vitest-pool-workers": "^0.21.2",
     "@tanstack/devtools-vite": "^0.3.11",
     "@tanstack/eslint-config": "^0.3.4",
     "@testing-library/dom": "^10.4.0",
