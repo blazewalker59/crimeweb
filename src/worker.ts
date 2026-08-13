@@ -1,4 +1,5 @@
 import { createStartHandler, defaultStreamHandler } from "@tanstack/react-start/server";
+import { discover } from "./server/ingest/discover";
 import { extractPending } from "./server/ingest/extract";
 import { recomputeHeatInputs } from "./server/ingest/heat";
 import { pendingCount, refreshEpisodes } from "./server/ingest/refresh";
@@ -14,6 +15,9 @@ import { pendingCount, refreshEpisodes } from "./server/ingest/refresh";
 
 const fetch = createStartHandler(defaultStreamHandler);
 
+/** Must match the weekly entry in wrangler.toml [triggers]. */
+const WEEKLY_CRON = "0 7 * * 1";
+
 interface Env {
   TMDB_API_KEY: string;
 }
@@ -21,13 +25,28 @@ interface Env {
 export default {
   fetch,
 
-  async scheduled(_controller: ScheduledController, env: Env, ctx: ExecutionContext) {
+  async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext) {
     ctx.waitUntil(
       (async () => {
         if (!env.TMDB_API_KEY) {
           console.error("[ingest] TMDB_API_KEY missing; skipping refresh");
           return;
         }
+        // Discovery is weekly and much broader than refresh, so it runs on
+        // its own cron rather than every day.
+        if (controller.cron === WEEKLY_CRON) {
+          const disc = await discover(env.TMDB_API_KEY);
+          console.log(
+            `[discover] queries=${disc.queriesRun} seen=${disc.resultsSeen} ` +
+              `sources+=${disc.sourcesAdded} films+=${disc.filmsAdded}`,
+          );
+          // A discover query returning nothing is a signal: TMDb fails open, so
+          // a 200 with no results usually means the filter stopped matching.
+          if (disc.emptyQueries.length > 0) {
+            console.warn(`[discover] queries returned nothing: ${disc.emptyQueries.join("; ")}`);
+          }
+        }
+
         const report = await refreshEpisodes(env.TMDB_API_KEY);
         console.log(
           `[ingest] seeded=${report.sourcesSeeded} seen=${report.episodesSeen} ` +

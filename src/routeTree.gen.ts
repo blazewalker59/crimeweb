@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as MergeRouteImport } from './routes/merge'
 import { Route as IndexRouteImport } from './routes/index'
@@ -28,6 +29,11 @@ const TimelineRoute = TimelineRouteImport.update({
 const SigninRoute = SigninRouteImport.update({
   id: '/signin',
   path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReviewRoute = ReviewRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/merge': typeof MergeRoute
   '/review': typeof ReviewRoute
+  '/search': typeof SearchRoute
   '/signin': typeof SigninRoute
   '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/merge': typeof MergeRoute
   '/review': typeof ReviewRoute
+  '/search': typeof SearchRoute
   '/signin': typeof SigninRoute
   '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/merge': typeof MergeRoute
   '/review': typeof ReviewRoute
+  '/search': typeof SearchRoute
   '/signin': typeof SigninRoute
   '/timeline': typeof TimelineRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/merge'
     | '/review'
+    | '/search'
     | '/signin'
     | '/timeline'
     | '/prototype/case-feed'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/merge'
     | '/review'
+    | '/search'
     | '/signin'
     | '/timeline'
     | '/prototype/case-feed'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/merge'
     | '/review'
+    | '/search'
     | '/signin'
     | '/timeline'
     | '/prototype/case-feed'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MergeRoute: typeof MergeRoute
   ReviewRoute: typeof ReviewRoute
+  SearchRoute: typeof SearchRoute
   SigninRoute: typeof SigninRoute
   TimelineRoute: typeof TimelineRoute
   PrototypeCaseFeedRoute: typeof PrototypeCaseFeedRoute
@@ -174,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/review': {
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MergeRoute: MergeRoute,
   ReviewRoute: ReviewRoute,
+  SearchRoute: SearchRoute,
   SigninRoute: SigninRoute,
   TimelineRoute: TimelineRoute,
   PrototypeCaseFeedRoute: PrototypeCaseFeedRoute,

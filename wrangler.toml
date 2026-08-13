@@ -40,9 +40,10 @@ remote = true
 # - GOOGLE_CLIENT_ID
 # - GOOGLE_CLIENT_SECRET
 
-# Ingest cadence. Refresh is daily; discovery is weekly and lands in #27.
+# Ingest cadence.
 [triggers]
-crons = ["0 6 * * *"]
+# Daily refresh, plus weekly discovery on Mondays (see src/worker.ts).
+crons = ["0 6 * * *", "0 7 * * 1"]
 
 [dev]
 port = 8788
