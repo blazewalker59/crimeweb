@@ -1,5 +1,13 @@
 import { and, eq, inArray, isNull, ne, sql } from "drizzle-orm";
 import { env } from "cloudflare:workers";
+import {
+  MODEL_SCHEMA,
+  MODEL_SYSTEM,
+  normName,
+  normTitle,
+  parseExtraction,
+  type Extracted,
+} from "./parse";
 import { db } from "@/db";
 import { casePeople, cases, coverage, mediaItems } from "@/db/schema";
 
@@ -27,87 +35,6 @@ const CONFIRM_THRESHOLD = 0.75;
  *  `pending` and the next cron picks them up — the queue drains over runs. */
 const DEFAULT_BATCH = 25;
 
-export interface Extracted {
-  caseTitle: string;
-  victims: Array<string>;
-  perpetrators: Array<string>;
-  location: string | null;
-  year: number | null;
-  confidence: number;
-}
-
-const SCHEMA = {
-  type: "object",
-  properties: {
-    caseTitle: { type: "string" },
-    victims: { type: "array", items: { type: "string" } },
-    perpetrators: { type: "array", items: { type: "string" } },
-    location: { type: ["string", "null"] },
-    year: { type: ["number", "null"] },
-    confidence: { type: "number" },
-  },
-  required: ["caseTitle", "victims", "perpetrators", "location", "year", "confidence"],
-} as const;
-
-const SYSTEM = [
-  "You extract structured facts about a single criminal case from true crime TV metadata.",
-  "A Case is ONE criminal incident, regardless of how many victims or perpetrators.",
-  "Use only names that appear in the supplied text. Never guess or infer a name.",
-  "caseTitle: a short neutral label, e.g. 'Murder of Jane Doe' or a descriptive phrase when no name is given.",
-  "location: place of the crime if stated, else null. year: year of the CRIME if stated, else null.",
-  "confidence: 0..1, how confidently this text identifies one specific real case.",
-  "If no person is named and the incident is described only generically, use a descriptive caseTitle and confidence below 0.5.",
-].join(" ");
-
-/** Strict parse. A malformed response is a failure, not something to salvage —
- *  guessing here is how wrong links reach a graph that has no moderation. */
-/**
- * Workers AI response shape varies by model. llama-4-scout returns the
- * OpenAI-style `choices[0].message.content`; other models return
- * `{ response }`, and some return a bare string. Normalise here rather than
- * hunting for JSON between braces, which is what dinnertable's ai.ts had to do.
- */
-function responseText(raw: unknown): string | null {
-  if (typeof raw === "string") return raw;
-  if (typeof raw !== "object" || raw === null) return null;
-
-  const r = raw as {
-    response?: unknown;
-    choices?: Array<{ message?: { content?: unknown } }>;
-  };
-  if (typeof r.response === "string") return r.response;
-  const content = r.choices?.[0]?.message?.content;
-  if (typeof content === "string") return content;
-  return null;
-}
-
-export function parseExtraction(raw: unknown): Extracted | null {
-  const text = responseText(raw);
-  if (text === null) return null;
-
-  let obj: unknown;
-  try {
-    obj = JSON.parse(text);
-  } catch {
-    return null;
-  }
-  const o = obj as Partial<Extracted>;
-  if (typeof o.caseTitle !== "string" || o.caseTitle.trim().length === 0) return null;
-  if (!Array.isArray(o.victims) || !Array.isArray(o.perpetrators)) return null;
-  if (typeof o.confidence !== "number" || Number.isNaN(o.confidence)) return null;
-
-  return {
-    caseTitle: o.caseTitle.trim(),
-    victims: o.victims.filter((v): v is string => typeof v === "string" && v.trim().length > 0),
-    perpetrators: o.perpetrators.filter(
-      (v): v is string => typeof v === "string" && v.trim().length > 0,
-    ),
-    location: typeof o.location === "string" && o.location.length > 0 ? o.location : null,
-    year: typeof o.year === "number" && o.year > 1800 && o.year < 2100 ? o.year : null,
-    confidence: Math.max(0, Math.min(1, o.confidence)),
-  };
-}
-
 export async function extractOne(
   title: string,
   overview: string | null,
@@ -116,29 +43,14 @@ export async function extractOne(
     MODEL as never,
     {
       messages: [
-        { role: "system", content: SYSTEM },
+        { role: "system", content: MODEL_SYSTEM },
         { role: "user", content: `Title: ${title}\nOverview: ${overview ?? "(none)"}` },
       ],
-      response_format: { type: "json_schema", json_schema: SCHEMA },
+      response_format: { type: "json_schema", json_schema: MODEL_SCHEMA },
     } as never,
   );
   return parseExtraction(raw);
 }
-
-/** Normalised person name, for matching across sources. */
-export const normName = (s: string) =>
-  s
-    .toLowerCase()
-    .replace(/[^a-z\s]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-
-/** Normalised media title, for within-source duplicate detection. */
-export const normTitle = (s: string) =>
-  s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
 
 export interface ExtractReport {
   processed: number;
