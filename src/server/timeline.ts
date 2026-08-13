@@ -26,6 +26,9 @@ export interface TimelineEvent {
   id: string;
   sourceName: string;
   title: string;
+  /** TMDb still path, or null. Only ~68% of items have one, and The First 48
+   *  has none at all — the UI must degrade, not leave holes. */
+  stillPath: string | null;
   releasedAt: string | null;
   caseId: string;
   caseTitle: string;
@@ -44,6 +47,7 @@ export const listTimeline = createServerFn({ method: "GET" }).handler(
         status: coverage.status,
         mediaId: mediaItems.id,
         title: mediaItems.title,
+        stillPath: mediaItems.stillPath,
         releasedAt: mediaItems.releasedAt,
         sourceName: sources.name,
         caseId: cases.id,
@@ -87,6 +91,7 @@ export const listTimeline = createServerFn({ method: "GET" }).handler(
         id: r.coverageId,
         sourceName: r.sourceName,
         title: r.title,
+        stillPath: r.stillPath,
         releasedAt: iso(r.releasedAt),
         caseId: r.caseId,
         caseTitle: r.caseTitle,
