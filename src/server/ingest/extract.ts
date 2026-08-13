@@ -1,13 +1,7 @@
 import { and, eq, inArray, isNull, ne, sql } from "drizzle-orm";
 import { env } from "cloudflare:workers";
-import {
-  MODEL_SCHEMA,
-  MODEL_SYSTEM,
-  normName,
-  normTitle,
-  parseExtraction,
-  type Extracted,
-} from "./parse";
+import type { Extracted } from "./parse";
+import { MODEL_SCHEMA, MODEL_SYSTEM, normName, normTitle, parseExtraction } from "./parse";
 import { db } from "@/db";
 import { casePeople, cases, coverage, mediaItems } from "@/db/schema";
 
