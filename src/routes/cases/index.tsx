@@ -4,12 +4,19 @@
  * Deliberately plain: this slice proves schema -> query -> UI works. The real
  * home screen is the coverage timeline in #24.
  */
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Flame } from "lucide-react";
 import { Loading } from "@/components/common";
+import { currentUser } from "@/server/auth";
 import { listCasesByHeat } from "@/server/cases";
 
 export const Route = createFileRoute("/cases/")({
+  // The case graph is invite-only (ADR-0002): every allowlisted user has equal
+  // authority over it, so there is no read-only tier to fall back to.
+  beforeLoad: async () => {
+    const user = await currentUser();
+    if (!user) throw redirect({ to: "/signin" });
+  },
   loader: async () => ({ cases: await listCasesByHeat() }),
   pendingComponent: () => <Loading message="Loading cases..." />,
   component: CasesIndex,
