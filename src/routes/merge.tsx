@@ -32,23 +32,72 @@ export const Route = createFileRoute("/merge")({
   component: Merge,
 });
 
+/**
+ * Everything needed to judge a Case.
+ *
+ * A title and a coverage count are not enough — "Woman shot outside her
+ * workplace, 1 coverage link" tells you nothing about whether it is real or
+ * whether it duplicates another Case. The episode text is the evidence, so it
+ * is shown in full.
+ */
 function CaseCard({ c }: { c: MergeCandidate }) {
   return (
     <div className="bg-crime-surface p-4">
       <h3 className="font-semibold text-chalk">{c.displayTitle}</h3>
-      <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-chalk-dim">
-        <span>
-          {c.coverageCount} coverage link{c.coverageCount === 1 ? "" : "s"}
-        </span>
+
+      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-chalk-dim">
+        {c.location && <span>{c.location}</span>}
+        {c.occurredYear && <span className="tabular-nums">{c.occurredYear}</span>}
         {c.isProvisional && (
           <span className="rounded bg-tape/15 px-1.5 py-0.5 font-semibold uppercase tracking-wide text-tape">
             Provisional
           </span>
         )}
       </div>
+
+      {c.summary && <p className="mt-2 text-sm text-chalk-muted">{c.summary}</p>}
+
       {c.people.length > 0 && (
-        <p className="mt-2 text-sm text-chalk-muted">{c.people.join(", ")}</p>
+        <ul className="mt-3 flex flex-wrap gap-1.5">
+          {c.people.map((p) => (
+            <li
+              key={`${p.role}_${p.name}`}
+              className="rounded bg-white/5 px-1.5 py-0.5 text-xs text-chalk"
+            >
+              {p.name}
+              <span className="ml-1 text-chalk-dim">{p.role}</span>
+            </li>
+          ))}
+        </ul>
       )}
+
+      <div className="mt-3 space-y-2 border-t border-white/5 pt-3">
+        <p className="text-[10px] font-semibold uppercase tracking-wide text-chalk-dim">
+          {c.coverageCount} coverage link{c.coverageCount === 1 ? "" : "s"}
+        </p>
+        {c.coverage.map((cv, i) => (
+          <div key={i} className="text-sm">
+            <div className="flex flex-wrap items-baseline gap-2">
+              <span className="text-xs font-semibold text-chalk">{cv.sourceName}</span>
+              <span className="text-xs text-chalk-dim tabular-nums">
+                {cv.releasedAt ?? "undated"}
+              </span>
+              {cv.confidence !== null && (
+                <span className="text-xs text-chalk-dim">{Math.round(cv.confidence * 100)}%</span>
+              )}
+              {cv.status === "proposed" && (
+                <span className="rounded bg-white/5 px-1 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-chalk-dim">
+                  Unconfirmed
+                </span>
+              )}
+            </div>
+            <p className="text-chalk">{cv.mediaTitle}</p>
+            {cv.mediaOverview && (
+              <p className="mt-0.5 text-xs leading-relaxed text-chalk-muted">{cv.mediaOverview}</p>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -131,25 +180,19 @@ function Merge() {
           Minted from coverage that could not be resolved. These are the routine output of ingest,
           not an error state — confirming one clears the flag.
         </p>
-        <ul className="mt-3 space-y-2">
+        <ul className="mt-3 space-y-4">
           {provisional.slice(0, 25).map((c) => (
-            <li
-              key={c.caseId}
-              className="flex items-center gap-3 rounded-lg bg-crime-surface p-3 text-sm"
-            >
-              <div className="min-w-0 flex-1">
-                <p className="text-chalk">{c.displayTitle}</p>
-                <p className="text-xs text-chalk-dim">
-                  {c.coverageCount} coverage link{c.coverageCount === 1 ? "" : "s"}
-                </p>
+            <li key={c.caseId} className="overflow-hidden rounded-xl ring-1 ring-white/10">
+              <CaseCard c={c} />
+              <div className="flex justify-end bg-crime-surface px-4 pb-4">
+                <button
+                  disabled={busy === c.caseId}
+                  onClick={() => void doConfirm(c.caseId)}
+                  className="flex items-center gap-1.5 rounded-md bg-green-700 px-3 py-1.5 text-sm font-medium text-chalk hover:bg-green-600 transition-colors disabled:opacity-50"
+                >
+                  <Check className="h-4 w-4" /> Confirm as a real case
+                </button>
               </div>
-              <button
-                disabled={busy === c.caseId}
-                onClick={() => void doConfirm(c.caseId)}
-                className="flex shrink-0 items-center gap-1 rounded-md bg-green-700 px-2 py-1 text-xs font-medium text-chalk hover:bg-green-600 transition-colors disabled:opacity-50"
-              >
-                <Check className="h-3 w-3" /> Confirm
-              </button>
             </li>
           ))}
         </ul>
