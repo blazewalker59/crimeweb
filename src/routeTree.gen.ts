@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CasesIndexRouteImport } from './routes/cases/index'
 import { Route as PrototypeCorrectionsRouteImport } from './routes/prototype/corrections'
 import { Route as PrototypeCaseFeedRouteImport } from './routes/prototype/case-feed'
 import { Route as EpisodesShowIdEpisodeIdRouteImport } from './routes/episodes/$showId/$episodeId'
@@ -17,6 +18,11 @@ import { Route as EpisodesShowIdEpisodeIdRouteImport } from './routes/episodes/$
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CasesIndexRoute = CasesIndexRouteImport.update({
+  id: '/cases/',
+  path: '/cases/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrototypeCorrectionsRoute = PrototypeCorrectionsRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
+  '/cases/': typeof CasesIndexRoute
   '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
+  '/cases': typeof CasesIndexRoute
   '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRoutesById {
@@ -52,6 +60,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
+  '/cases/': typeof CasesIndexRoute
   '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRouteTypes {
@@ -60,18 +69,21 @@ export interface FileRouteTypes {
     | '/'
     | '/prototype/case-feed'
     | '/prototype/corrections'
+    | '/cases/'
     | '/episodes/$showId/$episodeId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/prototype/case-feed'
     | '/prototype/corrections'
+    | '/cases'
     | '/episodes/$showId/$episodeId'
   id:
     | '__root__'
     | '/'
     | '/prototype/case-feed'
     | '/prototype/corrections'
+    | '/cases/'
     | '/episodes/$showId/$episodeId'
   fileRoutesById: FileRoutesById
 }
@@ -79,6 +91,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrototypeCaseFeedRoute: typeof PrototypeCaseFeedRoute
   PrototypeCorrectionsRoute: typeof PrototypeCorrectionsRoute
+  CasesIndexRoute: typeof CasesIndexRoute
   EpisodesShowIdEpisodeIdRoute: typeof EpisodesShowIdEpisodeIdRoute
 }
 
@@ -89,6 +102,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cases/': {
+      id: '/cases/'
+      path: '/cases'
+      fullPath: '/cases/'
+      preLoaderRoute: typeof CasesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/prototype/corrections': {
@@ -119,6 +139,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrototypeCaseFeedRoute: PrototypeCaseFeedRoute,
   PrototypeCorrectionsRoute: PrototypeCorrectionsRoute,
+  CasesIndexRoute: CasesIndexRoute,
   EpisodesShowIdEpisodeIdRoute: EpisodesShowIdEpisodeIdRoute,
 }
 export const routeTree = rootRouteImport
