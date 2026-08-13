@@ -13,9 +13,15 @@
 
 ## Testing
 
-- Run `bun run test:run` for the unit suite (43 tests, sub-second).
-- Run `bun scripts/test-matching.ts` to test fuzzy matching logic.
-- Run `bun scripts/fetch-episodes.ts` to refresh episode data from TMDb.
+- Run `bun run test:run` for the unit suite.
+- Run `bun run test:integration` for the integration suite — real D1 under
+  workerd, applying the same `./drizzle` migrations wrangler applies to
+  production. Use it for anything touching SQL: CHECK constraints, FTS
+  triggers, and SQLite functions are invisible to a fake.
+- Ingest runs on cron; there is no manual fetch script. To exercise it locally,
+  `wrangler dev --test-scheduled` then POST `/cdn-cgi/handler/scheduled`.
+  **Workers AI has no local implementation** — use plain `wrangler dev`, since
+  `--local` disables the remote bindings AI requires.
 
 ## CI/CD
 
@@ -39,13 +45,18 @@ schema.
 ## Project Structure
 
 - `/src/routes/` - TanStack Router pages
-- `/src/lib/` - Shared utilities and logic
+- `/src/db/` - Drizzle schema and D1 client
+- `/src/server/` - Server functions; `/src/server/ingest/` is the cron pipeline
+- `/src/lib/` - Auth and shared helpers
 - `/src/components/` - Reusable UI components
-- `/scripts/` - CLI scripts for data fetching and testing
-- `/data/` - JSON data files (episode database)
+- `/drizzle/` - Generated migrations, applied by CI before deploy
 
 ## Environment
 
-- TMDb API key is required in `.env` as `TMDB_API_KEY`
+- Secrets are Worker secrets, set with `wrangler secret put`, not `.env`:
+  `TMDB_API_KEY`, `TMDB_API_READ_ACCESS_TOKEN`, `BETTER_AUTH_SECRET`,
+  `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
+- `wrangler types` cannot see secrets; they are declared in `src/secrets.d.ts`,
+  which augments `Cloudflare.Env` (not the global `Env` — merging there is silent)
 - Runtime: Bun
-- Framework: TanStack Start (React)
+- Framework: TanStack Start (React) on Cloudflare Workers

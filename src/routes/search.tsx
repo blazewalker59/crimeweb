@@ -94,7 +94,7 @@ function SearchPage() {
       )}
 
       <p className="mt-12 text-xs text-chalk-dim">
-        <Link to="/timeline" className="hover:text-chalk">
+        <Link to="/" className="hover:text-chalk">
           ← Back to the timeline
         </Link>
       </p>
