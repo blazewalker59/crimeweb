@@ -36,7 +36,7 @@ try {
 async function getTmdbApiKey(): Promise<string> {
   // Try Cloudflare Workers runtime bindings (secrets set via wrangler secret put)
   try {
-    const { env } = (await import("cloudflare:workers")) as { env: Record<string, string> };
+    const { env } = await import("cloudflare:workers");
     if (env?.TMDB_API_KEY) {
       return env.TMDB_API_KEY;
     }
