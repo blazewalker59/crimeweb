@@ -6,10 +6,31 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 NODE_ENV = "production"
+# Used by better-auth to build OAuth callback URLs. Not a secret.
+BETTER_AUTH_URL = "https://crimeweb.blazewalker59.workers.dev"
+# The invite list. Enforced in the OAuth callback after Google resolves the
+# email — see ADR-0002. Comma-separated, no spaces.
+ALLOWLIST_EMAILS = "blazewalker59@gmail.com"
 
-# Secrets are set via: wrangler secret put TMDB_API_KEY
+# Binding name follows dinnertable (`DB`), not wrangler's suggested
+# `crimeweb_db`, so the auth and query code ports across unchanged.
+[[d1_databases]]
+binding = "DB"
+database_name = "crimeweb-db"
+database_id = "e9c41ba6-1225-47ca-934c-6cfbec4f9cf4"
+migrations_dir = "drizzle"
+
+# Used for ingest-time case-attribute extraction — see ADR-0003.
+[ai]
+binding = "AI"
+
+# Secrets are set out-of-band with `wrangler secret put` and persist across
+# deploys; nothing is uploaded per-deploy (see .github/workflows/ci.yml).
 # - TMDB_API_KEY
 # - TMDB_API_READ_ACCESS_TOKEN
+# - BETTER_AUTH_SECRET
+# - GOOGLE_CLIENT_ID
+# - GOOGLE_CLIENT_SECRET
 
 [dev]
 port = 8788
