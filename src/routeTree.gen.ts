@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SigninRouteImport } from './routes/signin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CasesIndexRouteImport } from './routes/cases/index'
 import { Route as PrototypeCorrectionsRouteImport } from './routes/prototype/corrections'
 import { Route as PrototypeCaseFeedRouteImport } from './routes/prototype/case-feed'
 import { Route as EpisodesShowIdEpisodeIdRouteImport } from './routes/episodes/$showId/$episodeId'
+import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -40,63 +47,89 @@ const EpisodesShowIdEpisodeIdRoute = EpisodesShowIdEpisodeIdRouteImport.update({
   path: '/episodes/$showId/$episodeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/signin': typeof SigninRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
   '/cases/': typeof CasesIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/signin': typeof SigninRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
   '/cases': typeof CasesIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/signin': typeof SigninRoute
   '/prototype/case-feed': typeof PrototypeCaseFeedRoute
   '/prototype/corrections': typeof PrototypeCorrectionsRoute
   '/cases/': typeof CasesIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/episodes/$showId/$episodeId': typeof EpisodesShowIdEpisodeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/signin'
     | '/prototype/case-feed'
     | '/prototype/corrections'
     | '/cases/'
+    | '/api/auth/$'
     | '/episodes/$showId/$episodeId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/signin'
     | '/prototype/case-feed'
     | '/prototype/corrections'
     | '/cases'
+    | '/api/auth/$'
     | '/episodes/$showId/$episodeId'
   id:
     | '__root__'
     | '/'
+    | '/signin'
     | '/prototype/case-feed'
     | '/prototype/corrections'
     | '/cases/'
+    | '/api/auth/$'
     | '/episodes/$showId/$episodeId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SigninRoute: typeof SigninRoute
   PrototypeCaseFeedRoute: typeof PrototypeCaseFeedRoute
   PrototypeCorrectionsRoute: typeof PrototypeCorrectionsRoute
   CasesIndexRoute: typeof CasesIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   EpisodesShowIdEpisodeIdRoute: typeof EpisodesShowIdEpisodeIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -132,14 +165,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EpisodesShowIdEpisodeIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SigninRoute: SigninRoute,
   PrototypeCaseFeedRoute: PrototypeCaseFeedRoute,
   PrototypeCorrectionsRoute: PrototypeCorrectionsRoute,
   CasesIndexRoute: CasesIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
   EpisodesShowIdEpisodeIdRoute: EpisodesShowIdEpisodeIdRoute,
 }
 export const routeTree = rootRouteImport
