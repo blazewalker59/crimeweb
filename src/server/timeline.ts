@@ -39,8 +39,9 @@ export interface TimelineEvent {
 
 const iso = (d: Date | null) => (d ? d.toISOString().slice(0, 10) : null);
 
-export const listTimeline = createServerFn({ method: "GET" }).handler(
-  async (): Promise<Array<TimelineEvent>> => {
+export const listTimeline = createServerFn({ method: "GET" })
+  .inputValidator((sourceId: string | undefined) => sourceId)
+  .handler(async ({ data: sourceId }): Promise<Array<TimelineEvent>> => {
     const rows = await db()
       .select({
         coverageId: coverage.id,
@@ -50,6 +51,7 @@ export const listTimeline = createServerFn({ method: "GET" }).handler(
         stillPath: mediaItems.stillPath,
         releasedAt: mediaItems.releasedAt,
         sourceName: sources.name,
+        sourceId: mediaItems.sourceId,
         caseId: cases.id,
         caseTitle: cases.displayTitle,
         isProvisional: cases.isProvisional,
@@ -59,6 +61,13 @@ export const listTimeline = createServerFn({ method: "GET" }).handler(
       .innerJoin(sources, eq(sources.id, mediaItems.sourceId))
       .innerJoin(cases, eq(cases.id, coverage.caseId))
       // Merged-away cases never surface; reads follow the chain.
+      //
+      // Note the source filter is deliberately NOT applied here. Filtering the
+      // query would also drop the sibling coverage that the "Also on X"
+      // disclosure is built from — a case covered by Dateline and 20/20 would
+      // stop showing the crossover the moment you filtered to one of them,
+      // which is exactly the thing the feed exists to surface. The filter is
+      // applied to the returned EVENTS instead, after siblings are computed.
       .where(isNull(cases.mergedInto))
       .orderBy(desc(mediaItems.releasedAt))
       .limit(150);
@@ -71,34 +80,35 @@ export const listTimeline = createServerFn({ method: "GET" }).handler(
       byCase.set(r.caseId, list);
     }
 
-    return rows.map((r) => {
-      const family = byCase.get(r.caseId) ?? [];
-      const siblings = family
-        .filter((s) => s.mediaId !== r.mediaId && s.sourceName !== r.sourceName)
-        .map((s) => ({
-          id: s.mediaId,
-          sourceName: s.sourceName,
-          title: s.title,
-          releasedAt: iso(s.releasedAt),
-          gapDays:
-            s.releasedAt && r.releasedAt
-              ? Math.round(Math.abs(s.releasedAt.getTime() - r.releasedAt.getTime()) / 86400000)
-              : null,
-        }))
-        .sort((a, b) => ((a.releasedAt ?? "") < (b.releasedAt ?? "") ? 1 : -1));
+    return rows
+      .filter((r) => !sourceId || r.sourceId === sourceId)
+      .map((r) => {
+        const family = byCase.get(r.caseId) ?? [];
+        const siblings = family
+          .filter((s) => s.mediaId !== r.mediaId && s.sourceName !== r.sourceName)
+          .map((s) => ({
+            id: s.mediaId,
+            sourceName: s.sourceName,
+            title: s.title,
+            releasedAt: iso(s.releasedAt),
+            gapDays:
+              s.releasedAt && r.releasedAt
+                ? Math.round(Math.abs(s.releasedAt.getTime() - r.releasedAt.getTime()) / 86400000)
+                : null,
+          }))
+          .sort((a, b) => ((a.releasedAt ?? "") < (b.releasedAt ?? "") ? 1 : -1));
 
-      return {
-        id: r.coverageId,
-        sourceName: r.sourceName,
-        title: r.title,
-        stillPath: r.stillPath,
-        releasedAt: iso(r.releasedAt),
-        caseId: r.caseId,
-        caseTitle: r.caseTitle,
-        isProvisional: r.isProvisional,
-        proposed: r.status === "proposed",
-        siblings,
-      };
-    });
-  },
-);
+        return {
+          id: r.coverageId,
+          sourceName: r.sourceName,
+          title: r.title,
+          stillPath: r.stillPath,
+          releasedAt: iso(r.releasedAt),
+          caseId: r.caseId,
+          caseTitle: r.caseTitle,
+          isProvisional: r.isProvisional,
+          proposed: r.status === "proposed",
+          siblings,
+        };
+      });
+  });

@@ -6,21 +6,30 @@
  * Replaced the v1 episode list at cutover (#28). The prototype it was promoted
  * from is deleted.
  */
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Radio } from "lucide-react";
 import type { TimelineSibling } from "@/server/timeline";
 import { Loading } from "@/components/common";
 import { TMDbClient } from "@/lib/tmdb";
 import { currentUser } from "@/server/auth";
+import { listSources } from "@/server/sources";
 import { listTimeline } from "@/server/timeline";
 
 export const Route = createFileRoute("/")({
+  // `source` is optional: omitted from the returned object rather than set to
+  // undefined, so links to "/" do not have to pass it.
+  validateSearch: (s: Record<string, unknown>): { source?: string } =>
+    typeof s.source === "string" && s.source.length > 0 ? { source: s.source } : {},
   beforeLoad: async () => {
     const user = await currentUser();
     if (!user) throw redirect({ to: "/signin" });
   },
-  loader: async () => ({ events: await listTimeline() }),
+  loaderDeps: ({ search }) => ({ source: search.source }),
+  loader: async ({ deps }) => ({
+    events: await listTimeline({ data: deps.source }),
+    sources: await listSources(),
+  }),
   pendingComponent: () => <Loading message="Loading coverage..." />,
   component: Timeline,
 });
@@ -69,7 +78,8 @@ function disclosureLabel(siblings: Array<TimelineSibling>) {
 }
 
 function Timeline() {
-  const { events } = Route.useLoaderData();
+  const { events, sources } = Route.useLoaderData();
+  const { source } = Route.useSearch();
   const [open, setOpen] = useState<Set<string>>(new Set());
 
   const toggle = (id: string) =>
@@ -99,6 +109,35 @@ function Timeline() {
           Every release, newest first. Expand a case to see where else it was covered.
         </p>
       </header>
+
+      <nav className="mb-6 flex flex-wrap gap-2" aria-label="Filter by source">
+        <Link
+          to="/"
+          search={{}}
+          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            source === undefined
+              ? "bg-blood text-chalk"
+              : "bg-crime-surface text-chalk-muted hover:text-chalk"
+          }`}
+        >
+          All sources
+        </Link>
+        {sources.map((s) => (
+          <Link
+            key={s.id}
+            to="/"
+            search={{ source: s.id }}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              source === s.id
+                ? "bg-blood text-chalk"
+                : "bg-crime-surface text-chalk-muted hover:text-chalk"
+            }`}
+          >
+            {s.name}
+            <span className="ml-1.5 tabular-nums opacity-60">{s.mediaCount}</span>
+          </Link>
+        ))}
+      </nav>
 
       <ol className="relative border-l border-white/10 ml-3">
         {events.map((e) => {
