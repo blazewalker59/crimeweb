@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { and, eq, isNull, ne, sql } from "drizzle-orm";
 import { currentUser } from "./auth";
 import { db } from "@/db";
-import { casePeople, cases, coverage, graphAudit } from "@/db/schema";
+import { casePeople, cases, coverage, graphAudit, mediaItems, sources } from "@/db/schema";
 
 /**
  * Merge and the Provisional Case lifecycle (issue #26).
@@ -16,12 +16,29 @@ import { casePeople, cases, coverage, graphAudit } from "@/db/schema";
  * resolves on, applied across already-minted Cases rather than at ingest.
  */
 
+export interface CoverageDetail {
+  sourceName: string;
+  mediaTitle: string;
+  mediaOverview: string | null;
+  releasedAt: string | null;
+  status: string;
+  confidence: number | null;
+}
+
 export interface MergeCandidate {
   caseId: string;
   displayTitle: string;
+  summary: string | null;
+  location: string | null;
+  occurredYear: number | null;
   isProvisional: boolean;
   coverageCount: number;
-  people: Array<string>;
+  /** Victims and perpetrators, with role — the primary judgement material. */
+  people: Array<{ name: string; role: string }>;
+  /** The actual episodes behind the Case. Without these there is nothing to
+   *  decide on: a title and a count cannot tell you whether two Cases are one
+   *  incident, or whether a provisional Case is real. */
+  coverage: Array<CoverageDetail>;
 }
 
 export interface MergePair {
@@ -39,26 +56,54 @@ async function requireUser() {
 async function candidate(caseId: string): Promise<MergeCandidate | null> {
   const d = db();
   const [c] = await d
-    .select({ id: cases.id, displayTitle: cases.displayTitle, isProvisional: cases.isProvisional })
+    .select({
+      id: cases.id,
+      displayTitle: cases.displayTitle,
+      summary: cases.summary,
+      location: cases.location,
+      occurredYear: cases.occurredYear,
+      isProvisional: cases.isProvisional,
+    })
     .from(cases)
     .where(eq(cases.id, caseId));
   if (!c) return null;
 
   const people = await d
-    .select({ name: casePeople.name })
+    .select({ name: casePeople.name, role: casePeople.role })
     .from(casePeople)
     .where(eq(casePeople.caseId, caseId));
-  const [cnt] = await d
-    .select({ n: sql<number>`count(*)` })
+
+  const covs = await d
+    .select({
+      sourceName: sources.name,
+      mediaTitle: mediaItems.title,
+      mediaOverview: mediaItems.overview,
+      releasedAt: mediaItems.releasedAt,
+      status: coverage.status,
+      confidence: coverage.confidence,
+    })
     .from(coverage)
+    .innerJoin(mediaItems, eq(mediaItems.id, coverage.mediaItemId))
+    .innerJoin(sources, eq(sources.id, mediaItems.sourceId))
     .where(eq(coverage.caseId, caseId));
 
   return {
     caseId: c.id,
     displayTitle: c.displayTitle,
+    summary: c.summary,
+    location: c.location,
+    occurredYear: c.occurredYear,
     isProvisional: c.isProvisional,
-    coverageCount: cnt?.n ?? 0,
-    people: people.map((p) => p.name),
+    coverageCount: covs.length,
+    people: people.map((p) => ({ name: p.name, role: p.role })),
+    coverage: covs.map((cv) => ({
+      sourceName: cv.sourceName,
+      mediaTitle: cv.mediaTitle,
+      mediaOverview: cv.mediaOverview,
+      releasedAt: cv.releasedAt ? cv.releasedAt.toISOString().slice(0, 10) : null,
+      status: cv.status,
+      confidence: cv.confidence,
+    })),
   };
 }
 
